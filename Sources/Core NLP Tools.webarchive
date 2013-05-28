@@ -1,0 +1,1063 @@
+bplist00“_WebMainResource_WebSubresources’	
+_WebResourceTextEncodingName_WebResourceFrameName^WebResourceURL_WebResourceData_WebResourceMIMETypeUUTF-8P_.http://nlp.stanford.edu/software/corenlp.shtmlOï<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"><html lang="en"><head>
+    <title>The Stanford NLP (Natural Language Processing) Group</title>
+    <meta name="description" content="Stanford Natural Language
+    Processing and Computational Linguistics Group">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link href="/nlp.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" async="" src="http://www.google-analytics.com/ga.js"></script><script type="text/javascript">
+       var _gaq = _gaq || [];
+           _gaq.push(['_setAccount', 'UA-23880590-1']);
+           _gaq.push(['_trackPageview']);
+
+       (function() {
+         var ga = document.createElement('script'); 
+             ga.type = 'text/javascript'; ga.async = true;
+             ga.src = ('https:' == document.location.protocol ? 
+               'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+         var s = document.getElementsByTagName('script')[0]; 
+             s.parentNode.insertBefore(ga, s);
+       })();
+    </script><style type="text/css"></style>
+  <script src="safari-extension://com.avast.wrc-6H4HRTU5E3/53ba471/locale/en.js"></script></head>
+
+  <body>
+    <table border="0" width="100%" cellpadding="5" cellspacing="0" class="navbar">
+      <tbody><tr>
+
+        <td width="100" height="100" align="center" valign="middle">
+	  <a href="/">
+	    <img src="/img/nlp-logo-navbar.jpg" border="0" align="middle" alt="">
+	  </a>
+	</td>
+
+	<td width="*" align="left" valign="middle">
+          <table border="0" cellpadding="5" cellspacing="0">
+
+	    <tbody><tr>
+	      <td height="25">
+	        <p>&nbsp;</p>
+	      </td>
+	    </tr>
+
+	    <tr>
+	      <td align="left" valign="middle" height="50">
+	        <p class="title">
+	          The Stanford Natural Language Processing Group
+	        </p>
+	      </td>
+	    </tr>
+
+            <tr> 
+              <td align="left" valign="middle" height="25">
+                <p class="navbar">
+		  <!-- following hrefs need to be absolute! -->
+		  <a class="navbar" href="/index.shtml">home</a>
+		  ¬∑
+		  <a class="navbar" href="/people.shtml">people</a>
+		  ¬∑
+		  <a class="navbar" href="/teaching.shtml">teaching</a>
+		  ¬∑
+		  <a class="navbar" href="/research.shtml">research</a>
+		  ¬∑
+		  <a class="navbar" href="/publications.shtml">publications</a>
+		  ¬∑
+		  <a class="navbar" href="/software/index.shtml">software</a>
+		  ¬∑
+		  <a class="navbar" href="/events.shtml">events</a>
+		  ¬∑
+		  <a class="navbar" href="/local/index.shtml">local</a> 
+                </p>
+              </td>
+            </tr>
+          </tbody></table>
+	</td>
+      </tr>
+    </tbody></table>
+
+    <img src="/img/spacer.gif" width="10" height="10" alt="&nbsp;" border="0">
+
+
+<center>
+<h2>Stanford CoreNLP</h2>
+<h3>A Suite of Core NLP Tools</h3>
+</center>
+
+<center><p><a href="#About">About</a> |
+<a href="#Download">Download</a> |
+<a href="#Usage">Usage</a> |
+<a href="#SUTime">SUTime</a> |
+<a href="#newannotators">Adding Annotators</a> |
+<a href="#caseless">Caseless Models</a> |
+<a href="#Extensions">Extensions</a> |
+<a href="#Questions">Questions</a> |
+<a href="#Mail">Mailing lists</a> |
+<a href="#Demo">Online demo</a> |
+<a href="corenlp-faq.shtml">FAQ</a> |
+<a href="#History">Release history</a>
+</p></center>
+
+
+<h3><a name="About">About</a></h3>
+
+<p>
+Stanford CoreNLP provides a set of natural language analysis
+tools which can take raw English language text input and give the base
+forms of words, their parts of speech, whether they are names of
+companies, people, etc., normalize dates, times, and numeric quantities,
+and mark up the structure of sentences in terms of
+phrases and word dependencies, and indicate which noun phrases refer to
+the same entities.  Stanford CoreNLP is an integrated framework, which
+make it very easy to apply a bunch of language analysis tools to a piece
+of text. Starting from plain text, you can run all the tools on it with
+just 
+two lines of code. Its analyses provide the foundational building blocks for
+higher-level and domain-specific text understanding applications.
+</p><p>
+Stanford CoreNLP integrates all our NLP tools,
+including <a href="tagger.shtml">the part-of-speech (POS) tagger</a>, <a href="CRF-NER.shtml">the named entity recognizer
+    (NER)</a>, <a href="lex-parser.shtml">the parser</a>,
+and <a href="dcoref.shtml">the coreference resolution system</a>, and
+provides model files for analysis of English. The goal of this project
+is to enable people to quickly and painlessly get complete linguistic
+annotations of natural language texts. It is designed to be highly
+flexible and extensible.  With a single option you can change which
+tools should be enabled and which should be disabled. 
+</p><p>
+The Stanford CoreNLP code is written in Java and licensed under the
+<a href="http://www.gnu.org/licenses/gpl-2.0.html">GNU
+General Public License</a> (v2 or later).  Source is included.
+Note that this is the <i>full</i> GPL,
+which allows many free uses, but not its use in distributed 
+<a href="http://www.gnu.org/licenses/gpl-faq.html#GPLInProprietarySystem">proprietary
+software</a>.  The download is 259 MB and requires Java 1.6+.
+</p>
+
+<br>
+<h3><a name="Download">Download</a></h3>
+
+<center>
+<b><font color="#a40526"><a href="stanford-corenlp-full-2013-04-04.zip">
+Download Stanford CoreNLP version 1.3.5</a></font></b>. 
+</center>
+<p>
+Or you can find it on 
+<a href="http://search.maven.org/#browse%7C11864822">Maven Central</a>.
+
+
+<br>
+</p><h3><a name="Usage">Usage</a></h3>
+
+<p><b><u>Parsing a file and saving the output as XML</u></b></p>
+
+<p>
+Before using Stanford CoreNLP, it is usual to create a configuration
+file (a Java Properties file). Minimally, this file should contain the "annotators" property, which contains a comma-separated list of Annotators to use. For example, the setting below enables: tokenization, sentence splitting (required by most Annotators), POS tagging, lemmatization, NER, syntactic parsing, and coreference resolution.
+</p>
+<pre>annotators = tokenize, ssplit, pos, lemma, ner, parse, dcoref
+</pre>
+<p>
+However, if you just want to specify one or two properties, you can
+instead place them on the command line.
+</p>
+
+<p>
+To process one file using Stanford CoreNLP, use the following sort of command line (adjust the JAR file date extensions to your downloaded release):
+</p>
+<pre>java -cp stanford-corenlp-YYYY-MM-DD.jar:stanford-corenlp-YYYY-MM-DD-models.jar:xom.jar:joda-time.jar -Xmx3g edu.stanford.nlp.pipeline.StanfordCoreNLP [ -props &lt;YOUR CONFIGURATION FILE&gt; ] -file &lt;YOUR INPUT FILE&gt;
+</pre>
+In particular, to process the included sample
+file <code>input.txt</code> you can use this command in the distribution
+directory:
+<pre>java -cp stanford-corenlp-1.3.5.jar:stanford-corenlp-1.3.5-models.jar:xom.jar:joda-time.jar:jollyday.jar
+-Xmx3g edu.stanford.nlp.pipeline.StanfordCoreNLP -annotators tokenize,ssplit,pos,lemma,ner,parse,dcoref -file input.txt
+</pre>
+Notes:
+<ul>
+<li>Stanford CoreNLP requires Java version 1.6 or higher.
+</li><li><code>-Xmx3g</code> specifies the amount of RAM that Java will reserve.
+On a 64-bit machine, Stanford CoreNLP typically requires 3GB to run
+(and it may need even more, depending on the size of the document to
+parse). It is not recommended to run this program on a 32 bit
+machines, as 32 bit Java will not allocate even as much as 2G.  This
+is especially a problem on Windows machines.</li>
+<li>The above command works for Mac OS X or Linux.  For Windows, the
+colons (:) separating the jar files need to be semi-colons (;).  And, if you
+are not sitting in the distribution directory, you'll also need to
+include a path to the files before each.
+</li><li>The -annotators argument is actually optional. If you leave it out, the code uses a built in properties file, 
+which enables the following annotators: tokenization and sentence splitting, POS tagging, lemmatization, NER, parsing, and 
+coreference resolution (that is, what we used in this example).</li>
+<li>Processing a short text like this is very inefficient.  It
+  takes about two minutes to load everything before processing
+  begins. You should batch your processing.</li>
+</ul>
+
+<p>
+If you want to process a list of files use the following command line:
+</p>
+<pre>java -cp stanford-corenlp-YYYY-MM-DD.jar:stanford-corenlp-models-YYYY-MM-DD.jar:xom.jar:joda-time.jar -Xmx3g edu.stanford.nlp.pipeline.StanfordCoreNLP [ -props &lt;YOUR CONFIGURATION FILE&gt; ] -filelist &lt;YOUR LIST OF FILES&gt;
+</pre>
+<p>
+where the <code>-filelist</code> parameter points to a file whose content lists all files to be processed (one per line).
+</p>
+
+<p>
+Note that the <code>-props</code> parameter is optional -- by default, it
+will search for <code>StanfordCoreNLP.properties</code> in your classpath
+and use the defaults included in the distribution.
+</p>
+
+<p>
+By default, output files are written to the current directory.
+You may specify an alternate output directory with the flag
+<code>-outputDirectory</code>.  Output filenames are the same as input
+filenames but with <code>-outputExtension</code> added them (<code>.xml</code>
+by default).  It will overwrite (clobber) output files by default.
+Pass <code> -noClobber</code> to avoid this behavior.  Additionally, if you'd
+rather it replace the extension with the <code>-outputExtension</code>, pass
+the <code>-replaceExtension</code> flag.  This will result in filenames like
+<code>test.xml</code> instead of <code>test.txt.xml</code> (when given <code>test.txt</code>
+as an input file).
+</p>
+
+<p>
+For each input file, Stanford CoreNLP generates one XML file with all relevant annotation. For example, for the above configuration and a file containing the text below:
+</p>
+<pre>Stanford University is located in California. It is a great university.
+</pre>
+<p>
+Stanford CoreNLP generates the 
+<a href="corenlp_output.html">following output</a>, with the 
+<a href="corenlp_xml_description.shtml">following attributes</a>.
+</p>
+
+<p>
+Note that the XML output uses the CoreNLP-to-HTML.xsl stylesheet file, which can be downloaded from <a href="CoreNLP-to-HTML.xsl">here</a>.
+This stylesheet enables human-readable display of the above XML content. For example, the previous example should be displayed like <a href="example.xml">this</a>.
+</p>
+
+<p>
+Stanford CoreNLP also has the ability to remove most XML from a document before processing it.  (CDATA is not correctly handled.)  For example, if run with the annotators
+</p>
+
+<pre>annotators = tokenize, cleanxml, ssplit, pos, lemma, ner, parse, dcoref
+</pre>
+
+<p>
+and given the text
+</p>
+
+<pre>&lt;xml&gt;Stanford University is located in California. It is a great university.&lt;/xml&gt;
+</pre>
+
+Stanford CoreNLP generates the <a href="corenlp_output2.html">following output</a>.  Note that the only difference between this and <a href="corenlp_output.html">the original output</a> is the change in CharacterOffsets.
+
+<br>
+<p><b><u>Using the Stanford CoreNLP API</u></b></p>
+
+<p>
+The backbone of the CoreNLP package is formed by two classes: Annotation and Annotator. Annotations are the data structure which hold the results of annotations. Annotations are basically maps, from keys to bits of the annotation, such as the parse, the part-of-speech tags, or named entity tags.
+Annotators are a lot like functions, except that they operate over Annotations instead of Objects. They do things like tokenize, parse, or NER tag sentences. 
+Annotators and Annotations are integrated by AnnotationPipelines, which
+create sequences of generic Annotators. Stanford CoreNLP inherits from the AnnotationPipeline class, and is customized with NLP Annotators.
+</p>
+
+<p>
+The table below summarizes the Annotators currently supported and the Annotations that they generate. 
+
+</p><p>
+<table width="90%" align="center" style="border: 1px dashed; border-color:#777777" cellspacing="15">
+<tbody><tr><td align="center" width="10%"><b>Property name</b></td><td align="center" width="20%"><b>Annotator class name</b></td><td align="center" width="20%"><b>Generated Annotation</b></td><td align="left" width="50%"><b>Description</b></td></tr>
+<tr><td align="center">tokenize</td><td align="center">PTBTokenizerAnnotator</td><td align="center">TokensAnnotation (list of tokens), and CharacterOffsetBeginAnnotation, CharacterOffsetEndAnnotation, TextAnnotation (for each token) </td><td>
+Tokenizes the text. This component started as a PTB-style tokenizer, but was extended since then to handle noisy and web text. The tokenizer saves the character offsets of each token in the input text, as CharacterOffsetBeginAnnotation and CharacterOffsetEndAnnotation.
+</td></tr>
+<tr><td align="center">cleanxml</td><td align="center">CleanXmlAnnotator</td><td align="center">XmlContextAnnotation</td><td>Remove xml tokens from the document</td></tr>
+<tr><td align="center">ssplit</td><td align="center">WordToSentenceAnnotator</td><td align="center">SentencesAnnotation</td><td>Splits a sequence of tokens into sentences.</td></tr>
+<tr><td align="center">pos</td><td align="center">POSTaggerAnnotator</td><td align="center">PartOfSpeechAnnotation</td><td>Labels tokens with their POS tag. For more details see <a href="tagger.shtml">this page</a>.</td></tr>
+<tr><td align="center">lemma</td><td align="center">MorphaAnnotator</td><td align="center">LemmaAnnotation</td><td>Generates the word lemmas for all tokens in the corpus.</td></tr>
+<tr><td align="center">ner</td><td align="center">NERClassifierCombiner</td><td align="center">NamedEntityTagAnnotation and NormalizedNamedEntityTagAnnotation</td><td>Recognizes named (PERSON, LOCATION, ORGANIZATION, MISC) and numerical entities (DATE, TIME, MONEY, NUMBER). Named entities are recognized using a combination of three CRF sequence taggers trained on various corpora, such as ACE and MUC. Numerical entities are recognized using a rule-based system. Numerical entities that require normalization, e.g., dates, are normalized to NormalizedNamedEntityTagAnnotation. For more details on the CRF tagger see <a href="CRF-NER.shtml">this page</a>.</td></tr>
+<tr><td align="center">regexner</td><td align="center">RegexNERAnnotator</td><td align="center">NamedEntityTagAnnotation</td><td>Implements a simple, rule-based NER over token sequences using Java regular expressions. The goal of this Annotator is to provide a simple framework to incorporate NE labels that are not annotated in traditional NL corpora. For example, the default list of regular expressions that we distribute in the models file recognizes ideologies (IDEOLOGY), nationalities (NATIONALITY), religions (RELIGION), and titles (TITLE). (For more complex applications, you might consider <code>TokensRegexAnnotator</code>.)</td></tr>
+<tr><td align="center">truecase</td><td align="center">TrueCaseAnnotator</td><td align="center">TrueCaseAnnotation and TrueCaseTextAnnotation</td><td>Recognizes the true case of tokens in text where this information was lost, e.g., all upper case text. This is implemented with a discriminative model implemented using a CRF sequence tagger. The true case label, e.g., INIT_UPPER is saved in TrueCaseAnnotation. The token text adjusted to match its true case is saved as TrueCaseTextAnnotation.</td></tr>
+<tr><td align="center">parse</td><td align="center">ParserAnnotator</td><td align="center">TreeAnnotation, BasicDependenciesAnnotation, CollapsedDependenciesAnnotation, CollapsedCCProcessedDependenciesAnnotation</td><td>Provides full syntactic analysis, using both the constituent and the dependency representations. 
+The constituent-based output is saved in TreeAnnotation. We generate three dependency-based outputs, as follows: basic, uncollapsed dependencies, saved in BasicDependenciesAnnotation; collapsed dependencies saved in CollapsedDependenciesAnnotation; and collapsed dependencies with processed coordinations, in CollapsedCCProcessedDependenciesAnnotation. Most users of our parser will prefer the latter representation.
+For more details on the parser, please see <a href="lex-parser.shtml">this page</a>. For more details about the dependencies, please refer to <a href="stanford-dependencies.shtml">this page</a>.
+</td></tr>
+<tr><td align="center">dcoref</td><td align="center">DeterministicCorefAnnotator</td><td align="center">CorefChainAnnotation</td><td>Implements both pronominal and nominal coreference resolution. The entire coreference graph (with head words of mentions as nodes) is saved in CorefChainAnnotation. For more details on the underlying coreference resolution algorithm, see <a href="dcoref.shtml">this page</a>.</td></tr>
+</tbody></table>
+
+</p><p>
+Depending on which annotators you use, please cite the corresponding papers on: <a href="tagger.shtml">POS tagging</a>, <a href="CRF-NER.shtml">NER</a>, <a href="lex-parser.shtml">parsing</a>, or <a href="dcoref.shtml">coreference resolution</a>.
+
+</p><p>
+To construct a Stanford CoreNLP object from a given set of properties, use <code>StanfordCoreNLP(Properties props)</code>. This method creates the pipeline using the annotators given in the "annotators" property (see above for an example setting). The complete list of accepted annotator names is listed in the first column of the table at the top of this page. To parse an arbitrary text, use the <code>annotate(Annotation document)</code> method. 
+
+</p><p>
+The code below shows how to create and use a Stanford CoreNLP object:
+
+</p><p>
+</p><pre>    // creates a StanfordCoreNLP object, with POS tagging, lemmatization, NER, parsing, and coreference resolution 
+    Properties props = new Properties();
+    props.put("annotators", "tokenize, ssplit, pos, lemma, ner, parse, dcoref");
+    StanfordCoreNLP pipeline = new StanfordCoreNLP(props);
+    
+    // read some text in the text variable
+    String text = ... // Add your text here!
+    
+    // create an empty Annotation just with the given text
+    Annotation document = new Annotation(text);
+    
+    // run all Annotators on this text
+    pipeline.annotate(document);
+    
+    // these are all the sentences in this document
+    // a CoreMap is essentially a Map that uses class objects as keys and has values with custom types
+    List&lt;CoreMap&gt; sentences = document.get(SentencesAnnotation.class);
+    
+    for(CoreMap sentence: sentences) {
+      // traversing the words in the current sentence
+      // a CoreLabel is a CoreMap with additional token-specific methods
+      for (CoreLabel token: sentence.get(TokensAnnotation.class)) {
+        // this is the text of the token
+        String word = token.get(TextAnnotation.class);
+        // this is the POS tag of the token
+        String pos = token.get(PartOfSpeechAnnotation.class);
+        // this is the NER label of the token
+        String ne = token.get(NamedEntityTagAnnotation.class);       
+      }
+
+      // this is the parse tree of the current sentence
+      Tree tree = sentence.get(TreeAnnotation.class);
+
+      // this is the Stanford dependency graph of the current sentence
+      SemanticGraph dependencies = sentence.get(CollapsedCCProcessedDependenciesAnnotation.class);
+    }
+
+    // This is the coreference link graph
+    // Each chain stores a set of mentions that link to each other,
+    // along with a method for getting the most representative mention
+    // Both sentence and token offsets start at 1!
+    Map&lt;Integer, CorefChain&gt; graph = 
+      document.get(CorefChainAnnotation.class);
+</pre>
+
+<p><b><u>Annotator options</u></b>
+
+</p><p>
+While all Annotators have a default behavior that is likely to be sufficient for the majority of users, most Annotators take additional options that can be passed as Java properties in the configuration file. We list below the configuration options for all Annotators:
+
+</p><p>
+<b>general options</b>:<br>
+</p><ul>
+<li>outputFormat: different methods for outputting results.  Can be "xml", "text" or "serialized".
+</li></ul>
+
+<b>tokenize</b>:<br>
+<ul>
+<li>tokenize.whitespace: if set to true, separates words only when
+whitespace is encountered.
+</li><li>tokenize.options: Accepts the options of <code>PTBTokenizer</code>
+  for example, things like "americanize=false" or
+  "strictTreebank3=true,untokenizable=allKeep".
+</li></ul>
+
+<b>cleanxml</b>:<br>
+<ul>
+<li>clean.xmltags: Discard xml tag tokens that match this regular expression.  For example, .* will discard all xml tags.
+</li><li>clean.sentenceendingtags: treat tags that match this regular expression as the end of a sentence.  For example, p will treat &lt;p&gt; as the end of a sentence.
+</li><li>clean.allowflawedxml: if this is true, allow errors such as unclosed tags.  Otherwise, such xml will cause an exception.
+</li><li>clean.datetags: a regular expression that specifies which tags to treat as the reference date of a document.  Defaults to datetime|date
+</li></ul>
+
+<b>ssplit</b>:<br>
+<ul>
+<li>ssplit.eolonly: only split sentences on newlines.  Works well in
+conjunction with "-tokenize.whitespace true", in which case
+StanfordCoreNLP will split one sentence per line, only separating
+words on whitespace.
+</li><li>ssplit.isOneSentence: each document is to be treated as one
+sentence, no splitting at all.
+</li></ul> 
+
+<b>pos</b>:<br>
+<ul>
+<li>pos.model: POS model to use. There is no need to explicitly set this option, unless you want to use a different POS model (for advanced developers only). By default, this is set to the english left3words POS model included in the stanford-corenlp-models JAR file.
+</li><li>pos.maxlen: Maximum sentence size for the POS sequence tagger. Any sentence larger than this is split in smaller sentences before tagging. Useful to control the speed of the tagger on noisy text without punctuation marks.
+</li></ul>
+
+<b>ner</b>:<br>
+<ul>
+<li>ner.useSUTime: Whether or not to use sutime.  On by default in the version which includes sutime, off by default in the version that doesn't.  If not processing English, make sure to set this to false.
+</li><li>ner.model: NER model(s) in a comma separated list to use instead of the default models.  By default, the models used will be the 3class, 7class, and MISCclass models, in that order.
+</li><li>ner.applyNumericClassifiers: Whether or not to use numeric classifiers, including <a href="sutime.shtml">SUTime</a>.  These are hardcoded for English, so if using a different language, this should be set to false.
+</li></ul>
+
+<b>regexner</b>:<br>
+<ul>
+<li>regexner.mapping: The name of a file, classpath, or URI that contains NER rules, i.e., the mapping from regular expressions to NE classes. The format is one rule per line; each rule has two mandatory fields separated by one tab. The first field stores one or more Java regular expression (without any slashes or anything around them) separated by non-tab whitespace. The second token gives the named entity class to assign when the regular expression matches one or a sequence of tokens. An optional third tab-separated field indicates which regular named entity types can be overwritten by the current rule. For example, the rule "U\.S\.A\.        COUNTRY        LOCATION" marks the token "U.S.A." as a COUNTRY, allowing overwriting the previous LOCATION label (if it exists).  An optional fourth  tab-separated field gives a real number-valued rule priority. Higher priority rules are tried first for matches.
+</li><li>regexner.ignorecase: if set to true, matching will be case insensitive. Default value is false.  In the simplest case, the mapping file can be just a word list of lines of "word TAB class". Especially in this case, it may be easiest to set this to true, so it works regardless of capitalization.
+</li><li>regex.validpospattern: If given (non-empty and non-null) this is a regex that must be matched (with <code>find()</code>) againstat least one token in a match for the NE to be labeled.
+</li></ul>
+
+<b>parse</b>:<br>
+<ul>
+<li>parse.model: parsing model to use. There is no need to explicitly set this option, unless you want to use a different parsing model (for advanced developers only). By default, this is set to the parsing model included in the stanford-corenlp-models JAR file.
+</li><li>parse.maxlen: if set, the annotator parses only sentences shorter (in terms of number of tokens) than this number. For longer sentences, the parser creates a flat structure, where every token is assigned to the non-terminal X. This is useful when parsing noisy web text, which may generate arbitrarily long sentences. By default, this option is not set.
+</li><li>parse.flags: flags to use when loading the parser model.  The English model used by default uses "-retainTmpSubcategories"
+</li></ul>
+
+<b>dcoref</b>:<br>
+<ul>
+<li>dcoref.sievePasses: list of sieve modules to enable in the system, specified as a comma-separated list of class names. By default, this property is set to include all available sieve passes: "edu.stanford.nlp.dcoref.sievepasses.MarkRole, edu.stanford.nlp.dcoref.sievepasses.ExactStringMatch, edu.stanford.nlp.dcoref.sievepasses.RelaxedExactStringMatch, edu.stanford.nlp.dcoref.sievepasses.PreciseConstructs, edu.stanford.nlp.dcoref.sievepasses.StrictHeadMatch1, edu.stanford.nlp.dcoref.sievepasses.StrictHeadMatch2, edu.stanford.nlp.dcoref.sievepasses.StrictHeadMatch3, edu.stanford.nlp.dcoref.sievepasses.RelaxedHeadMatch, edu.stanford.nlp.dcoref.sievepasses.PronounMatch".  The default value can be found in Constants.SIEVEPASSES.
+</li><li>dcoref.demonym: list of demonyms from <a href="http://en.wikipedia.org/wiki/List_of_adjectival_forms_of_place_names">http://en.wikipedia.org/wiki/List_of_adjectival_forms_of_place_names</a>. The format of this file is: location TAB singular gentilic form TAB plural gentilic form, e.g., "Algeria Algerian Algerians".
+</li><li>dcoref.animate and dcoref.inanimate: lists of animate/inanimate words, from (Ji and Lin, 2009). The format is one word per line.
+</li><li>dcoref.male, dcoref.female, dcoref.neutral: lists of words of male/female/neutral gender, from (Bergsma and Lin, 2006) and (Ji and Lin, 2009). The format is one word per line.
+</li><li>dcoref.plural and dcoref.singular: lists of words that are plural or singular, from (Bergsma and Lin, 2006). The format is one word per line. All the above dictionaries are already set to the files included in the stanford-corenlp-models JAR file, but they can easily be adjusted to your needs by setting these properties.
+</li><li>dcoref.maxdist: the maximum distance at which to look for mentions.  Can help keep the runtime down in long documents.
+</li><li>oldCorefFormat: produce a CorefGraphAnnotation, the output format used in releases v1.0.3 or earlier.  Note that this uses quadratic memory rather than linear.
+</li></ul>
+
+<h3><a name="SUTime">SUTime</a></h3>
+
+<p>
+StanfordCoreNLP includes <a href="sutime.shtml">SUTime</a>, Stanford's temporal expression
+recognizer. SUTime is transparently called from the "ner" annotator,
+so no configuration is necessary. Furthermore, the "cleanxml"
+annotator now extracts the reference date for a given XML document, so
+relative dates, e.g., "yesterday", are transparently normalized with
+no configuration necessary.
+</p><p>
+SUTime supports the same annotations as before, i.e.,
+NamedEntityTagAnnotation is set with the label of the numeric entity (DATE,
+TIME, DURATION, MONEY, PERCENT, or NUMBER) and
+NormalizedNamedEntityTagAnnotation is set to the value of the normalized
+temporal expression. Note that NormalizedNamedEntityTagAnnotation now
+follows the TIMEX3 standard, rather than Stanford's internal representation,
+e.g., "2010-01-01" for the string "January 1, 2010", rather than "20100101".
+</p><p>
+Also, SUTime now sets the TimexAnnotation key to an
+edu.stanford.nlp.time.Timex object, which contains the complete list of
+TIMEX3 fields for the corresponding expressions, such as "val", "alt_val",
+"type", "tid". This might be useful to developers interested in recovering
+complete TIMEX3 expressions.
+</p><p>
+
+Reference dates are by default extracted from the "datetime" and
+"date" tags in an xml document.  To set a different set of tags to
+use, use the clean.datetags property.  When using the API, reference
+dates can be added to an <code>Annotation</code> via
+<code>edu.stanford.nlp.ling.CoreAnnotations.DocDateAnnotation</code>,
+although note that when processing an xml document, the cleanxml
+annotator will overwrite the <code>DocDateAnnotation</code> if
+"datetime" or "date" are specified in the document.
+</p>
+
+<p><b><u>TokensRegex</u></b></p>
+<p>
+StanfordCoreNLP includes <a href="tokensregex.shtml">TokensRegex</a>, a framework for defining regular expressions over 
+text and tokens, and mapping matched text to semantic objects.
+</p>
+
+<p><b><u>Javadoc</u></b>
+
+</p><p>
+More information is available in the javadoc: 
+<a href="http://www-nlp.stanford.edu/nlp/javadoc/javanlp/">
+  Stanford Core NLP Javadoc</a>.
+
+</p><h3><a name="newannotators">Adding a new annotator</a></h3>
+<p>
+StanfordCoreNLP also has the capacity to add a new annotator by
+reflection without altering the code in StanfordCoreNLP.java.  To
+create a new annotator, extend the class
+edu.stanford.nlp.pipeline.Annotator and define a constructor with the
+signature (String, Properties).  Then, add the property
+customAnnotatorClass.FOO=BAR to the properties used to create the
+pipeline.  If FOO is then added to the list of annotators, the class
+BAR will be created, with the name used to create it and the
+properties file passed in.
+</p>
+
+<h3><a name="caseless">Caseless Models</a></h3>
+<p>
+It is possible to run StanfordCoreNLP with tagger, parser, and NER
+models that ignore capitalization.  In order to do this, download the
+<a href="stanford-corenlp-caseless-2013-03-18-models.jar">caseless
+models</a> package.  Be sure to include the path to the case
+insensitive models jar in the <code>-cp</code> classpath flag as well.
+Then, set properties which point to these models as follows:
+<br>
+<code>
+-pos.model edu/stanford/nlp/models/pos-tagger/english-caseless-left3words-distsim.tagger <br>
+-parse.model edu/stanford/nlp/models/lexparser/englishPCFG.caseless.ser.gz <br>
+-ner.model edu/stanford/nlp/models/ner/english.all.3class.caseless.distsim.crf.ser.gz <br>
+&nbsp;&nbsp; edu/stanford/nlp/models/ner/english.muc.7class.caseless.distsim.crf.ser.gz <br>
+&nbsp;&nbsp; edu/stanford/nlp/models/ner/english.conll.4class.caseless.distsim.crf.ser.gz <br>
+</code>
+</p>
+
+<h3><a name="Extensions">Extensions: Packages by others using Stanford CoreNLP</a></h3>
+
+<p>
+<a href="http://cleartk.googlecode.com/git/cleartk-stanford-corenlp/">cleartk-stanford-corenlp</a> is a UIMA wrapper for Stanford
+CoreNLP built by Steven Bethard in the context of the 
+<a href="http://code.google.com/p/cleartk/">ClearTK</a> toolkit.
+</p>
+
+<p>
+<a href="https://code.google.com/p/dkpro-core-gpl/">dkpro-core-gpl</a>
+is a collection of NLP components, principally Stanford CoreNLP,
+wrapped as UIMA components, based on work at the Ubiquitous Knowledge
+Processing Lab (UKP) at the Technische Universit√§t Darmstadt.  It is
+part of the
+<a href="http://www.ukp.tu-darmstadt.de/research/current-projects/dkpro/">DKPro</a>
+project.
+See also the <a href="http://code.google.com/p/dkpro-core-asl/wiki/WikiEntryPage">DKPro
+Core wiki</a>. 
+</p>
+
+<p>
+<a href="https://github.com/dasmith/stanford-corenlp-python">
+Python wrapper including JSON-RPC server</a> by Dustin Smith, or 
+<a href="https://bitbucket.org/torotoki/corenlp-python">an up-to-date fork</a> by Hiroyoshi Komatsu and Johannes Castner.
+</p>
+
+<p>
+<a href="https://github.com/jconwell/coreNlp">A stopword removal annotator</a> by John Conwell
+</p>
+
+<p>
+<a href="https://metacpan.org/module/Lingua::StanfordCoreNLP">Perl
+  wrapper</a> by Kalle R√§is√§nen.
+
+
+</p><p>
+<a href="https://github.com/louismullie/stanford-core-nlp">
+Ruby bindings</a> by Louis Mullie.
+</p>
+
+<p>
+<a href="https://github.com/guokr/stan-cn-nlp">
+Wrapper for each of Stanford's Chinese tools</a> by Mingli Yuan.
+</p>
+
+<p>
+<a href="https://github.com/dmnapolitano/stanford-thrift">
+Client server package written for Apache Thrift</a> by Diane Napolitano
+</p>
+
+<p>
+<a href="https://github.com/sistanlp/processors">Scala API for CoreNLP</a>
+by Mihai Surdeanu, one of the original developers of the CoreNLP package
+</p>
+
+<h3><a name="Questions">Questions</a></h3>
+
+<p>
+Questions, feedback, and bug reports/fixes can be sent to our <a href="#Mail">mailing lists</a>.
+</p>
+
+
+<h3><a name="Mail">Mailing Lists</a></h3>
+<p>
+We have 3 mailing lists for the Stanford Coreference Rersolution System, all of which are shared
+with other JavaNLP tools (with the exclusion of the parser). Each address is
+at <code>@lists.stanford.edu</code>:
+</p>
+<ol>
+<li><code>java-nlp-user</code> This is the best list to post to in order
+to ask questions, make announcements, or for discussion among JavaNLP
+users.  You have to subscribe to be able to use it.
+Join the list via <a href="https://mailman.stanford.edu/mailman/listinfo/java-nlp-user">this webpage</a> or by emailing
+<code>java-nlp-user-join@lists.stanford.edu</code>.   (Leave the
+subject and message body empty.)  You can also
+<a href="https://mailman.stanford.edu/pipermail/java-nlp-user/">look at
+the list archives</a>.
+</li><li><code>java-nlp-announce</code> This list will be used only to announce
+new versions of Stanford JavaNLP tools.  So it will be very low volume (expect 1-3
+messages a year).  Join the list via <a href="https://mailman.stanford.edu/mailman/listinfo/java-nlp-announce">this webpage</a> or by emailing
+<code>java-nlp-announce-join@lists.stanford.edu</code>.  (Leave the
+subject and message body empty.)
+</li><li><code>java-nlp-support</code> This list goes only to the software
+maintainers.  It's a good address for licensing questions, etc.  <b>For
+general use and support questions, you're better off joining and using
+<code>java-nlp-user</code>.</b>
+You cannot join <code>java-nlp-support</code>, but you can mail questions to
+<code>java-nlp-support@lists.stanford.edu</code>.
+</li></ol>
+
+
+<h3><a name="Demo">Online Demo</a></h3>
+<br>
+
+We have an <a href="http://nlp.stanford.edu:8080/corenlp/">online demo</a> 
+of CoreNLP which uses the default annotators.  You can either see the
+xml output or see a nicely formatted xsl version of the output.
+
+<br>
+
+<h3><a name="History">Release History</a></h3>
+<br>
+<table>
+<tbody><tr>
+  <td><a href="stanford-corenlp-full-2013-04-04.zip">Version 1.3.5</a></td>
+  <td>2013-04-04</td>
+  <td>Bugs fixed, speed improvements, coref improvements, Chinese support
+    <a href="stanford-corenlp-caseless-2013-03-18-models.jar">compatible caseless models</a>
+    <a href="stanford-chinese-corenlp-2013-04-08-models.jar">compatible chinese models</a></td></tr>
+<tr>
+  <td><a href="stanford-corenlp-full-2012-11-12.zip">Version 1.3.4</a></td>
+  <td>2012-11-12</td>
+  <td>Upgrades to sutime, dependency extraction code and English 3-class NER model
+    <a href="stanford-corenlp-caseless-2012-11-09-models.jar">compatible caseless models</a></td></tr>
+<tr>
+  <td><a href="stanford-corenlp-2012-07-09.tgz">Version 1.3.3</a></td>
+  <td>2012-07-09</td>
+  <td>Minor bug fixes;
+    <a href="stanford-corenlp-caseless-2012-07-04-models.jar">compatible caseless models</a></td></tr>
+<tr>
+  <td><a href="stanford-corenlp-2012-05-22.tgz">Version 1.3.2</a></td>
+  <td>2012-05-22</td>
+  <td>Upgrades to sutime, include tokenregex annotator;
+      <a href="stanford-corenlp-caseless-2012-05-22-models.jar">compatible caseless models</a></td></tr>
+<tr>
+  <td><a href="stanford-corenlp-2012-04-09.tgz">Version 1.3.1</a></td>
+  <td>2012-04-09</td>
+  <td>Fixed thread safety bugs, caseless models available: 
+      <a href="stanford-corenlp-caseless-2012-04-09-models.jar">compatible caseless models</a></td></tr>
+<tr>
+  <td><a href="stanford-corenlp-2012-01-08.tgz">Version 1.3.0</a></td>
+  <td>2012-01-08</td>
+  <td>Fix a crashing bug, fix excessive warnings, threadsafe</td></tr>
+<tr>
+  <td><a href="stanford-corenlp-2011-09-14.tgz">Version 1.2.0</a></td>
+  <td>2011-09-14</td>
+  <td>Added SUTime time phrase recognizer to NER, bug fixes, reduced
+  library dependencies</td></tr>
+<tr>
+  <td><a href="stanford-corenlp-v1.1.0.tgz">Version 1.1.0</a></td>
+  <td>2011-06-19</td>
+  <td>Greatly improved coref results</td></tr>
+<tr>
+  <td><a href="stanford-corenlp-v1.0.4.tgz">Version 1.0.4</a></td>
+  <td>2011-05-15</td>
+  <td>DCoref uses less memory, already tokenized input possible</td></tr>
+<tr>
+  <td><a href="stanford-corenlp-v1.0.3.tgz">Version 1.0.3</a></td>
+  <td>2011-04-17</td>
+  <td>Add the ability to specify an arbitrary annotator</td></tr>
+<tr>
+  <td><a href="stanford-corenlp-v1.0.2.tgz">Version 1.0.2</a></td>
+  <td>2010-11-11</td>
+  <td>Remove wn.jar for license reasons</td></tr>
+<tr>
+  <td><a href="stanford-corenlp-v1.0.1.tgz">Version 1.0.1</a></td>
+  <td>2010-11-10</td>
+  <td>Add the ability to remove XML</td></tr>
+<tr>
+  <td><a href="stanford-corenlp-v1.0.tar.gz">Version 1.0</a></td>
+  <td>2010-11-01</td>
+  <td>Initial release</td></tr>
+</tbody></table>
+
+
+    <br>
+    <table class="footer" border="0" width="100%" cellpadding="0">
+      <tbody><tr>
+        <td width="14"><p class="small">&nbsp;</p></td>
+        <td align="left">
+          <p class="small">
+	    Local links: &nbsp;
+	    <a href="/local/nlp_lunch.shtml">NLP lunch</a> ¬∑
+	    <!-- <img src="/img/middot.gif" align="center"> -->
+	    <a href="http://pail.pbwiki.com/">PAIL lunch</a> ¬∑
+            <a href="http://nlp.stanford.edu/read/">NLP Reading Group</a> ¬∑
+	    <a href="/javanlp/">JavaNLP</a> 
+	    (<a href="/nlp/javadoc/javanlp/">javadocs</a>) ¬∑
+	    <a href="/local/machines.shtml">machines</a> ¬∑
+	    <a href="/nlpwiki/">Wiki</a> ¬∑
+	    <a href="/local/calendar.shtml">Calendar</a>
+          </p>
+	</td>
+        <td align="right">
+          <p class="small">
+	    Site design by <a href="http://nlp.stanford.edu/~wcmac/">Bill MacCartney</a>
+          </p>
+        </td>
+      </tr>
+    </tbody></table>
+    <!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+var sc_project=6951192; 
+var sc_invisible=1; 
+var sc_security="3325a805"; 
+</script>
+<script type="text/javascript" src="http://www.statcounter.com/counter/counter.js"></script>
+
+<!-- End of StatCounter Code for Default Guide -->
+  
+
+
+
+</body></html>Ytext/html¶$)‘_WebResourceResponse_http://nlp.stanford.edu/nlp.cssOCbplist00‘jkX$versionX$objectsY$archiverT$top Ü†Ø"()012HIJKLMNOPQRSTUVWX\]aeU$null›	
+ !R$6S$10R$2R$7R$3S$11R$8V$classR$4R$9R$0R$5R$1ÄÄÄ ÄÄÄÄÄ”#$%&'WNS.base[NS.relativeÄ ÄÄ_http://nlp.stanford.edu/nlp.css“*+,-Z$classnameX$classesUNSURL¢./UNSURLXNSObject#A∑SﬂKe»”345>GWNS.keysZNS.objects®6789:;<=Ä	Ä
+ÄÄÄÄÄÄ®?@ABCDEFÄÄÄÄÄÄÄÄÄVServerZConnection\Content-Type]Last-Modified]Accept-RangesTDate^Content-LengthTEtag_Apache/2.2.3 (CentOS)UcloseXtext/css_Fri, 18 Jan 2013 13:28:31 GMTUbytes_Mon, 27 May 2013 18:35:49 GMTT2823_"358208-b07-4d39016603dc0"“*+YZ_NSMutableDictionary£Y[/\NSDictionary“^_`YNS.stringÄXtext/css“*+bc_NSMutableString£bd/XNSString“*+fg_NSHTTPURLResponse£hi/_NSHTTPURLResponse]NSURLResponse_NSKeyedArchiver—lm_WebResourceResponseÄ    # - 2 7 X ^ y | Ä É Ü â ç ê ó ö ù † £ ¶ ® ™ ¨ Æ ∞ ≤ ¥ ∂ ∏ ∫ º æ ≈ Õ Ÿ € › ﬂ #)2;=DLW`bdfhjlnpy{}ÅÉÖáâãíù™∏∆À⁄ﬂ˜˝&,LQnsâçöù¢¨Æ∑ºŒ“€‡Ù¯,/E             n              GObody {
+	background-color: white;
+	background-image: url(http://nlp.stanford.edu/img/backstripe.gif);
+	background-repeat: repeat-y;
+	margin-left: 30px;
+	margin-right: 0px;
+	margin-top: 0px;
+	font-family: Lucida Sans, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	line-height: 16px;
+}
+p {
+	font-family: Lucida Sans, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	line-height: 16px;
+}
+p.small {
+	font-size: 10px;
+	line-height: 12px;
+}
+p.cardinal {
+	color: #8c1515;
+}
+.p {
+	font-family: Lucida Sans, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	line-height: 16px;
+}
+span.cardinal {
+	color: #8c1515;
+}
+.review {
+	color: green;
+}
+.border {
+	border: 1px solid #8c1515;
+}
+.bottomborder {
+	border-bottom: 1px solid #8c1515;
+}
+.indent {
+	margin-left: 3em;
+}
+table {
+	font-family: Lucida Sans, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	line-height: 16px;
+}
+th {
+	font-weight: bold;
+	color: #8c1515;	
+}
+ul	{
+	font-size: 12px;
+	line-height: 16px;
+}
+ul.nobullet {
+	list-style-type: none;
+}
+li.standalone {
+	font-size: 12px;
+	line-height: 16px;
+	list-style-position: outside;
+}
+dl	{
+	font-family: Lucida Sans, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	line-height: 16px;
+}
+dl.indent {
+	margin-left: 3em;
+}
+h1 {
+	font-size: 18px;
+	font-weight: bold;
+	color: #8c1515;
+	margin-top: 18px;
+}
+h2 {
+	font-size: 14px;
+	font-weight: bold;
+	color: #8c1515;
+	margin-top: 14px;
+}
+h2.green {
+	color: #a40526;
+}
+h2.nospace {
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+h3 {
+	font-size: 12px;
+	font-weight: bold;
+	color: #8c1515;
+	margin-top: 20px;
+	margin-bottom: 0em;
+}
+h4 {
+	font-size: 12px;
+	font-weight: bold;
+	color: black;
+	margin-top: 20px;
+	margin-bottom: 0em;
+}
+h5 {
+	font-size: 11px;
+	font-weight: bold;
+	color: black;
+	margin-top: 16px;
+	margin-bottom: 0em;
+}
+p.title {
+	font-family: Palatino, Georgia, Book Antiqua, serif;
+	font-size: 22px;
+	line-height: 24px;
+}
+table.navbar {
+	background-color: #F5EEC6;
+	margin-left: -9px;
+}
+table.newstuff {
+	background-color: #e0ffe0;
+}
+p.navbar {
+	font-size: 12px;
+	font-weight: bold;
+}
+table.footer {
+	margin-top: 10px;
+	margin-left: -9px;
+	border-top: solid;
+	border-top-width: 1px;
+}
+a:link {
+	text-decoration: none;
+	color: #000099;
+}
+a:visited {
+	text-decoration: none;
+	color: #660099;
+}
+a:hover {
+	text-decoration: underline;
+}
+a[name]:hover {
+	text-decoration: inherit;
+	color: inherit; 
+	background: inherit
+}
+a:active {
+	text-decoration: none;
+}
+
+a.navbar:link {
+	text-decoration: none;
+	color: #8c1515;
+	background: #F5EEC6;
+}
+a.navbar:visited {
+	text-decoration: none;
+	color: #8c1515;
+	background: #F5EEC6;
+}
+a.navbar:hover {
+	text-decoration: underline;
+}
+a.navbar:active {
+	text-decoration: none;
+}
+a[name] {
+	text-decoration: inherit;
+	color: inherit; 
+	background: inherit
+}
+a {
+	color: #003333;
+}
+.over {
+	color: #993300;
+}
+.highlight {
+        color: #FF0000;
+}
+Xtext/css‘_%http://www.google-analytics.com/ga.jsOËbplist00‘vwX$versionX$objectsY$archiverT$top Ü†Ø$"()012NOPQRSTUVWXYZ[\]^_`abcdhimqU$null›	
+ !R$6S$10R$2R$7R$3S$11R$8V$classR$4R$9R$0R$5R$1ÄÄÄ Ä Ä#ÄÄ!Ä”#$%&'WNS.base[NS.relativeÄ ÄÄ_%http://www.google-analytics.com/ga.js“*+,-Z$classnameX$classesUNSURL¢./UNSURLXNSObject#A∑S…ìús»”345AMWNS.keysZNS.objects´6789:;<=>?@Ä	Ä
+ÄÄÄÄÄÄÄÄÄ´BCDEFGHIJKLÄÄÄÄÄÄÄÄÄÄÄÄ_X-Content-Type-Options\Content-Type]Cache-Control]Last-ModifiedSAgeVServerTDate_Content-Encoding^Content-LengthWExpiresTVary_nosniff, nosniff_text/javascript_max-age=43200, public_Tue, 07 May 2013 19:05:02 GMTU40850WGFE/2.0_Mon, 27 May 2013 05:41:19 GMTTgzipU15775_Mon, 27 May 2013 17:41:19 GMT_Accept-Encoding“*+ef_NSMutableDictionary£eg/\NSDictionaryö±“jklYNS.stringÄ"_text/javascript“*+no_NSMutableString£np/XNSString“*+rs_NSHTTPURLResponse£tu/_NSHTTPURLResponse]NSURLResponse_NSKeyedArchiver—xy_WebResourceResponseÄ    # - 2 7 ^ d  Ç Ü â å è ì ñ ù † £ ¶ © ¨ Æ ∞ ≤ ¥ ∂ ∏ ∫ º æ ¿ ¬ ƒ À ” ﬂ · „ Â&,/5>GIPXcoqsuwy{}ÅÉÖëìïóôõùü°£•ß©¬œ›ÎÔˆ˚%*=Ogáçïµ∫¿‡Ú˜!&02DI[_hmÅÖôßπº“             z              ‘Oö±(function(){var g=void 0,h=!0,Ge=null,l=!1,aa=encodeURIComponent,ba=Infinity,ca=setTimeout,da=isNaN,m=Math,ea=decodeURIComponent;function He(a,b){return a.onload=b}function Ie(a,b){return a.onerror=b}function ha(a,b){return a.name=b}
+var n="push",ia="test",ja="slice",p="replace",ka="load",la="floor",ma="charAt",na="value",q="indexOf",oa="match",pa="port",qa="createElement",ra="path",r="name",kf="getTime",u="host",v="toString",w="length",x="prototype",sa="clientWidth",y="split",ta="stopPropagation",ua="scope",z="location",va="search",Je="random",A="protocol",wa="clientHeight",xa="href",B="substring",ya="apply",za="navigator",C="join",D="toLowerCase",E;function Aa(a,b){switch(b){case 0:return""+a;case 1:return 1*a;case 2:return!!a;case 3:return 1E3*a}return a}function Ba(a){return"function"==typeof a}function Ca(a){return a!=g&&-1<(a.constructor+"")[q]("String")}function F(a,b){return g==a||"-"==a&&!b||""==a}function Da(a){if(!a||""==a)return"";for(;a&&-1<" \n\r\t"[q](a[ma](0));)a=a[B](1);for(;a&&-1<" \n\r\t"[q](a[ma](a[w]-1));)a=a[B](0,a[w]-1);return a}function Ea(){return m.round(2147483647*m[Je]())}function Fa(){}
+function G(a,b){if(aa instanceof Function)return b?encodeURI(a):aa(a);H(68);return escape(a)}function I(a){a=a[y]("+")[C](" ");if(ea instanceof Function)try{return ea(a)}catch(b){H(17)}else H(68);return unescape(a)}var Ga=function(a,b,c,d){a.addEventListener?a.addEventListener(b,c,!!d):a.attachEvent&&a.attachEvent("on"+b,c)},Ha=function(a,b,c,d){a.removeEventListener?a.removeEventListener(b,c,!!d):a.detachEvent&&a.detachEvent("on"+b,c)};
+function Ia(a,b){if(a){var c=J[qa]("script");c.type="text/javascript";c.async=h;c.src=a;c.id=b;var d=J.getElementsByTagName("script")[0];d.parentNode.insertBefore(c,d);return c}}function K(a){return a&&0<a[w]?a[0]:""}function L(a){var b=a?a[w]:0;return 0<b?a[b-1]:""}var Ja=function(){this.prefix="ga.";this.R={}};Ja[x].set=function(a,b){this.R[this.prefix+a]=b};Ja[x].get=function(a){return this.R[this.prefix+a]};Ja[x].contains=function(a){return this.get(a)!==g};function Ne(){return"https:"==J[z][A]}function Ka(a){0==a[q]("www.")&&(a=a[B](4));return a[D]()}
+function La(a,b){var c,d={url:a,protocol:"http",host:"",path:"",d:new Ja,anchor:""};if(!a)return d;c=a[q]("://");0<=c&&(d.protocol=a[B](0,c),a=a[B](c+3));c=a[va]("/|\\?|#");if(0<=c)d.host=a[B](0,c)[D](),a=a[B](c);else return d.host=a[D](),d;c=a[q]("#");0<=c&&(d.anchor=a[B](c+1),a=a[B](0,c));c=a[q]("?");0<=c&&(Na(d.d,a[B](c+1)),a=a[B](0,c));d.anchor&&b&&Na(d.d,d.anchor);a&&"/"==a[ma](0)&&(a=a[B](1));d.path=a;return d}
+function Oa(a,b){function c(a){var b=(a.hostname||"")[y](":")[0][D](),c=(a[A]||"")[D](),c=1*a[pa]||("http:"==c?80:"https:"==c?443:"");a=a.pathname||"";0==a[q]("/")||(a="/"+a);return[b,""+c,a]}var d=b||J[qa]("a");d.href=J[z][xa];var e=(d[A]||"")[D](),f=c(d),Be=d[va]||"",k=e+"//"+f[0]+(f[1]?":"+f[1]:"");0==a[q]("//")?a=e+a:0==a[q]("/")?a=k+a:!a||0==a[q]("?")?a=k+f[2]+(a||Be):0>a[y]("/")[0][q](":")&&(a=k+f[2][B](0,f[2].lastIndexOf("/"))+"/"+a);d.href=a;e=c(d);return{protocol:(d[A]||"")[D](),host:e[0],
+port:e[1],path:e[2],Oa:d[va]||"",url:a||""}}function Na(a,b){function c(b,c){a.contains(b)||a.set(b,[]);a.get(b)[n](c)}for(var d=Da(b)[y]("&"),e=0;e<d[w];e++)if(d[e]){var f=d[e][q]("=");0>f?c(d[e],"1"):c(d[e][B](0,f),d[e][B](f+1))}}function Pa(a,b){if(F(a)||"["==a[ma](0)&&"]"==a[ma](a[w]-1))return"-";var c=J.domain;return a[q](c+(b&&"/"!=b?b:""))==(0==a[q]("http://")?7:0==a[q]("https://")?8:0)?"0":a};var Qa=0;function Ra(a,b,c){!(1<=Qa)&&!(1<=100*m[Je]())&&(a=["utmt=error","utmerr="+a,"utmwv=5.4.2","utmn="+Ea(),"utmsp=1"],b&&a[n]("api="+b),c&&a[n]("msg="+G(c[B](0,100))),M.w&&a[n]("aip=1"),Sa(a[C]("&")),Qa++)};var Ta=0,Ua={};function N(a){return Va("x"+Ta++,a)}function Va(a,b){Ua[a]=!!b;return a}
+var Wa=N(),Xa=Va("anonymizeIp"),Ya=N(),$a=N(),ab=N(),bb=N(),O=N(),P=N(),cb=N(),db=N(),eb=N(),fb=N(),gb=N(),hb=N(),ib=N(),jb=N(),kb=N(),lb=N(),nb=N(),ob=N(),pb=N(),qb=N(),rb=N(),sb=N(),tb=N(),ub=N(),vb=N(),wb=N(),xb=N(),yb=N(),zb=N(),Ab=N(),Bb=N(),Cb=N(),Db=N(),Eb=N(),Fb=N(h),Gb=Va("currencyCode"),Hb=Va("page"),Ib=Va("title"),Jb=N(),Kb=N(),Lb=N(),Mb=N(),Nb=N(),Ob=N(),Pb=N(),Qb=N(),Rb=N(),Q=N(h),Sb=N(h),Tb=N(h),Ub=N(h),Vb=N(h),Wb=N(h),Zb=N(h),$b=N(h),ac=N(h),bc=N(h),cc=N(h),R=N(h),dc=N(h),ec=N(h),fc=
+N(h),gc=N(h),hc=N(h),ic=N(h),jc=N(h),S=N(h),kc=N(h),lc=N(h),mc=N(h),nc=N(h),oc=N(h),pc=N(h),qc=N(h),rc=Va("campaignParams"),sc=N(),tc=Va("hitCallback"),uc=N();N();var vc=N(),wc=N(),xc=N(),yc=N(),zc=N(),Ac=N(),Bc=N(),Cc=N(),Dc=N(),Ec=N(),Fc=N(),Gc=N(),Hc=N(),Ic=N();N();var Mc=N(),Nc=N(),Oc=N(),Oe=Va("uaName"),Pe=Va("uaDomain"),Qe=Va("uaPath");var Re=function(){function a(a,c,d){T($[x],a,c,d)}a("_createTracker",$[x].r,55);a("_getTracker",$[x].oa,0);a("_getTrackerByName",$[x].u,51);a("_getTrackers",$[x].pa,130);a("_anonymizeIp",$[x].aa,16);a("_forceSSL",$[x].la,125);a("_getPlugin",Pc,120)},Se=function(){function a(a,c,d){T(U[x],a,c,d)}Qc("_getName",$a,58);Qc("_getAccount",Wa,64);Qc("_visitCode",Q,54);Qc("_getClientInfo",ib,53,1);Qc("_getDetectTitle",lb,56,1);Qc("_getDetectFlash",jb,65,1);Qc("_getLocalGifPath",wb,57);Qc("_getServiceMode",
+xb,59);V("_setClientInfo",ib,66,2);V("_setAccount",Wa,3);V("_setNamespace",Ya,48);V("_setAllowLinker",fb,11,2);V("_setDetectFlash",jb,61,2);V("_setDetectTitle",lb,62,2);V("_setLocalGifPath",wb,46,0);V("_setLocalServerMode",xb,92,g,0);V("_setRemoteServerMode",xb,63,g,1);V("_setLocalRemoteServerMode",xb,47,g,2);V("_setSampleRate",vb,45,1);V("_setCampaignTrack",kb,36,2);V("_setAllowAnchor",gb,7,2);V("_setCampNameKey",ob,41);V("_setCampContentKey",tb,38);V("_setCampIdKey",nb,39);V("_setCampMediumKey",
+rb,40);V("_setCampNOKey",ub,42);V("_setCampSourceKey",qb,43);V("_setCampTermKey",sb,44);V("_setCampCIdKey",pb,37);V("_setCookiePath",P,9,0);V("_setMaxCustomVariables",yb,0,1);V("_setVisitorCookieTimeout",cb,28,1);V("_setSessionCookieTimeout",db,26,1);V("_setCampaignCookieTimeout",eb,29,1);V("_setReferrerOverride",Jb,49);V("_setSiteSpeedSampleRate",Dc,132);a("_trackPageview",U[x].Fa,1);a("_trackEvent",U[x].F,4);a("_trackPageLoadTime",U[x].Ea,100);a("_trackSocial",U[x].Ga,104);a("_trackTrans",U[x].Ia,
+18);a("_sendXEvent",U[x].t,78);a("_createEventTracker",U[x].ia,74);a("_getVersion",U[x].qa,60);a("_setDomainName",U[x].B,6);a("_setAllowHash",U[x].va,8);a("_getLinkerUrl",U[x].na,52);a("_link",U[x].link,101);a("_linkByPost",U[x].ua,102);a("_setTrans",U[x].za,20);a("_addTrans",U[x].$,21);a("_addItem",U[x].Y,19);a("_clearTrans",U[x].ea,105);a("_setTransactionDelim",U[x].Aa,82);a("_setCustomVar",U[x].wa,10);a("_deleteCustomVar",U[x].ka,35);a("_getVisitorCustomVar",U[x].ra,50);a("_setXKey",U[x].Ca,83);
+a("_setXValue",U[x].Da,84);a("_getXKey",U[x].sa,76);a("_getXValue",U[x].ta,77);a("_clearXKey",U[x].fa,72);a("_clearXValue",U[x].ga,73);a("_createXObj",U[x].ja,75);a("_addIgnoredOrganic",U[x].W,15);a("_clearIgnoredOrganic",U[x].ba,97);a("_addIgnoredRef",U[x].X,31);a("_clearIgnoredRef",U[x].ca,32);a("_addOrganic",U[x].Z,14);a("_clearOrganic",U[x].da,70);a("_cookiePathCopy",U[x].ha,30);a("_get",U[x].ma,106);a("_set",U[x].xa,107);a("_addEventListener",U[x].addEventListener,108);a("_removeEventListener",
+U[x].removeEventListener,109);a("_addDevId",U[x].V);a("_getPlugin",Pc,122);a("_setPageGroup",U[x].ya,126);a("_trackTiming",U[x].Ha,124);a("_initData",U[x].v,2);a("_setVar",U[x].Ba,22);V("_setSessionTimeout",db,27,3);V("_setCookieTimeout",eb,25,3);V("_setCookiePersistence",cb,24,1);a("_setAutoTrackOutbound",Fa,79);a("_setTrackOutboundSubdomains",Fa,81);a("_setHrefExamineLimit",Fa,80)};function Pc(a){var b=this.plugins_;if(b)return b.get(a)}
+var T=function(a,b,c,d){a[b]=function(){try{return d!=g&&H(d),c[ya](this,arguments)}catch(a){throw Ra("exc",b,a&&a[r]),a;}}},Qc=function(a,b,c,d){U[x][a]=function(){try{return H(c),Aa(this.a.get(b),d)}catch(e){throw Ra("exc",a,e&&e[r]),e;}}},V=function(a,b,c,d,e){U[x][a]=function(f){try{H(c),e==g?this.a.set(b,Aa(f,d)):this.a.set(b,e)}catch(Be){throw Ra("exc",a,Be&&Be[r]),Be;}}},Te=function(a,b){return{type:b,target:a,stopPropagation:function(){throw"aborted";}}};var Rc=RegExp(/(^|\.)doubleclick\.net$/i),Sc=function(a,b){return Rc[ia](J[z].hostname)?h:"/"!==b?l:(0==a[q]("www.google.")||0==a[q](".google.")||0==a[q]("google."))&&!(-1<a[q]("google.org"))?h:l},Tc=function(a){var b=a.get(bb),c=a.c(P,"/");if(Sc(b,c))a[ta]()};var Zc=function(){var a={},b={},c=new Uc;this.g=function(a,b){c.add(a,b)};var d=new Uc;this.e=function(a,b){d.add(a,b)};var e=l,f=l,Be=h;this.T=function(){e=h};this.j=function(a){this[ka]();this.set(sc,a,h);a=new Vc(this);e=l;d.execute(this);e=h;b={};this.n();a.Ja()};this.load=function(){e&&(e=l,this.Ka(),Wc(this),f||(f=h,c.execute(this),Xc(this),Wc(this)),e=h)};this.n=function(){if(e)if(f)e=l,Xc(this),e=h;else this[ka]()};this.get=function(c){Ua[c]&&this[ka]();return b[c]!==g?b[c]:a[c]};this.set=
+function(c,d,e){Ua[c]&&this[ka]();e?b[c]=d:a[c]=d;Ua[c]&&this.n()};this.Za=function(b){a[b]=this.b(b,0)+1};this.b=function(a,b){var c=this.get(a);return c==g||""===c?b:1*c};this.c=function(a,b){var c=this.get(a);return c==g?b:c+""};this.Ka=function(){if(Be){var b=this.c(bb,""),c=this.c(P,"/");Sc(b,c)||(a[O]=a[hb]&&""!=b?Yc(b):1,Be=l)}}};Zc[x].stopPropagation=function(){throw"aborted";};
+var Vc=function(a){var b=this;this.q=0;var c=a.get(tc);this.Ua=function(){0<b.q&&c&&(b.q--,b.q||c())};this.Ja=function(){!b.q&&c&&ca(c,10)};a.set(uc,b,h)};function $c(a,b){b=b||[];for(var c=0;c<b[w];c++){var d=b[c];if(""+a==d||0==d[q](a+"."))return d}return"-"}
+var bd=function(a,b,c){c=c?"":a.c(O,"1");b=b[y](".");if(6!==b[w]||ad(b[0],c))return l;c=1*b[1];var d=1*b[2],e=1*b[3],f=1*b[4];b=1*b[5];if(!(0<=c&&0<d&&0<e&&0<f&&0<=b))return l;a.set(Q,c);a.set(Vb,d);a.set(Wb,e);a.set(Zb,f);a.set($b,b);return h},cd=function(a){var b=a.get(Q),c=a.get(Vb),d=a.get(Wb),e=a.get(Zb),f=a.b($b,1);return[a.b(O,1),b!=g?b:"-",c||"-",d||"-",e||"-",f][C](".")},dd=function(a){return[a.b(O,1),a.b(cc,0),a.b(R,1),a.b(dc,0)][C](".")},ed=function(a,b,c){c=c?"":a.c(O,"1");var d=b[y](".");
+if(4!==d[w]||ad(d[0],c))d=Ge;a.set(cc,d?1*d[1]:0);a.set(R,d?1*d[2]:10);a.set(dc,d?1*d[3]:a.get(ab));return d!=Ge||!ad(b,c)},fd=function(a,b){var c=G(a.c(Tb,"")),d=[],e=a.get(Fb);if(!b&&e){for(var f=0;f<e[w];f++){var Be=e[f];Be&&1==Be[ua]&&d[n](f+"="+G(Be[r])+"="+G(Be[na])+"=1")}0<d[w]&&(c+="|"+d[C]("^"))}return c?a.b(O,1)+"."+c:Ge},gd=function(a,b,c){c=c?"":a.c(O,"1");b=b[y](".");if(2>b[w]||ad(b[0],c))return l;b=b[ja](1)[C](".")[y]("|");0<b[w]&&a.set(Tb,I(b[0]));if(1>=b[w])return h;b=b[1][y](-1==
+b[1][q](",")?"^":",");for(c=0;c<b[w];c++){var d=b[c][y]("=");if(4==d[w]){var e={};ha(e,I(d[1]));e.value=I(d[2]);e.scope=1;a.get(Fb)[d[0]]=e}}return h},hd=function(a,b){var c=Ue(a,b);return c?[a.b(O,1),a.b(ec,0),a.b(fc,1),a.b(gc,1),c][C]("."):""},Ue=function(a){function b(b,e){if(!F(a.get(b))){var f=a.c(b,""),f=f[y](" ")[C]("%20"),f=f[y]("+")[C]("%20");c[n](e+"="+f)}}var c=[];b(ic,"utmcid");b(nc,"utmcsr");b(S,"utmgclid");b(kc,"utmgclsrc");b(lc,"utmdclid");b(mc,"utmdsid");b(jc,"utmccn");b(oc,"utmcmd");
+b(pc,"utmctr");b(qc,"utmcct");return c[C]("|")},id=function(a,b,c){c=c?"":a.c(O,"1");b=b[y](".");if(5>b[w]||ad(b[0],c))return a.set(ec,g),a.set(fc,g),a.set(gc,g),a.set(ic,g),a.set(jc,g),a.set(nc,g),a.set(oc,g),a.set(pc,g),a.set(qc,g),a.set(S,g),a.set(kc,g),a.set(lc,g),a.set(mc,g),l;a.set(ec,1*b[1]);a.set(fc,1*b[2]);a.set(gc,1*b[3]);Ve(a,b[ja](4)[C]("."));return h},Ve=function(a,b){function c(a){return(a=b[oa](a+"=(.*?)(?:\\|utm|$)"))&&2==a[w]?a[1]:g}function d(b,c){c?(c=e?I(c):c[y]("%20")[C](" "),
+a.set(b,c)):a.set(b,g)}-1==b[q]("=")&&(b=I(b));var e="2"==c("utmcvr");d(ic,c("utmcid"));d(jc,c("utmccn"));d(nc,c("utmcsr"));d(oc,c("utmcmd"));d(pc,c("utmctr"));d(qc,c("utmcct"));d(S,c("utmgclid"));d(kc,c("utmgclsrc"));d(lc,c("utmdclid"));d(mc,c("utmdsid"))},ad=function(a,b){return b?a!=b:!/^\d+$/[ia](a)};var Uc=function(){this.filters=[]};Uc[x].add=function(a,b){this.filters[n]({name:a,s:b})};Uc[x].execute=function(a){try{for(var b=0;b<this.filters[w];b++)this.filters[b].s.call(W,a)}catch(c){}};function jd(a){if(100!=a.get(vb)&&a.get(Q)%1E4>=100*a.get(vb))a[ta]()}function kd(a){if(ld(a.get(Wa)))a[ta]()}function md(a){if("file:"==J[z][A])a[ta]()}function nd(a){a.get(Ib)||a.set(Ib,J.title,h);a.get(Hb)||a.set(Hb,J[z].pathname+J[z][va],h)};var od=new function(){var a=[];this.set=function(b){a[b]=h};this.Xa=function(){for(var b=[],c=0;c<a[w];c++)a[c]&&(b[m[la](c/6)]=b[m[la](c/6)]^1<<c%6);for(c=0;c<b[w];c++)b[c]="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_"[ma](b[c]||0);return b[C]("")+"~"}};function H(a){od.set(a)};var W=window,J=document,ld=function(a){var b=W._gaUserPrefs;return b&&b.ioo&&b.ioo()||!!a&&W["ga-disable-"+a]===h},We=function(a,b){ca(a,b)},pd=function(a){var b=[],c=J.cookie[y](";");a=RegExp("^\\s*"+a+"=\\s*(.*?)\\s*$");for(var d=0;d<c[w];d++){var e=c[d][oa](a);e&&b[n](e[1])}return b},X=function(a,b,c,d,e,f){e=ld(e)?l:Sc(d,c)?l:h;if(e){if(b&&0<=W[za].userAgent[q]("Firefox")){b=b[p](/\n|\r/g," ");e=0;for(var Be=b[w];e<Be;++e){var k=b.charCodeAt(e)&255;if(10==k||13==k)b=b[B](0,e)+"?"+b[B](e+1)}}b&&
+2E3<b[w]&&(b=b[B](0,2E3),H(69));a=a+"="+b+"; path="+c+"; ";f&&(a+="expires="+(new Date((new Date)[kf]()+f)).toGMTString()+"; ");d&&(a+="domain="+d+";");J.cookie=a}};var qd,rd,sd=function(){if(!qd){var a={},b=W[za],c=W.screen;a.Q=c?c.width+"x"+c.height:"-";a.P=c?c.colorDepth+"-bit":"-";a.language=(b&&(b.language||b.browserLanguage)||"-")[D]();a.javaEnabled=b&&b.javaEnabled()?1:0;a.characterSet=J.characterSet||J.charset||"-";try{var d;var e=J.documentElement,f=J.body,Be=f&&f[sa]&&f[wa],c=[];e&&(e[sa]&&e[wa])&&("CSS1Compat"===J.compatMode||!Be)?c=[e[sa],e[wa]]:Be&&(c=[f[sa],f[wa]]);d=0>=c[0]||0>=c[1]?"":c[C]("x");a.Wa=d}catch(k){H(135)}"preview"==b.loadPurpose&&
+H(138);qd=a}},td=function(){sd();for(var a=qd,b=W[za],a=b.appName+b.version+a.language+b.platform+b.userAgent+a.javaEnabled+a.Q+a.P+(J.cookie?J.cookie:"")+(J.referrer?J.referrer:""),b=a[w],c=W.history[w];0<c;)a+=c--^b++;return Yc(a)},ud=function(a){sd();var b=qd;a.set(Lb,b.Q);a.set(Mb,b.P);a.set(Pb,b.language);a.set(Qb,b.characterSet);a.set(Nb,b.javaEnabled);a.set(Rb,b.Wa);if(a.get(ib)&&a.get(jb)){if(!(b=rd)){var c,d,e;d="ShockwaveFlash";if((b=(b=W[za])?b.plugins:g)&&0<b[w])for(c=0;c<b[w]&&!e;c++)d=
+b[c],-1<d[r][q]("Shockwave Flash")&&(e=d.description[y]("Shockwave Flash ")[1]);else{d=d+"."+d;try{c=new ActiveXObject(d+".7"),e=c.GetVariable("$version")}catch(f){}if(!e)try{c=new ActiveXObject(d+".6"),e="WIN 6,0,21,0",c.AllowScriptAccess="always",e=c.GetVariable("$version")}catch(Be){}if(!e)try{c=new ActiveXObject(d),e=c.GetVariable("$version")}catch(k){}e&&(e=e[y](" ")[1][y](","),e=e[0]+"."+e[1]+" r"+e[2])}b=e?e:"-"}rd=b;a.set(Ob,rd)}else a.set(Ob,"-")};var vd=function(a){if(Ba(a))this.s=a;else{var b=a[0],c=b.lastIndexOf(":"),d=b.lastIndexOf(".");this.h=this.i=this.l="";-1==c&&-1==d?this.h=b:-1==c&&-1!=d?(this.i=b[B](0,d),this.h=b[B](d+1)):-1!=c&&-1==d?(this.l=b[B](0,c),this.h=b[B](c+1)):c>d?(this.i=b[B](0,d),this.l=b[B](d+1,c),this.h=b[B](c+1)):(this.i=b[B](0,d),this.h=b[B](d+1));this.k=a[ja](1);this.Ma=!this.l&&"_require"==this.h;this.J=!this.i&&!this.l&&"_provide"==this.h}},Y=function(){T(Y[x],"push",Y[x][n],5);T(Y[x],"_getPlugin",Pc,121);T(Y[x],
+"_createAsyncTracker",Y[x].Sa,33);T(Y[x],"_getAsyncTracker",Y[x].Ta,34);this.I=new Ja;this.p=[]};E=Y[x];E.Na=function(a,b,c){var d=this.I.get(a);if(!Ba(d))return l;b.plugins_=b.plugins_||new Ja;b.plugins_.set(a,new d(b,c||{}));return h};E.push=function(a){var b=Z.Va[ya](this,arguments),b=Z.p.concat(b);for(Z.p=[];0<b[w]&&!Z.O(b[0])&&!(b.shift(),0<Z.p[w]););Z.p=Z.p.concat(b);return 0};E.Va=function(a){for(var b=[],c=0;c<arguments[w];c++)try{var d=new vd(arguments[c]);d.J?this.O(d):b[n](d)}catch(e){}return b};
+E.O=function(a){try{if(a.s)a.s[ya](W);else if(a.J)this.I.set(a.k[0],a.k[1]);else{var b="_gat"==a.i?M:"_gaq"==a.i?Z:M.u(a.i);if(a.Ma){if(!this.Na(a.k[0],b,a.k[2])){if(!a.Pa){var c=Oa(""+a.k[1]);var d=c[A],e=J[z][A];var f;if(f="https:"==d||d==e?h:"http:"!=d?l:"http:"==e){var Be;t:{var k=Oa(J[z][xa]);if(!(c.Oa||0<=c.url[q]("?")||0<=c[ra][q]("://")||c[u]==k[u]&&c[pa]==k[pa]))for(var s="http:"==c[A]?80:443,t=M.S,b=0;b<t[w];b++)if(c[u]==t[b][0]&&(c[pa]||s)==(t[b][1]||s)&&0==c[ra][q](t[b][2])){Be=h;break t}Be=
+l}f=Be&&!ld()}f&&(a.Pa=Ia(c.url))}return h}}else a.l&&(b=b.plugins_.get(a.l)),b[a.h][ya](b,a.k)}}catch(Za){}};E.Sa=function(a,b){return M.r(a,b||"")};E.Ta=function(a){return M.u(a)};var yd=function(){function a(a,b,c,d){g==f[a]&&(f[a]={});g==f[a][b]&&(f[a][b]=[]);f[a][b][c]=d}function b(a,b,c){if(g!=f[a]&&g!=f[a][b])return f[a][b][c]}function c(a,b){if(g!=f[a]&&g!=f[a][b]){f[a][b]=g;var c=h,d;for(d=0;d<Be[w];d++)if(g!=f[a][Be[d]]){c=l;break}c&&(f[a]=g)}}function d(a){var b="",c=l,d,e;for(d=0;d<Be[w];d++)if(e=a[Be[d]],g!=e){c&&(b+=Be[d]);for(var c=[],f=g,ga=g,ga=0;ga<e[w];ga++)if(g!=e[ga]){f="";ga!=mb&&g==e[ga-1]&&(f+=ga[v]()+Za);for(var Cd=e[ga],Jc="",Yb=g,Kc=g,Lc=g,Yb=0;Yb<
+Cd[w];Yb++)Kc=Cd[ma](Yb),Lc=Ma[Kc],Jc+=g!=Lc?Lc:Kc;f+=Jc;c[n](f)}b+=k+c[C](t)+s;c=l}else c=h;return b}var e=this,f=[],Be=["k","v"],k="(",s=")",t="*",Za="!",Ma={"'":"'0"};Ma[s]="'1";Ma[t]="'2";Ma[Za]="'3";var mb=1;e.Ra=function(a){return g!=f[a]};e.A=function(){for(var a="",b=0;b<f[w];b++)g!=f[b]&&(a+=b[v]()+d(f[b]));return a};e.Qa=function(a){if(a==g)return e.A();for(var b=a.A(),c=0;c<f[w];c++)g!=f[c]&&!a.Ra(c)&&(b+=c[v]()+d(f[c]));return b};e.f=function(b,c,d){if(!wd(d))return l;a(b,"k",c,d);return h};
+e.o=function(b,c,d){if(!xd(d))return l;a(b,"v",c,d[v]());return h};e.getKey=function(a,c){return b(a,"k",c)};e.N=function(a,c){return b(a,"v",c)};e.L=function(a){c(a,"k")};e.M=function(a){c(a,"v")};T(e,"_setKey",e.f,89);T(e,"_setValue",e.o,90);T(e,"_getKey",e.getKey,87);T(e,"_getValue",e.N,88);T(e,"_clearKey",e.L,85);T(e,"_clearValue",e.M,86)};function wd(a){return"string"==typeof a}function xd(a){return"number"!=typeof a&&(g==Number||!(a instanceof Number))||m.round(a)!=a||da(a)||a==ba?l:h};var zd=function(a){var b=W.gaGlobal;a&&!b&&(W.gaGlobal=b={});return b},Ad=function(){var a=zd(h).hid;a==Ge&&(a=Ea(),zd(h).hid=a);return a},Dd=function(a){a.set(Kb,Ad());var b=zd();if(b&&b.dh==a.get(O)){var c=b.sid;c&&(a.get(ac)?H(112):H(132),a.set(Zb,c),a.get(Sb)&&a.set(Wb,c));b=b.vid;a.get(Sb)&&b&&(b=b[y]("."),a.set(Q,1*b[0]),a.set(Vb,1*b[1]))}};var Ed,Fd=function(a,b,c,d){var e=a.c(bb,""),f=a.c(P,"/");d=d!=g?d:a.b(cb,0);a=a.c(Wa,"");X(b,c,f,e,a,d)},Xc=function(a){var b=a.c(bb,"");a.b(O,1);var c=a.c(P,"/"),d=a.c(Wa,"");X("__utma",cd(a),c,b,d,a.get(cb));X("__utmb",dd(a),c,b,d,a.get(db));X("__utmc",""+a.b(O,1),c,b,d);var e=hd(a,h);e?X("__utmz",e,c,b,d,a.get(eb)):X("__utmz","",c,b,"",-1);(e=fd(a,l))?X("__utmv",e,c,b,d,a.get(cb)):X("__utmv","",c,b,"",-1)},Wc=function(a){var b=a.b(O,1);if(!bd(a,$c(b,pd("__utma"))))return a.set(Ub,h),l;var c=!ed(a,
+$c(b,pd("__utmb")));a.set(bc,c);id(a,$c(b,pd("__utmz")));gd(a,$c(b,pd("__utmv")));Ed=!c;return h},Gd=function(a){!Ed&&!(0<pd("__utmb")[w])&&(X("__utmd","1",a.c(P,"/"),a.c(bb,""),a.c(Wa,""),1E4),0==pd("__utmd")[w]&&a[ta]())};var lf=0,Jd=function(a){a.get(Q)==g?Hd(a):a.get(Ub)&&!a.get(Mc)?Hd(a):a.get(bc)&&(Id(a),lf++,1<lf&&H(137))},Kd=function(a){a.get(hc)&&!a.get(ac)&&(Id(a),a.set(fc,a.get($b)))},Hd=function(a){var b=a.get(ab);a.set(Sb,h);a.set(Q,Ea()^td(a)&2147483647);a.set(Tb,"");a.set(Vb,b);a.set(Wb,b);a.set(Zb,b);a.set($b,1);a.set(ac,h);a.set(cc,0);a.set(R,10);a.set(dc,b);a.set(Fb,[]);a.set(Ub,l);a.set(bc,l)},Id=function(a){a.set(Wb,a.get(Zb));a.set(Zb,a.get(ab));a.Za($b);a.set(ac,h);a.set(cc,0);a.set(R,10);a.set(dc,
+a.get(ab));a.set(bc,l)};var Ld="daum:q eniro:search_word naver:query pchome:q images.google:q google:q yahoo:p yahoo:q msn:q bing:q aol:query aol:q lycos:q lycos:query ask:q netscape:query cnn:query about:terms mamma:q voila:rdata virgilio:qs live:q baidu:wd alice:qs yandex:text najdi:q seznam:q rakuten:qt biglobe:q goo.ne:MT wp:szukaj onet:qt yam:k kvasir:q ozu:q terra:query rambler:query conduit:q babylon:q search-results:q avg:q comcast:q incredimail:q startsiden:q go.mail.ru:q search.centrum.cz:q 360.cn:q".split(" "),
+Sd=function(a){if(a.get(kb)&&!a.get(Mc)){for(var b=!F(a.get(ic))||!F(a.get(nc))||!F(a.get(S))||!F(a.get(lc)),c={},d=0;d<Md[w];d++){var e=Md[d];c[e]=a.get(e)}(d=a.get(rc))?(H(149),e=new Ja,Na(e,d),d=e):d=La(J[z][xa],a.get(gb)).d;if(!("1"==L(d.get(a.get(ub)))&&b)&&(d=Xe(a,d)||Qd(a),!d&&(!b&&a.get(ac))&&(Pd(a,g,"(direct)",g,g,g,"(direct)","(none)",g,g),d=h),d&&(a.set(hc,Rd(a,c)),b="(direct)"==a.get(nc)&&"(direct)"==a.get(jc)&&"(none)"==a.get(oc),a.get(hc)||a.get(ac)&&!b)))a.set(ec,a.get(ab)),a.set(fc,
+a.get($b)),a.Za(gc)}},Xe=function(a,b){function c(c,d){d=d||"-";var e=L(b.get(a.get(c)));return e&&"-"!=e?I(e):d}var d=L(b.get(a.get(nb)))||"-",e=L(b.get(a.get(qb)))||"-",f=L(b.get(a.get(pb)))||"-",Be=L(b.get("gclsrc"))||"-",k=L(b.get("dclid"))||"-",s=c(ob,"(not set)"),t=c(rb,"(not set)"),Za=c(sb),Ma=c(tb);if(F(d)&&F(f)&&F(k)&&F(e))return l;var mb=!F(f)&&!F(Be),mb=F(e)&&(!F(k)||mb),Xb=F(Za);if(mb||Xb){var Bd=Nd(a),Bd=La(Bd,h);if((Bd=Od(a,Bd))&&!F(Bd[1]&&!Bd[2]))mb&&(e=Bd[0]),Xb&&(Za=Bd[1])}Pd(a,d,
+e,f,Be,k,s,t,Za,Ma);return h},Qd=function(a){var b=Nd(a),c=La(b,h);if(!(b!=g&&b!=Ge&&""!=b&&"0"!=b&&"-"!=b&&0<=b[q]("://"))||c&&-1<c[u][q]("google")&&c.d.contains("q")&&"cse"==c[ra])return l;if((b=Od(a,c))&&!b[2])return Pd(a,g,b[0],g,g,g,"(organic)","organic",b[1],g),h;if(b||!a.get(ac))return l;t:{for(var b=a.get(Bb),d=Ka(c[u]),e=0;e<b[w];++e)if(-1<d[q](b[e])){a=l;break t}Pd(a,g,d,g,g,g,"(referral)","referral",g,"/"+c[ra]);a=h}return a},Od=function(a,b){for(var c=a.get(zb),d=0;d<c[w];++d){var e=c[d][y](":");
+if(-1<b[u][q](e[0][D]())){var f=b.d.get(e[1]);if(f&&(f=K(f),!f&&-1<b[u][q]("google.")&&(f="(not provided)"),!e[3]||-1<b.url[q](e[3]))){t:{for(var c=f,d=a.get(Ab),c=I(c)[D](),Be=0;Be<d[w];++Be)if(c==d[Be]){c=h;break t}c=l}return[e[2]||e[0],f,c]}}}return Ge},Pd=function(a,b,c,d,e,f,Be,k,s,t){a.set(ic,b);a.set(nc,c);a.set(S,d);a.set(kc,e);a.set(lc,f);a.set(jc,Be);a.set(oc,k);a.set(pc,s);a.set(qc,t)},Md=[jc,ic,S,lc,nc,oc,pc,qc],Rd=function(a,b){function c(a){a=(""+a)[y]("+")[C]("%20");return a=a[y](" ")[C]("%20")}
+function d(c){var d=""+(a.get(c)||"");c=""+(b[c]||"");return 0<d[w]&&d==c}if(d(S)||d(lc))return H(131),l;for(var e=0;e<Md[w];e++){var f=Md[e],Be=b[f]||"-",f=a.get(f)||"-";if(c(Be)!=c(f))return h}return l},Td=RegExp(/^https:\/\/(www\.)?google(\.com?)?(\.[a-z]{2}t?)?\/?$/i),Nd=function(a){a=Pa(a.get(Jb),a.get(P));try{if(Td[ia](a))return H(136),a+"?q="}catch(b){H(145)}return a};var Ud,Vd,Wd=function(a){Ud=a.c(S,"");Vd=a.c(kc,"")},Xd=function(a){var b=a.c(S,""),c=a.c(kc,"");b!=Ud&&(-1<c[q]("ds")?a.set(mc,g):!F(Ud)&&-1<Vd[q]("ds")&&a.set(mc,Ud))};var Zd=function(a){Yd(a,J[z][xa])?(a.set(Mc,h),H(12)):a.set(Mc,l)},Yd=function(a,b){if(!a.get(fb))return l;var c=La(b,a.get(gb)),d=K(c.d.get("__utma")),e=K(c.d.get("__utmb")),f=K(c.d.get("__utmc")),Be=K(c.d.get("__utmx")),k=K(c.d.get("__utmz")),s=K(c.d.get("__utmv")),c=K(c.d.get("__utmk"));if(Yc(""+d+e+f+Be+k+s)!=c){d=I(d);e=I(e);f=I(f);Be=I(Be);f=$d(d+e+f+Be,k,s,c);if(!f)return l;k=f[0];s=f[1]}if(!bd(a,d,h))return l;ed(a,e,h);id(a,k,h);gd(a,s,h);ae(a,Be,h);return h},ce=function(a,b,c){var d;d=cd(a)||
+"-";var e=dd(a)||"-",f=""+a.b(O,1)||"-",Be=be(a)||"-",k=hd(a,l)||"-";a=fd(a,l)||"-";var s=Yc(""+d+e+f+Be+k+a),t=[];t[n]("__utma="+d);t[n]("__utmb="+e);t[n]("__utmc="+f);t[n]("__utmx="+Be);t[n]("__utmz="+k);t[n]("__utmv="+a);t[n]("__utmk="+s);d=t[C]("&");if(!d)return b;e=b[q]("#");if(c)return 0>e?b+"#"+d:b+"&"+d;c="";f=b[q]("?");0<e&&(c=b[B](e),b=b[B](0,e));return 0>f?b+"?"+d+c:b+"&"+d+c},$d=function(a,b,c,d){for(var e=0;3>e;e++){for(var f=0;3>f;f++){if(d==Yc(a+b+c))return H(127),[b,c];var Be=b[p](/ /g,
+"%20"),k=c[p](/ /g,"%20");if(d==Yc(a+Be+k))return H(128),[Be,k];Be=Be[p](/\+/g,"%20");k=k[p](/\+/g,"%20");if(d==Yc(a+Be+k))return H(129),[Be,k];try{var s=b[oa]("utmctr=(.*?)(?:\\|utm|$)");if(s&&2==s[w]&&(Be=b[p](s[1],G(I(s[1]))),d==Yc(a+Be+c)))return H(139),[Be,c]}catch(t){}b=I(b)}c=I(c)}};var de="|",fe=function(a,b,c,d,e,f,Be,k,s){var t=ee(a,b);t||(t={},a.get(Cb)[n](t));t.id_=b;t.affiliation_=c;t.total_=d;t.tax_=e;t.shipping_=f;t.city_=Be;t.state_=k;t.country_=s;t.items_=t.items_||[];return t},ge=function(a,b,c,d,e,f,Be){a=ee(a,b)||fe(a,b,"",0,0,0,"","","");var k;t:{if(a&&a.items_){k=a.items_;for(var s=0;s<k[w];s++)if(k[s].sku_==c){k=k[s];break t}}k=Ge}s=k||{};s.transId_=b;s.sku_=c;s.name_=d;s.category_=e;s.price_=f;s.quantity_=Be;k||a.items_[n](s);return s},ee=function(a,b){for(var c=
+a.get(Cb),d=0;d<c[w];d++)if(c[d].id_==b)return c[d];return Ge};var he,ie=function(a){if(!he){var b;b=J[z].hash;var c=W[r],d=/^#?gaso=([^&]*)/;if(c=(b=(b=b&&b[oa](d)||c&&c[oa](d))?b[1]:K(pd("GASO")))&&b[oa](/^(?:!([-0-9a-z.]{1,40})!)?([-.\w]{10,1200})$/i))Fd(a,"GASO",""+b,0),M._gasoDomain=a.get(bb),M._gasoCPath=a.get(P),a=c[1],Ia("https://www.google.com/analytics/web/inpage/pub/inpage.js?"+(a?"prefix="+a+"&":"")+Ea(),"_gasojs");he=h}};var ae=function(a,b,c){c&&(b=I(b));c=a.b(O,1);b=b[y](".");!(2>b[w])&&/^\d+$/[ia](b[0])&&(b[0]=""+c,Fd(a,"__utmx",b[C]("."),g))},be=function(a,b){var c=$c(a.get(O),pd("__utmx"));"-"==c&&(c="");return b?G(c):c},Ye=function(a){try{var b=La(J[z][xa],l),c=ea(L(b.d.get("utm_referrer")))||"";c&&a.set(Jb,c);var d=W.gaData&&W.gaData.expId;d||(d=ea(K(b.d.get("utm_expid")))||"");d&&a.set(Oc,""+d)}catch(e){H(146)}};var ke=function(a,b){var c=m.min(a.b(Dc,0),100);if(a.b(Q,0)%100>=c)return l;c=Ze()||$e();if(c==g)return l;var d=c[0];if(d==g||d==ba||da(d))return l;0<d?af(c)?b(je(c)):b(je(c[ja](0,1))):Ga(W,"load",function(){ke(a,b)},l);return h},me=function(a,b,c,d){var e=new yd;e.f(14,90,b[B](0,500));e.f(14,91,a[B](0,150));e.f(14,92,""+le(c));d!=g&&e.f(14,93,d[B](0,500));e.o(14,90,c);return e},af=function(a){for(var b=1;b<a[w];b++)if(da(a[b])||a[b]==ba||0>a[b])return l;return h},le=function(a){return da(a)||0>a?
+0:5E3>a?10*m[la](a/10):5E4>a?100*m[la](a/100):41E5>a?1E3*m[la](a/1E3):41E5},je=function(a){for(var b=new yd,c=0;c<a[w];c++)b.f(14,c+1,""+le(a[c])),b.o(14,c+1,a[c]);return b},Ze=function(){var a=W.performance||W.webkitPerformance;if(a=a&&a.timing){var b=a.navigationStart;if(0==b)H(133);else return[a.loadEventStart-b,a.domainLookupEnd-a.domainLookupStart,a.connectEnd-a.connectStart,a.responseStart-a.requestStart,a.responseEnd-a.responseStart,a.fetchStart-b,a.domInteractive-b,a.domContentLoadedEventStart-
+b]}},$e=function(){if(W.top==W){var a=W.external,b=a&&a.onloadT;a&&!a.isValidLoadTime&&(b=g);2147483648<b&&(b=g);0<b&&a.setPageReadyTime();return b==g?g:[b]}};var cf=function(a){if(a.get(Sb))try{var b;t:{var c=pd(a.get(Oe)||"_ga");if(c&&!(1>c[w])){for(var d=[],e=0;e<c[w];e++){var f;var Be=c[e][y]("."),k=Be.shift();if(("GA1"==k||"1"==k)&&1<Be[w]){var s=Be.shift()[y]("-");1==s[w]&&(s[1]="1");s[0]*=1;s[1]*=1;f={Ya:s,$a:Be[C](".")}}else f=g;f&&d[n](f)}if(1==d[w]){b=d[0].$a;break t}if(0!=d[w]){var t=a.get(Pe)||a.get(bb),d=bf(d,(0==t[q](".")?t.substr(1):t)[y](".")[w],0);if(1==d[w]){b=d[0].$a;break t}var Za=a.get(Qe)||a.get(P);(c=Za)?(1<c[w]&&"/"==c[ma](c[w]-
+1)&&(c=c.substr(0,c[w]-1)),0!=c[q]("/")&&(c="/"+c),Za=c):Za="/";d=bf(d,"/"==Za?1:Za[y]("/")[w],1);b=d[0].$a;break t}}b=g}if(b){var Ma=(""+b)[y](".");2==Ma[w]&&/[0-9.]/[ia](Ma)&&(H(114),a.set(Q,Ma[0]),a.set(Vb,Ma[1]),a.set(Sb,l))}}catch(mb){H(115)}},bf=function(a,b,c){for(var d=[],e=[],f=128,Be=0;Be<a[w];Be++){var k=a[Be];if(k.Ya[c]==b)d[n](k);else if(k.Ya[c]==f)e[n](k);else k.Ya[c]<f&&(e=[k],f=k.Ya[c])}return 0<d[w]?d:e};var U=function(a,b,c){function d(a){return function(b){if((b=b.get(Nc)[a])&&b[w])for(var c=Te(e,a),d=0;d<b[w];d++)b[d].call(e,c)}}var e=this;this.a=new Zc;this.get=function(a){return this.a.get(a)};this.set=function(a,b,c){this.a.set(a,b,c)};this.set(Wa,b||"UA-XXXXX-X");this.set($a,a||"");this.set(Ya,c||"");this.set(ab,m.round((new Date)[kf]()/1E3));this.set(P,"/");this.set(cb,63072E6);this.set(eb,15768E6);this.set(db,18E5);this.set(fb,l);this.set(yb,50);this.set(gb,l);this.set(hb,h);this.set(ib,
+h);this.set(jb,h);this.set(kb,h);this.set(lb,h);this.set(ob,"utm_campaign");this.set(nb,"utm_id");this.set(pb,"gclid");this.set(qb,"utm_source");this.set(rb,"utm_medium");this.set(sb,"utm_term");this.set(tb,"utm_content");this.set(ub,"utm_nooverride");this.set(vb,100);this.set(Dc,1);this.set(Ec,l);this.set(wb,"/__utm.gif");this.set(xb,1);this.set(Cb,[]);this.set(Fb,[]);this.set(zb,Ld[ja](0));this.set(Ab,[]);this.set(Bb,[]);this.B("auto");this.set(Jb,J.referrer);Ye(this.a);this.set(Nc,{hit:[],load:[]});
+this.a.g("0",Zd);this.a.g("1",Wd);this.a.g("2",Jd);this.a.g("3",cf);this.a.g("4",Sd);this.a.g("5",Xd);this.a.g("6",Kd);this.a.g("7",d("load"));this.a.g("8",ie);this.a.e("A",kd);this.a.e("B",md);this.a.e("C",Jd);this.a.e("D",jd);this.a.e("E",Tc);this.a.e("F",ne);this.a.e("G",Gd);this.a.e("H",nd);this.a.e("I",ud);this.a.e("J",Dd);this.a.e("K",d("hit"));this.a.e("L",oe);this.a.e("M",pe);0===this.get(ab)&&H(111);this.a.T();this.H=g};E=U[x];
+E.m=function(){var a=this.get(Db);a||(a=new yd,this.set(Db,a));return a};E.La=function(a){for(var b in a){var c=a[b];a.hasOwnProperty(b)&&this.set(b,c,h)}};E.K=function(a){if(this.get(Ec))return l;var b=this,c=ke(this.a,function(c){b.set(Hb,a,h);b.t(c)});this.set(Ec,c);return c};E.Fa=function(a){a&&Ca(a)?(H(13),this.set(Hb,a,h)):"object"===typeof a&&a!==Ge&&this.La(a);this.H=a=this.get(Hb);this.a.j("page");this.K(a);42==m[la](1E4*m[Je]())&&df(this.a.get(Q),this.a.get(Vb))};
+E.F=function(a,b,c,d,e){if(""==a||(!wd(a)||""==b||!wd(b))||c!=g&&!wd(c)||d!=g&&!xd(d))return l;this.set(wc,a,h);this.set(xc,b,h);this.set(yc,c,h);this.set(zc,d,h);this.set(vc,!!e,h);this.a.j("event");return h};E.Ha=function(a,b,c,d,e){var f=this.a.b(Dc,0);1*e===e&&(f=e);if(this.a.b(Q,0)%100>=f)return l;c=1*(""+c);if(""==a||(!wd(a)||""==b||!wd(b)||!xd(c)||da(c)||0>c||0>f||100<f)||d!=g&&(""==d||!wd(d)))return l;this.t(me(a,b,c,d));return h};
+E.Ga=function(a,b,c,d){if(!a||!b)return l;this.set(Ac,a,h);this.set(Bc,b,h);this.set(Cc,c||J[z][xa],h);d&&this.set(Hb,d,h);this.a.j("social");return h};E.Ea=function(){this.set(Dc,10);this.K(this.H)};E.Ia=function(){this.a.j("trans")};E.t=function(a){this.set(Eb,a,h);this.a.j("event")};E.ia=function(a){this.v();var b=this;return{_trackEvent:function(c,d,e){H(91);b.F(a,c,d,e)}}};E.ma=function(a){return this.get(a)};
+E.xa=function(a,b){if(a)if(Ca(a))this.set(a,b);else if("object"==typeof a)for(var c in a)a.hasOwnProperty(c)&&this.set(c,a[c])};E.addEventListener=function(a,b){var c=this.get(Nc)[a];c&&c[n](b)};E.removeEventListener=function(a,b){for(var c=this.get(Nc)[a],d=0;c&&d<c[w];d++)if(c[d]==b){c.splice(d,1);break}};E.qa=function(){return"5.4.2"};E.B=function(a){this.get(hb);a="auto"==a?Ka(J.domain):!a||"-"==a||"none"==a?"":a[D]();this.set(bb,a)};E.va=function(a){this.set(hb,!!a)};
+E.na=function(a,b){return ce(this.a,a,b)};E.link=function(a,b){if(this.a.get(fb)&&a){var c=ce(this.a,a,b);J[z].href=c}};E.ua=function(a,b){this.a.get(fb)&&(a&&a.action)&&(a.action=ce(this.a,a.action,b))};
+E.za=function(){this.v();var a=this.a,b=J.getElementById?J.getElementById("utmtrans"):J.utmform&&J.utmform.utmtrans?J.utmform.utmtrans:Ge;if(b&&b[na]){a.set(Cb,[]);for(var b=b[na][y]("UTM:"),c=0;c<b[w];c++){b[c]=Da(b[c]);for(var d=b[c][y](de),e=0;e<d[w];e++)d[e]=Da(d[e]);"T"==d[0]?fe(a,d[1],d[2],d[3],d[4],d[5],d[6],d[7],d[8]):"I"==d[0]&&ge(a,d[1],d[2],d[3],d[4],d[5],d[6])}}};E.$=function(a,b,c,d,e,f,Be,k){return fe(this.a,a,b,c,d,e,f,Be,k)};E.Y=function(a,b,c,d,e,f){return ge(this.a,a,b,c,d,e,f)};
+E.Aa=function(a){de=a||"|"};E.ea=function(){this.set(Cb,[])};E.wa=function(a,b,c,d){var e=this.a;if(0>=a||a>e.get(yb))a=l;else if(!b||!c||128<b[w]+c[w])a=l;else{1!=d&&2!=d&&(d=3);var f={};ha(f,b);f.value=c;f.scope=d;e.get(Fb)[a]=f;a=h}a&&this.a.n();return a};E.ka=function(a){this.a.get(Fb)[a]=g;this.a.n()};E.ra=function(a){return(a=this.a.get(Fb)[a])&&1==a[ua]?a[na]:g};E.Ca=function(a,b,c){this.m().f(a,b,c)};E.Da=function(a,b,c){this.m().o(a,b,c)};E.sa=function(a,b){return this.m().getKey(a,b)};
+E.ta=function(a,b){return this.m().N(a,b)};E.fa=function(a){this.m().L(a)};E.ga=function(a){this.m().M(a)};E.ja=function(){return new yd};E.W=function(a){a&&this.get(Ab)[n](a[D]())};E.ba=function(){this.set(Ab,[])};E.X=function(a){a&&this.get(Bb)[n](a[D]())};E.ca=function(){this.set(Bb,[])};E.Z=function(a,b,c,d,e){if(a&&b){a=[a,b[D]()][C](":");if(d||e)a=[a,d,e][C](":");d=this.get(zb);d.splice(c?0:d[w],0,a)}};E.da=function(){this.set(zb,[])};
+E.ha=function(a){this.a[ka]();var b=this.get(P),c=be(this.a);this.set(P,a);this.a.n();ae(this.a,c);this.set(P,b)};E.ya=function(a,b){if(0<a&&5>=a&&Ca(b)&&""!=b){var c=this.get(Fc)||[];c[a]=b;this.set(Fc,c)}};E.V=function(a){a=""+a;if(a[oa](/^[A-Za-z0-9]{1,5}$/)){var b=this.get(Ic)||[];b[n](a);this.set(Ic,b)}};E.v=function(){this.a[ka]()};E.Ba=function(a){a&&""!=a&&(this.set(Tb,a),this.a.j("var"))};var ef=l;
+function df(a,b){function c(c,Be){var k="p="+c+"&vid="+a+"."+b+"&tid="+d+"&rid="+e,Ma=new Image(1,1);Ma.src=(Ne()||M.G?"https://ssl.google-analytics.com":"http://www.google-analytics.com")+"/u/"+f[Be]+".gif?"+k;He(Ma,function(){He(Ma,Ge);Ie(Ma,Ge)});Ie(Ma,function(){He(Ma,Ge);Ie(Ma,Ge)})}if(!ef){ef=h;var d=(new Date)[kf](),e=Ea(),f=["a","b","c"],Be=[[0,1],[1,0],[0,2],[2,0]],k=m[la](m[Je]()*Be[w]);c(k,Be[k][0]);c(k,Be[k][1])}};var ne=function(a){"trans"!==a.get(sc)&&500<=a.b(cc,0)&&a[ta]();if("event"===a.get(sc)){var b=(new Date)[kf](),c=a.b(dc,0),d=a.b(Zb,0),c=m[la](1*((b-(c!=d?c:1E3*c))/1E3));0<c&&(a.set(dc,b),a.set(R,m.min(10,a.b(R,0)+c)));0>=a.b(R,0)&&a[ta]()}},pe=function(a){"event"===a.get(sc)&&a.set(R,m.max(0,a.b(R,10)-1))};var qe=function(){var a=[];this.add=function(b,c,d){d&&(c=G(""+c));a[n](b+"="+c)};this.toString=function(){return a[C]("&")}},re=function(a,b){(b||2!=a.get(xb))&&a.Za(cc)},se=function(a,b){b.add("utmwv","5.4.2");b.add("utms",a.get(cc));b.add("utmn",Ea());var c=J[z].hostname;F(c)||b.add("utmhn",c,h);c=a.get(vb);100!=c&&b.add("utmsp",c,h)},te=function(a,b){b.add("utmht",(new Date)[kf]());b.add("utmac",Da(a.get(Wa)));a.get(Oc)&&b.add("utmxkey",a.get(Oc),h);a.get(vc)&&b.add("utmni",1);var c=a.get(Ic);
+c&&0<c[w]&&b.add("utmdid",c[C]("."));ff(a,b);a.get(Xa)!==l&&(a.get(Xa)||M.w)&&b.add("aip",1);b.add("utmu",od.Xa())},ue=function(a,b){for(var c=a.get(Fc)||[],d=[],e=1;e<c[w];e++)c[e]&&d[n](e+":"+G(c[e][p](/%/g,"%25")[p](/:/g,"%3A")[p](/,/g,"%2C")));d[w]&&b.add("utmpg",d[C](","))},ff=function(a,b){function c(a,b){b&&d[n](a+"="+b+";")}var d=[];c("__utma",cd(a));c("__utmz",hd(a,l));c("__utmv",fd(a,h));c("__utmx",be(a));b.add("utmcc",d[C]("+"),h)},ve=function(a,b){a.get(ib)&&(b.add("utmcs",a.get(Qb),h),
+b.add("utmsr",a.get(Lb)),a.get(Rb)&&b.add("utmvp",a.get(Rb)),b.add("utmsc",a.get(Mb)),b.add("utmul",a.get(Pb)),b.add("utmje",a.get(Nb)),b.add("utmfl",a.get(Ob),h))},we=function(a,b){a.get(lb)&&a.get(Ib)&&b.add("utmdt",a.get(Ib),h);b.add("utmhid",a.get(Kb));b.add("utmr",Pa(a.get(Jb),a.get(P)),h);b.add("utmp",G(a.get(Hb),h),h)},xe=function(a,b){for(var c=a.get(Db),d=a.get(Eb),e=a.get(Fb)||[],f=0;f<e[w];f++){var Be=e[f];Be&&(c||(c=new yd),c.f(8,f,Be[r]),c.f(9,f,Be[na]),3!=Be[ua]&&c.f(11,f,""+Be[ua]))}!F(a.get(wc))&&
+!F(a.get(xc),h)&&(c||(c=new yd),c.f(5,1,a.get(wc)),c.f(5,2,a.get(xc)),e=a.get(yc),e!=g&&c.f(5,3,e),e=a.get(zc),e!=g&&c.o(5,1,e));c?b.add("utme",c.Qa(d),h):d&&b.add("utme",d.A(),h)},ye=function(a,b,c){var d=new qe;re(a,c);se(a,d);d.add("utmt","tran");d.add("utmtid",b.id_,h);d.add("utmtst",b.affiliation_,h);d.add("utmtto",b.total_,h);d.add("utmttx",b.tax_,h);d.add("utmtsp",b.shipping_,h);d.add("utmtci",b.city_,h);d.add("utmtrg",b.state_,h);d.add("utmtco",b.country_,h);xe(a,d);ve(a,d);we(a,d);(b=a.get(Gb))&&
+d.add("utmcu",b,h);c||(ue(a,d),te(a,d));return d[v]()},ze=function(a,b,c){var d=new qe;re(a,c);se(a,d);d.add("utmt","item");d.add("utmtid",b.transId_,h);d.add("utmipc",b.sku_,h);d.add("utmipn",b.name_,h);d.add("utmiva",b.category_,h);d.add("utmipr",b.price_,h);d.add("utmiqt",b.quantity_,h);xe(a,d);ve(a,d);we(a,d);(b=a.get(Gb))&&d.add("utmcu",b,h);c||(ue(a,d),te(a,d));return d[v]()},Ae=function(a,b){var c=a.get(sc);if("page"==c)c=new qe,re(a,b),se(a,c),xe(a,c),ve(a,c),we(a,c),b||(ue(a,c),te(a,c)),
+c=[c[v]()];else if("event"==c)c=new qe,re(a,b),se(a,c),c.add("utmt","event"),xe(a,c),ve(a,c),we(a,c),b||(ue(a,c),te(a,c)),c=[c[v]()];else if("var"==c)c=new qe,re(a,b),se(a,c),c.add("utmt","var"),!b&&te(a,c),c=[c[v]()];else if("trans"==c)for(var c=[],d=a.get(Cb),e=0;e<d[w];++e){c[n](ye(a,d[e],b));for(var f=d[e].items_,Be=0;Be<f[w];++Be)c[n](ze(a,f[Be],b))}else"social"==c?b?c=[]:(c=new qe,re(a,b),se(a,c),c.add("utmt","social"),c.add("utmsn",a.get(Ac),h),c.add("utmsa",a.get(Bc),h),c.add("utmsid",a.get(Cc),
+h),xe(a,c),ve(a,c),we(a,c),ue(a,c),te(a,c),c=[c[v]()]):"feedback"==c?b?c=[]:(c=new qe,re(a,b),se(a,c),c.add("utmt","feedback"),c.add("utmfbid",a.get(Gc),h),c.add("utmfbpr",a.get(Hc),h),xe(a,c),ve(a,c),we(a,c),ue(a,c),te(a,c),c=[c[v]()]):c=[];return c},oe=function(a){var b,c=a.get(xb),d=a.get(uc),e=d&&d.Ua,f=0;if(0==c||2==c){var Be=a.get(wb)+"?";b=Ae(a,h);for(var k=0,s=b[w];k<s;k++)Sa(b[k],e,Be,h),f++}if(1==c||2==c){b=Ae(a);k=0;for(s=b[w];k<s;k++)try{Sa(b[k],e),f++}catch(t){t&&Ra(t[r],g,t.message)}}d&&
+(d.q=f)};var Ce=function(a){ha(this,"len");this.message=a+"-8192"},De=function(a){ha(this,"ff2post");this.message=a+"-2036"},Sa=function(a,b,c,d){b=b||Fa;if(d||2036>=a[w])gf(a,b,c);else if(8192>=a[w]){if(0<=W[za].userAgent[q]("Firefox")&&![].reduce)throw new De(a[w]);hf(a,b)||Ee(a,b)}else throw new Ce(a[w]);},gf=function(a,b,c){c=c||(Ne()||M.G?"https://ssl.google-analytics.com":"http://www.google-analytics.com")+"/__utm.gif?";var d=new Image(1,1);d.src=c+a;He(d,function(){He(d,Ge);Ie(d,Ge);b()});Ie(d,function(){He(d,
+Ge);Ie(d,Ge);b()})},hf=function(a,b){var c,d=(Ne()||M.G?"https://ssl.google-analytics.com":"http://www.google-analytics.com")+"/p/__utm.gif",e=W.XDomainRequest;if(e)c=new e,c.open("POST",d);else if(e=W.XMLHttpRequest)e=new e,"withCredentials"in e&&(c=e,c.open("POST",d,h),c.setRequestHeader("Content-Type","text/plain"));if(c)return c.onreadystatechange=function(){4==c.readyState&&(b(),c=Ge)},c.send(a),h},Ee=function(a,b){if(J.body){a=aa(a);try{var c=J[qa]('<iframe name="'+a+'"></iframe>')}catch(d){c=
+J[qa]("iframe"),ha(c,a)}c.height="0";c.width="0";c.style.display="none";c.style.visibility="hidden";var e=J[z],e=(Ne()||M.G?"https://ssl.google-analytics.com":"http://www.google-analytics.com")+"/u/post_iframe.html#"+aa(e[A]+"//"+e[u]+"/favicon.ico"),f=function(){c.src="";c.parentNode&&c.parentNode.removeChild(c)};Ga(W,"beforeunload",f);var Be=l,k=0,s=function(){if(!Be){try{if(9<k||c.contentWindow[z][u]==J[z][u]){Be=h;f();Ha(W,"beforeunload",f);b();return}}catch(a){}k++;ca(s,200)}};Ga(c,"load",s);
+J.body.appendChild(c);c.src=e}else We(function(){Ee(a,b)},100)};var $=function(){this.G=this.w=l;this.C={};this.D=[];this.U=0;this.S=[["www.google-analytics.com","","/plugins/"]];this._gasoCPath=this._gasoDomain=g;Re();Se()};E=$[x];E.oa=function(a,b){return this.r(a,g,b)};E.r=function(a,b,c){b&&H(23);c&&H(67);b==g&&(b="~"+M.U++);a=new U(b,a,c);M.C[b]=a;M.D[n](a);return a};E.u=function(a){a=a||"";return M.C[a]||M.r(g,a)};E.pa=function(){return M.D[ja](0)};E.aa=function(){this.w=h};E.la=function(){this.G=h};var Fe=function(a){if("prerender"==J.webkitVisibilityState)return l;a();return h};var M=new $;var jf=W._gat;jf&&Ba(jf._getTracker)?M=jf:W._gat=M;var Z=new Y;(function(a){if(!Fe(a)){H(123);var b=l,c=function(){!b&&Fe(a)&&(b=h,Ha(J,"webkitvisibilitychange",c))};Ga(J,"webkitvisibilitychange",c)}})(function(){var a=W._gaq,b=l;if(a&&Ba(a[n])&&(b="[object Array]"==Object[x][v].call(Object(a)),!b)){Z=a;return}W._gaq=Z;b&&Z[n][ya](Z,a)});function Yc(a){var b=1,c=0,d;if(a){b=0;for(d=a[w]-1;0<=d;d--)c=a.charCodeAt(d),b=(b<<6&268435455)+c+(c<<14),c=b&266338304,b=0!=c?b^c>>21:b}return b};})();
+_text/javascript‘_@safari-extension://com.avast.wrc-6H4HRTU5E3/53ba471/locale/en.jsOEbplist00‘67X$versionX$objectsY$archiverT$top Ü†´%&-./012U$null€	
+R$3V$classR$6R$1R$9R$4R$7R$2R$5R$0R$8ÄÄ
+Ä Ä	ÄÄ ÄÄ” 
+!#$WNS.base[NS.relativeÄ ÄÄ_@safari-extension://com.avast.wrc-6H4HRTU5E3/53ba471/locale/en.js“'()*Z$classnameX$classesUNSURL¢+,UNSURLXNSObject#A∑S…∆Ó∑_application/javascript0#Ôˇˇˇˇˇˇ“'(34]NSURLResponse¢5,]NSURLResponse_NSKeyedArchiver—89_WebResourceResponseÄ    # - 2 7 C I ` c j m p s v y |  Ç Ö á â ã ç è ë ì ï ó ô õ ¢ ™ ∂ ∏ ∫ º ˇ!'09;TW`esvÑñôØ             :              ±O0var localizedStrings = new Object;
+
+localizedStrings["title"] = "avast! WebRep";
+localizedStrings["webrepDisabled"] = "WebRep is disabled";
+localizedStrings["currentVote"] = "Overall rating";
+localizedStrings["internaltabs"] = "You cannot rate local files or internal tabs";
+localizedStrings["votethank"] = "Thank you! Your vote was successfully saved.";
+localizedStrings["castYourVote"] = "Cast your vote";
+localizedStrings["howLike"] = "How do you like this site?";
+localizedStrings["whatTypeContent"] = "What type of content does this site provide?";
+localizedStrings["checkAll"] = "(Check all that apply)";
+localizedStrings["shopping"] = "Shopping";
+localizedStrings["social"] = "Social / Gaming";
+localizedStrings["news"] = "News / Blog";
+localizedStrings["it"] = "IT / Download";
+localizedStrings["corporate"] = "Corporate";
+localizedStrings["pornography"] = "Pornography";
+localizedStrings["violence"] = "Weapons / Violence";
+localizedStrings["gambling"] = "Gambling";
+localizedStrings["drugs"] = "Alcohol / Drugs";
+localizedStrings["illegal"] = "Warez / Illegal";
+localizedStrings["vote"] = "Vote";
+localizedStrings["noRating"] = "This site has no rating";
+localizedStrings["ratingPending"] = "Retrieving rating";
+localizedStrings["ratingGood"] = "This site has a good rating";
+localizedStrings["ratingAverage"] = "This site has an average rating";
+localizedStrings["ratingBad"] = "This site has a bad rating";
+localizedStrings["noWeight"] = "(not enough votes)";
+localizedStrings["weight1"] = "(based on a small number of votes)";
+localizedStrings["weight2"] = "(based on a limited number of votes)";
+localizedStrings["weight3"] = "(based on many votes)";
+localizedStrings["phishingWarning"] = "Warning";
+localizedStrings["phishingCreditNumber"] = "It seems that you are trying to type a password or credit card number on a site with a poor reputation. Please double-check that the site is genuine. Entering your personal information on an untrusted site may pose a security risk.";
+localizedStrings["phishingPhishingSite"] = "This site has been marked as a phishing site.";
+localizedStrings["phishingTrust"] = "Trust this domain";
+localizedStrings["phishingClose"] = "Ignore the warning";
+localizedStrings["phishingBack"] = "Get me out of here";
+localizedStrings["loginDesc"] = "Fill in your login data for your my.avast.com account:";
+localizedStrings["loginName"] = "Name:";
+localizedStrings["loginPswd"] = "Password:";
+localizedStrings["loginLogin"] = "Log in";
+localizedStrings["loginAnonymous"] = "As anonymous user";
+localizedStrings["anonymousUser"] = "Anonymous user";
+localizedStrings["loginError"] = "Login has failed";
+localizedStrings["loginLogout"] = "Log out";
+localizedStrings["sfzoneHeadline"] = "avast! SafeZone";
+localizedStrings["sfzoneDesc"] = "You have entered an online banking site. Do you want to open it in avast! SafeZone?";
+localizedStrings["sfzoneYes"] = "Yes";
+localizedStrings["sfzoneAlways"] = "Yes, always";
+localizedStrings["sfzoneNo"] = "No";
+localizedStrings["sfzoneNever"] = "Never";
+localizedStrings["sfzoneSwitch"] = "Switch to avast! SafeZone";
+localizedStrings["sitecorrectHeadline"] = "SiteCorrect";
+localizedStrings["sitecorrectText"] = "This is probably not the site you were trying to enter.";
+localizedStrings["sitecorrectMean"] = "Did you mean %s ?";
+localizedStrings["sitecorrectYes"] = "Yes";
+localizedStrings["sitecorrectNo"] = "No, I really did mean %s";
+localizedStrings["sitecorrectAuto"] = "Automatically take me to known correct sites from now on";
+localizedStrings["sitecorrectHelp"] = "To configure the avast! SiteCorrect feature, please open the avast! user interface, go to Additional Protection, Browser Protection and use the Settings button.";
+localizedStrings["sitecorrectBarMsg"] = "SiteCorrect: automatically redirecting from %s";
+localizedStrings["sitecorrectBarButton"] = "This was not a mistake, take me back";
+_application/javascript‘ !"#_/http://nlp.stanford.edu/img/nlp-logo-navbar.jpgObplist00‘cdX$versionX$objectsY$archiverT$top Ü†Ø"()012HIJKLMNOPQRSTUVWX\]^U$null›	
+ !R$6S$10R$2R$7R$3S$11R$8V$classR$4R$9R$0R$5R$1ÄÄÄ ÄÄÄÄÄ”#$%&'WNS.base[NS.relativeÄ ÄÄ_/http://nlp.stanford.edu/img/nlp-logo-navbar.jpg“*+,-Z$classnameX$classesUNSURL¢./UNSURLXNSObject#A∑Sﬂ⁄ù»”345>GWNS.keysZNS.objects®6789:;<=Ä	Ä
+ÄÄÄÄÄÄ®?@ABCDEFÄÄÄÄÄÄÄÄÄVServerZConnection\Content-Type]Last-Modified]Accept-RangesTDate^Content-LengthTEtag_Apache/2.2.3 (CentOS)UcloseZimage/jpeg_Thu, 30 Sep 2004 21:31:13 GMTUbytes_Mon, 27 May 2013 18:35:49 GMTT9320_"358adc-2468-3e55565cc4a40"“*+YZ_NSMutableDictionary£Y[/\NSDictionary$hZimage/jpeg“*+_`_NSHTTPURLResponse£ab/_NSHTTPURLResponse]NSURLResponse_NSKeyedArchiver—ef_WebResourceResponseÄ    # - 2 7 W ] x {  Ç Ö à å è ñ ô ú ü ¢ • ß © ´ ≠ Ø ± ≥ µ ∑ π ª Ω ƒ Ã ÿ ⁄ ‹ ﬁ )/28AJLS[foqsuwy{}àäåéêíîñòö°¨π«’⁄ÈÓ7=]bÄÖõü¨Ø∫ø”◊Î˘$             g              &O$hˇÿˇ‡ JFIF  ,,  ˇ€ C ˇ€ Cˇ¬  Z Z" ˇƒ             	
+ˇƒ              ˇ⁄    ª†~VLÒÖ"∏ıÂÈπ$Ü÷ÄgfìM¸ï≥¿#!≈$Ñ#Í˛%§§r%ê~âèõ§JΩ◊2]°Süt–2à:îG
+ÖS
+ã¯Ú•∫P@⁄+·±ƒ¸ü∫TäÊX≠aïnw‡<≠Z⁄‰†¢r¸©±%–˙qp˝{∞8€óJóπM…s|≥’≤¿‡«§∏^·†°íaÄõpPÔ⁄ùs8|G≤`˝Ò07w‰–yÛ\=IEª\8xΩ05}ÎDX¸1ı∂[û§íÕ‡õ¸DuRDÛ(üœg∑πºN∑WãÑ¸≈$ñwˇƒ (          "$178ˇ⁄  ÙdlßW¢;-Øå“'éﬁ©≠ISãYG¸6-ãØ‚Õ]¸€Ê5âF$Õ⁄|ùÖépfj‹èaïåæ&è¢l]ªX†Ã&TÀz4±TUx◊≥·˚n÷	◊¯}Á?ñ}å°oUÀú®å… ∫πZÙÑWÜdS43D∫œÑ˙˜V r¶≠Äù~
+ﬁ1Úƒ?q^†àÖ°∫k^Ÿ÷h¸g[÷[Å\µñ≈«¿]˛y¨}Ü≈ÎÀî·ΩÑ$Q ˚+}Ùıµm©?
+dÜ“˙Ö4-àaº÷e’Âç¶:5≠3˝nKıÌ„¯l$÷ïƒ)èÿ#1›¨
+;˙Lé).m•Tô√7Å"öl!&ãdÌÁ¬ón¬L3-îçkEä·BÏ‡#7êi®‚-=Ñœ,ñ’®¡OÑd§œﬂìÿÿlàôÅi…2>’_{EJfÈ†E¶çÎ† –:“È˛ñ„•¡Ù~#4R˘%ã ÔŸéÖ*2bõZºU+æ.Z>u…Èœn^¶æÑh€&•‘Tı>;TpmFWq]œŸ¬Ïô%ükŸ:r√±îû-Ë‹±p=¯º`ÙÛVû™Kiáﬂåÿs&ûOÑs•”]ŸŸﬂ0;'¸aÜ*ÒzùB˙§Hﬂ°N¿§zeà‚õ±;')´4ÊzTúÏ)lπ≈PE˘meïøzÌ»niê ãK÷èˇƒ 5       ! "1A2#$CarÅBDEQbqsí¡ˇ⁄ ?¬¬»‘29Q∑'rUTnŒÏvTDPY›àUr|i⁄&õã∑4jUïgëëéŸV#˚ñù∏j qlô”´7Ít`’ıŸ8t√_¨»√IûºÈ©„a1„q≈çÂ–2€õ#E7fe‰ k´ä”"çh˛÷ôgV≈V‹ øW
+5±˜=ÕdÍ@»'mKÀË‹´ßO•uVsèœ™îD“òV˜™œˆ∏Ô˙à∏◊ç
+x“mÖ£ù7+ô∑’ÑÌTó˚3´aCÖíà€öIÅù∫ò·¡ÈluÕvÛµ0ÏQzW»ô>≠ª6>;nY0Êw_Kr <≠f`Ëì∫Ú„ÿù∑¯‹1ˇ ø0≤Ú∞^Y∂l\âèπÇ?ÃoÚ±pGc∏Òç≠B˙&nNÔçëàPô¬i¥*[ye„ÓÈÙÚ{qÎ$’ñV#†&πEWXúÏ∏öæ<ƒ•©ÜÍ"çñyRÿd"Åÿ+sù—Gd[âè≥≈?/Õ˙€Ø¯8œˇ I√«¨±àˇ àŒL?Éƒ±ÙÃ(&N°Aüëex±ßeø,õ(!{{Bg≠æ˝S<^“∆‘≤`öT™6i=WaQπ¸∫?À*7˝A¡RÕË,´ßi`„Á„.©®Í·q–ú¯Ç8R¬ó$ê˝ÃÂ«n4,xiÿxÉ.≠Åòπv•èï#'`2$N5k5¥˝<ƒ≠4qiìBzn›!˝ycÕ¯⁄æõôC9‡<.üπ®µõˇ ÿ$˜˛‡ˇ W∂=µgÇ‘¨+ëëÀ‘òöñ+„X™pıfRÍv~E‰6N*Õ„>7”≤)ãë>6Éîq˛€˜‰|Ç;0Ó;∑öˆÚÂ∑ä∑ßÁü]çJÂÁı	∂,GÃ…ÃV«E_ù÷O[˚vÈ®=Ÿw‘ufÚí–¬b_)ƒúß!‘\5*’ ì∑,ãV=æqõ}œ[’…¥|¶^‹O©ƒ#≠Í„37ióÿ>=I	+Ú¥Ú*Îõ§„Í* Ò»˝<cs&|ò§D¿étrtNßN.ø©YÕâÉ«¢ìo-e}ò˘ôR±L»!˜˘ù©+ßäIÓÒÅÂSwe…Ãë˙ek4±´<ªî_sºËqÊ`	æBødsÈ1î0¬ﬁ∆X–””0E”©∑'ªÈÂjY}≈É*Ï#	´CU‘•ò◊‚g$ÑÚ)%˚C7ˆù∑/WÌ‘´Ω›ø/1^K9fÃÊ$î"Qh— ödLÖíÄY‰%ÊÉÏEÒÖÂ˝KÃXx˘£YH»œä≠∞•ì@
+êy_úKìøH]˝îﬁ<ÍáFºF•C™vuú„∂2á‘ú≈/Uß \}J˝òﬁ3ı<≠C¶î„ho”å«œ~)ÚÕ∞ÁG-Wÿsv?áˇƒ ,         !1"AQaRq#BÅë±ˇ⁄ ?‡cM¥¸“€o«{z]e•ùŒ®_Ìñ–	’\ÇøjG6ù≠z¿oÚ€2ôc ë=Ä˙ x„”Ö*mv¢’T+^`§NG¨	m'‚ç=yj”RπÙGÈ6ÑuF¯ü‘yÉ8Hë3h”Í◊®Ωµe«ÅÈ¶%Ï[™É=…ãª-˙∫ö¨*S¶’'˜b ∆A˛I≈Ω>é{◊BÃ,íÅätÊ”ÕØTRç·©R|≈ÆùÅ ∆í)ãi;MÖí•Jb†¶–*o©øM@=?€{€Œ{^qÕgIU2#v”k{ö•™4Ö5óB™Ç4“  l6y<~¨_Kn;qˇƒ B      !"#12$ABQa 3Rbq&s%45CDSTcvÅÇì¢µˇ⁄  ?˙*Ís@¶wN1µ“,l·¢íQUŒjzSD‹õï©Áç’ê·rÚúû6Ù,∂ ◊|§3
+ëÎùß‡ê˜ΩKL≥2Ê4µ$ùaéˆŒCÖZx∫êç«„å¢GÒn]\’'πﬁäèÿÆ√™L‚y6@)ì≠mëƒóF(ƒçe$ˇ _WØÁE›˜∑ÑlCÊuò™ù>SËÆÚ∞*.=#∞âTŸeå„
+Êj“#|¶éO-‹…¯ÓG[ù@Do^è%d8—ÉcÀ\ó¥Øp…ª—‹Z’¸Jö/Ian3ìçªâèﬁ1†ífßƒ’íΩ+hﬁ£¬Â]πX‘˝òx˝6‹Ê7-z÷V+ˆ∆áæí‹‹ïø‰µB_˚ÃÙÈèŒ™“YHõ7Êlô5l¨Ï¶q±œit`Ô~=èıä—"à:´ÂÆˆ4â°ÏÛ{ˇ ™¥œ≤∞µàÀﬁåã(∆øÏÂYG\Vv∑∞Ï´…Ï˘¨Î‡öˇ põïº&/ Àú∆∏V6∂pÁ‰-çEHèªê˘VÅÓ˝·†<Ø◊¶ë’æ¬´x'rÔó«èÃXñóoû±tj'∫_a+Ì®‘ÙÈÚ˛\Îw&‰1ª«JüÜ‹Dµ9<p≈8ŒÇŒK‹PW√k◊GπÃ3 zV∆”óYLÅ‰«ª%ç•=úô5p`ò_n™â¶¿ÏástS∂#@≤ëàúG®Êîƒ ‰äÆè%‘Ú\WG€/!X±ï‘0ã*„Fˆã§Í≥¶Ó"‚Y¥Æ˛4Ú¨l[2ThŸdDMÃ•æF¯â{””¶ˇ íR|=Óªæâ˜s‚∂(—#≈ìŒög a@é›=G,óçâ„∆Ìﬂ^.cœµëôYôÊK Ì€H‘êŸ1Ë„’'Pœ¶ãWZà>Äòﬁ£…‘ áƒkYîÒ.9ôê,ë–cïÚÖ*∫3ã±mr#LZ‡iÂ!•Æ`›!Ì◊∏™∆dY§¶ÂyJ¶ÊHˇ ƒÙöËÓ◊´¢(⁄®û˘»ßz∑z´U ú.›7hªu¯k˜kß›∆Cû«Êç&o& w≥Ú»fòlr3®êç^ Ωh¨>Á5°i¢Fµä-4J;1zﬁâZ†qﬂì¿”ë…b,Ç=&öùEÍ´ÉÔS©ªÅñtw≈µçÍØø≠"¡ªÆ+~BE∞´D˛Ó˝Ì‚)ùñ:^µ^Ó_sëﬁ»”Âç¬8°⁄◊äH∆∑( TåW:,ß™åW∑G‹a9Rıw`ù"Cu'ÂzŸæÃ~Qê›†añy¯
+’svµQÅã,3$?_$≈˙MÔ\õ}ΩDÛ]„W‘G5™9+∂úKπu—YLÔyOÅ√Ib?àÀíYu@'Ò%IoÛºLΩ…†Ä—iÅﬂòû°ÃÉº°ÜGåY†qüÈåUp^G∑V*Èƒ¨À!ˆ´+FJê◊˙ΩãPæ∫Ãz.‰˜BäoØ:π_πZãÙ?P°ÎÑÅÍ«#ÇquX¨Í≠Ú"¶∫µ…Â5‚◊‘˛a’J<Œ√!Àl'H±lYé]ia~“÷"ÓÈ{÷µUZè ˆµ!„s¶Ü}ÇÀóe`X»ÙÜ…SöÇQçsÄ¡IπZ’s∑;ku⁄úJ¶±j†Œà¯ÚEÈìhΩq,!ì‚)B.éjßÍ’Ù™¢œuæ;Rô÷1p∞Ø&,t#Õ8_iÅêBaµÌY(C±F÷hGób'Á0„˙ú*ºÅ[˛üª8‚ÃÍÈ˚Œ⁄c‚»b|≠z˛|jûQ~f9+˝D»sK•:⁄R6é¥hø{Z8$ˇ »º`òr˘è}ê∫Œ–Äı∞=™x≈ˇ ÜIæŒO°Ùê†]d˜`K2ØÅÌWâˇ ª}âûaÜÔπØ"=|.›5=l¯ˆ∏µ®"¡’ŸL$©1`«j∫D»¶Rº2£ç≠rΩXU⁄çW*#QUûbwr1™\lÖo-‡ùÆd,∆Pü”≥∑»£™nˆ$°4±bßŒ∆d¢5|e¥Ω(Ê—)¢Âµ6h‰cñPö´6<µ_åKû|¶£ìŒÊ¢YC¡s©‘M‚πçS["?›2={Á§í√Vzë˝-UævÒﬁûXÊ◊Ãfúzß¡vºdcë5Ë≠{àÊπ4T◊ä	√Ù«Õ®¨®Á5<1÷xÛR÷≤Kˇ 3v$û$˝ßtƒM[iU:ÙtàƒﬁüÃ“+U?VÒèq”YGR…és˝Nîÿ“Bª««´ªåuﬂâÓπ#ˇ º%˝£ﬂˇ ≤Ø≥_ÚÉ
+…L–≈≤®	?^ó)È]†	î<å±∏ú“âè(©kQ6A{UŒñB™¢¶Ò7¬qÏÍêπ‰tâì$=dXYL*Íi÷2ﬂÍï)Ó◊U_	Úµ‘D‡òS€ƒJRÂôpÄ3H…£<q±JRø√ãÎi,t]£h\≠áEÂneã›‹‰Ù–4§üãƒÇhY7ÄE"l~â∆6†ŒƒE⁄°ﬁÌ5]ü∆ƒ„‘2  w¯T´%uá2+ÎÂ6_i{ÏŸºcàL˚_’zë:fU‘l+∫"kÌQ:;Ÿ—ì](ÓMdËﬂÍ≥ DV<k”VÍ’j¨€˛^Oá÷%ÓÆ1ãVÿÌ¥Ø«4èÎß≥{S‘A¢∞™çR3¬™Úû}µW±-›üÄ+“`l;vÆÙŸ.:#J"lz|=$Drk™}"W§)Ú∆?K◊›≤Aœ(æ}(údéJ±Ã2Jb•≥f∏OÓdKä1wíQR 'KUk4&Ø{Sœ¶ÕÌ	T•ù; ƒÌñô%$ Ú:¢*:cïœ#dWèr9F‚ïznVÌ◊ãºN¯Y}
+∂∆-|°%≈HÊ®ç⁄Óâ$ÖÃrµÕG=ö¢Î¢õƒÊ«óı`˝•“!€"¡-è∏≤d‹ëWŸ®GΩW˙5≠kS©µ∏e^[¡∑ÿ´°NLÉÏ:í≈êöFπdWöséPˆ9éUU5cU8Ω±ôó◊„ñ˜Ò!íÁëb’Úe¢´É|¯.¢≥ =#\÷ë©´⁄Á˙¯KjÎò
+Gáª¨ñ	ÄBèM‚q ıFï5n≠_>§¸¯ÂÌ+=iRÀ‹∫¡øÏƒ~«¨zßÛNûM?π^-bK§é∏’d€êH∞e}‘sDç]∆X%yQ‰±¬Ø’ «¢'r∆ªaï¥˜EÍ[UWŸŒûπ—)ﬁ7xıx ®"…tÊ%0/hd§â0òÃühÖcπÑùP°‡é
+·{Œög´ãlNs§
+Í∏Q-™.ÂΩ°1d î{öA4ÇJÖeƒ«ƒó√WV4Rå>÷ﬁWêW;¡kÆ·{©ÒûÕWFux◊Ôºs3ô-|†‡Ûq'‰ïÉ˘ß„Të"⁄i¸]5èﬁ|1t:¯Èπ´;d◊Zeµ≥·ø«ìYDÌÂv◊&®æQ|/î„ìﬂÚÊWˇ  Ω˙/ÀeÀÈ‹»∞*·∂é$K„E*»≠rZ:$∆9£◊ã®ûQf#~^9ùò‹P ≈oÏA>ü±“1*†÷•â%À<O	 [$ª[˚ïFßM£We÷ü€¬.@˙Ë¯mZvé&)P„’å≠å«2&íIè¢nj:HúÔJ;C@àë}µÕ+∆„êÂFèV≤	TíO##≥4ÍËQüa`uìUd∆	ƒÊÌsUªuè;`åG‡¡à1±?DcSÅñ•ÌGC07ò‰ó|≠≥Ö™§S/˚¨Ä©D¯hmW]ºÑ,zdhî÷SàLöñ⁄Ic:C Ò¢Y–æ<Xn4Àóÿ9›π•ëcƒc∂M⁄Ù1yppYM∞Éø$ƒ˙„	≤Z™˘Ç˘`ÔsyK
+À	∑•π|!9áúC∏mº|Ú=]mŒ/6ªµïDµ∞]*∫–dîÁ<ÑoQ◊m¯ÌR7’∆L≥á}dëÇhiï±„$ñ#ŒíâﬁΩv¢ìhµÈÎ≥œåw2°Õçá€„ï” D0h„€πRw]á"w3Ü÷ÎIY¢±ﬂ6®®ºY;*Ê¨Â≤€!2E
+_f®VGpÊ¨#ø∏Í°CÛi∑∑ÒÛ/|Ÿù~(Ò§‚l«‰@ìq„C$¿í≥…hIöiˆ6(õ˚ﬂü∆äƒÈû,kŒŸ'ì!ŸºòœGàC4pqñªﬁ˜",á1›Y&ÜÇlZ åaÚR€⁄êÎœY%*Á∆…oé´»J√„ßU√ Ç]≤có6Uâè¿à\ ÑˆΩ∫TıwY‰.iΩ]ƒÈMÙ=ﬁÒB=_ª~Â˙'ÂXÌo∂ ⁄çõ·…ÚﬁGtm≈K~»‘◊D”∏F¯T2"∫eÔ-_&a/'@Æõk(Âœ¬ÒÒ?B∆(E’N¬7WlvâÂy‰¨ìu5s÷A£_Mƒ2äÿ˙}rÑXêG=†ï
+¥‡¥ıt¶±ñS" Çòª®ä¡.÷;A!‚‹ƒ≠#¯÷TˆM«l•…´dP∞À™|:%kWç¶Ân^Ö˚–q˘◊Ù;mQö˝˙q”™¡+hQﬂ,¸´!év7˙÷Q4ÑW~äV˛\2£?>GÃ∏çl¿—WBÅäG◊J≤äË¥bÖ∏Ùƒ0ªì! 2=¨:±œoìd*D
+´÷Œ(kÏ+õ√h÷ÿ<”íÀAv“ ºo∏ä]ÕNQX˘-Â¸bˇ hrbµ#YÛdrπ{èÊcÃ*πØ'¡X÷∆è†ÿ´¿£Äl 6!QÉÜ‘`∆67√çDDD¯"~¡rLFÕ¯ÆNDNË‡MQy≥ÀETæôKÂ»Ün”3~Ì\®â«[ôò1(ß—œı”¨Ë‰ö#ﬁH“ÂûVDMí‘`¶≠ﬁ6ΩÀÈovúS¥U$ÖY2Û•])YM_Q^9±bÑà6∞V&{zé–Û¬kUÍ÷WÀ&^ƒ m$OòëÏÆÿ◊U‘…DÆq˙†<6‘û8ÇÑ—DË˙ns4VôŸÊZZ(–ÊG$o¨…3ªbTDÖ6√’îóŸ≥;ÿ xÂdøt˘%“;‰geá’€ÁYCkçI@9ÀlNÁªÏÓ∂ô‹j®]JÊußá.¢ëÃ91AP0ë0:*F®·-Ù˝˚áµQæÈ®»»Êjà‰UN aX—à"cF!âµÉö1à‘DDO	ßÌíw’˙NıÕz∫g≤†wN_VGCrØ˝xÈ\ë«ª ¡¸Íü#]ß√Üí“ñ¶»õïzìÎ°Ã~©]“Â◊ÜÜ8D ±4`Ç6àlO…¨b"5?gˇƒ !         !1AQa qÅë°ˇ⁄  ?!¯Ωñ¥'©Ü'i≠"Fø$BT–Ü√PdR˚$∏*W£ 5†ﬂ’kÂ'Ÿ‘ﬂUs∞„u|1q7ê{SÉßWÌóAmG‚‰¢ÉUzˇ S°œ£ƒÉ© G®b‰ªÎqµŒaCòV?f;Wü#X“πF1Î“?Ñ4GB˘ÓÃ∫}¨/Vƒëz
+˚L–˜]îÖ<skVá ZhãÑv®~Xdñﬂâ%¥E‚•å?HÆ•Q@`‹cßÑDœª,ÁH-∫Ä§ôHg„Ó%≠y{*Í_RÁ,d)òåÄõÑ¸mZh£bÂ4sP.∑˜E§&'
+8◊$ÇŒ>r'›´Ú[çC29RüÅNx€9Úë˚cïnƒ◊*Ó°wÉº›˜ÑŸ5ÅPâÅ$BIGLS*ˆêäÅ<ãÉ”l-°**s7ËÍ€Aƒ≤.¨∆.éT’‚9®$pàË¨˝–Qh4* (lGDNïQΩØù3Ï8Y ⁄œ)_|Ûd–√≠0ç%:\#Ã’EâË≈∞cññ›«+J?ZÜ9©N˘Â>€3?dÛá¬HéL*ﬁ<b3|}T˚ômÚxéÆ≈‚&ß∑Ìögı}7”¸ÛŒ@o.oÊA≠Ø®)2µZ¡ã+ˇ c¨´ÉN_)v‹Bt’¿ƒ¥˜`UÄCµƒ8æ‡‰NÅI]…‹˜Dù%Æê ≠î2àc‡S0B9Î(E@¶:ıqF√∏d—T†ìÈ¨“£∂æÁ¥æ‰N¸>ÚÔûbËŸ0©⁄RâœÄÖÒ<§˙>≈Áœ˜(Ë+M™‘âBÚØV˛µöÁ–_Ä·I9`‹%'[“zoÆ∑†¢°R|E}ﬁrt  ˛˝Ñ>rFe^k∏‹w≤w÷†≈/4¨'ö=hª÷¨bd⁄≠Xi|Ωs-:0*F,c UKõêº∏6=∞ˆ8)"±âÉ:Õ!sèÒ‡wøÅ?R¶¯Iß¡n˚r:	ë#ö Mé5jÁ h≤ˆoÑU⁄Ù•(ÉX>ä¥Û@Ñ‡Ã\•€±+ÿÚÛ
+AËYl†'XkáŒYh †j–ãÙ∞ò82gx±©LÙ©™¶om:ÆÜç˙æ`tÆ1.;°=?‘QU˘P≤TëÌÄ?ç^Q„›t√∂¢‹ÆºóÁçœ</£f+U^5uæ…Ÿ£'yª©„∞Ògö„ª[–˝˚;ûh é$Cû	Ù(Ä 
+¸_¡â5∫kñ™rÄ[ùŸî°Ê7!Ê˛©<Û%2˙Å∂Kàoz~ OJÑhgº9``@°&ÖΩ  ~]«G§!8¸äé¨]|·˚∏ÁJ
+|ú ‰∂™¬ä‹©UÂzº˙¯¯ˇ ˇ⁄      Å¬ @w?ÉZÉÍü8}ø›‘Ôí 4‹h ˇƒ           !1AQaqëˇ⁄ ?≈rD  BR®ÿ@$‡pˇ m1 +[Å96ín™≤"<Ö6©faˆAœDÿ#û{Üói’`ZRç¶MÉ¯ﬁÛU~Pƒ@—Zƒä"@NÄ÷F `o-ñìÇ00YÆïç÷òé}Wÿﬂ8√oÓ‡Çj†V°Cÿ≥=SHùå!ï©®â∑,<u«Kæ™âéÈ&≈0îåB£OÈ>Y®∆ËÕ;]ºõyÈ
+¬”ÖÂ#†‡Wiﬁ∏)æ@˜í†Q,£≤oÊΩ·VÊá©uQuë‘?árJY¬ªíˆêñc§‚vy™†¬|{5∆°ÊaU~t§$√÷(Å∫ÍÚ^u€∆eûö€±†£P°OÖ≈⁄´D…z·≈∑U∂ÿ$OW$®N≤q†‘:ËÏî%Cá«ˇƒ $        !1 AQaq°Åë±·—ˇ⁄ ?‘T¥q˛ªoã¨¶®äqLK1}89tJä\gÏoΩÎH√À«©OI'DL∏1ﬂí#í“∞_èﬁæ0rêWFêAÄDì–¶ZM1
+$`« 
+–¡ßÚ!í˙]‹‚^ú{¸Êß}f]ß¨§˝À´˜ﬂ?S∞cgö…"Ö›∏i6¢lµ¬º$ãØ;5eÙí~¯Ôíı.a¿û?±ﬂVß;"K;‘q361^$ƒJ
+îöëM\Jí!ó!À†/
+Å¥ííbD‘ﬂ\dëR’"E‡!j?l1çå˜‚4Åó˚ø&ÚçñD¬B%c%%7+-sñÑä”õe“/JÜe&KIt≥-¯8Ós=V˙∂πÍ˚‚øfèèì¸âﬂO»—ö∏¡∑Ô7zÌΩ∑ùF˚˛?ˇƒ         !1 AQaq°ˇ⁄  ?Ò¬?œæ#Í0Ç€CÒÄ/¯P^õüU~ﬁv‹ΩJ'÷QŸ ©Ö˛ßˆùy|ú°‘ê∏ÊyHï÷îˇ ∞Pv%ƒïÎ≠#.|hCMπΩm¥Û=˙8|}:}8¬t~†í\≥X+Ât>nìÅxÈ¡≤	@º¯í3Ô‹s¨∞ƒ÷ )1ﬂn òµ8»’ˆ‰Wô 5áeä⁄¯:zí6ÌD~ß˘ÚèÕTrò§†ØqâH$Y<àeàÎ¸c˙çC∑Oˆàw»KgFÌΩO_¢a¨ó—⁄wÅüﬂ|ô‹(>ïIˆÖ™afM¬Ùù¢ˆÌõi»ÕÏò”éªÆ Ç¬€£˝ÒË4xÕ(Ör°qpÂB
+˚Úh∂¯Ø-À%¯•ÒùTú	<Ëı@Wº!!ıÇÍ˘dôgÇ,—Ì‘±ÄÃ?a{ÿo ¸Åa‚dD"qV∂,ô¢€^Fì∫Îºkä°ï‡ãÎ ‚pÅ·ƒiÿå∫[r≠É]ÂﬂBÅÍò	“›pÅ⁄yctJ‘ãJ©¿Tp}»≠Çòu•ö;I–X'
+dìâh§Lz“ë4Ìz ÔÍ}¿à÷"≥pÔdá>’„=HŸ»ÉúàO(bSéº»à÷|õî08˛û3@®8 ™Ò 
+™Òq‡
+ '– ﬂŒ–âß<~‘9pÑ%l;ÍI-Ÿ£Éºè2±‡heuΩK;äﬂ	˘BÑFFfB.ˇ óÛt—fEr¢ãQ©œ¸5	Xõ°Ôzùn/≤qÄ.Úñ¨0BY[Ç‰´dêÿ."W}ëj≤ÏÍlG¯S ÇbKÒl≠AbÔT¥Ë<–Ékf§4	$5EÖ+ù‹
+◊•>	œoî€◊ç  Bº9È∏5Ù&ˇ ˚Õ~‡,¬êe4ãm†¥ﬂ»f€L≤(\`+ÁÒQ“ê^pﬂ=ˆOõ≠GÓ2˜Hñ¯°°∆hÂî,.ã∑Y›3Ño[åP”f^©¢i/[/ﬁû
+Ò|ù©∞å_›îk]w(P¯e§±‘XàrÅ%X=4◊mWØ$K-Õ6OÚVvQ©b¢Êp ˝‘Ó ¸L⁄BÚ>ÂgdÇÏÜ6M~±_TÇyJ@∆¯π•ìdÏÖiî?&ﬁ‚qQPπâa⁄∞+ï0‚54fÎZ∞Œ% |«4S"º")¡cµ~ÄK+”Äù©ÊiÉªyl3~UÜ¶}ßóGtÇ¸x{€p◊â/üµÈ4˘
+mﬁe¿:»¬œFàÄ|ê DDàè≤aÅ+£ B)Ô Ö◊&≤¡Ï¬kƒq…efT"Cœ˙ÁÜ?–«Á«ˇŸZimage/jpeg‘%&'(_&http://nlp.stanford.edu/img/spacer.gifObplist00‘cdX$versionX$objectsY$archiverT$top Ü†Ø"()012HIJKLMNOPQRSTUVWX\]^U$null›	
+ !R$6S$10R$2R$7R$3S$11R$8V$classR$4R$9R$0R$5R$1ÄÄÄ ÄÄÄÄÄ”#$%&'WNS.base[NS.relativeÄ ÄÄ_&http://nlp.stanford.edu/img/spacer.gif“*+,-Z$classnameX$classesUNSURL¢./UNSURLXNSObject#A∑SﬂÅå»”345>GWNS.keysZNS.objects®6789:;<=Ä	Ä
+ÄÄÄÄÄÄ®?@ABCDEFÄÄÄÄÄÄÄÄÄVServerZConnection\Content-Type]Last-Modified]Accept-RangesTDate^Content-LengthTEtag_Apache/2.2.3 (CentOS)UcloseYimage/gif_Thu, 30 Sep 2004 21:31:13 GMTUbytes_Mon, 27 May 2013 18:35:49 GMTR43_"358ae7-2b-3e55565cc4a40"“*+YZ_NSMutableDictionary£Y[/\NSDictionary+Yimage/gif“*+_`_NSHTTPURLResponse£ab/_NSHTTPURLResponse]NSURLResponse_NSKeyedArchiver—ef_WebResourceResponseÄ    # - 2 7 W ] x {  Ç Ö à å è ñ ô ú ü ¢ • ß © ´ ≠ Ø ± ≥ µ ∑ π ª Ω ƒ Ã ÿ ⁄ ‹ ﬁ &)/8ACJR]fhjlnprtvÅÉÖáâãçèëò£∞æÃ—‡Â˝-3SVrwçëû†™Ø√«€È˚˛             g              O+GIF89a  Ä        !˘    ,       D ;Yimage/gif’*+,-.Uutf-8_-http://www.statcounter.com/counter/counter.jsOübplist00‘~X$versionX$objectsY$archiverT$top Ü†Ø("()012RSTUVWXYZ[\]^_`abcdefghijklpquyU$null›	
+ !R$6S$10R$2R$7R$3S$11R$8V$classR$4R$9R$0R$5R$1ÄÄÄ Ä$Ä'ÄÄ%Ä”#$%&'WNS.base[NS.relativeÄ ÄÄ_-http://www.statcounter.com/counter/counter.js“*+,-Z$classnameX$classesUNSURL¢./UNSURLXNSObject#A∑S›àä†À»”345CQWNS.keysZNS.objects≠6789:;<=>?@ABÄ	Ä
+ÄÄÄÄÄÄÄÄÄÄÄ≠DEFGHIJKLMNOPÄÄÄÄÄÄÄÄÄÄÄ Ä!Ä"Ä#\Content-TypeSP3P]Last-Modified_Content-EncodingVServer_Px-Uncompress-Origin]Cache-ControlTDate^Content-LengthZConnectionTEtagTVaryTX-Px_'application/x-javascript; charset=utf-8_Ypolicyref="http://www.statcounter.com/w3c/p3p.xml", CP="ADMa OUR COM NAV NID DSP NOI COR"_Wed, 19 Dec 2012 16:56:15 GMTTgzipZPWS/8.0.15T9028]max-age=43200_Mon, 27 May 2013 18:29:28 GMTT3047Zkeep-alive_"494aee-2344-50d1f1af"_Accept-Encoding_ht h0-s1004.p0-mia.cdngp.net“*+mn_NSMutableDictionary£mo/\NSDictionary#D“rstYNS.stringÄ&_application/x-javascript“*+vw_NSMutableString£vx/XNSString“*+z{_NSHTTPURLResponse£|}/_NSHTTPURLResponse]NSURLResponse_NSKeyedArchiver—ÄÅ_WebResourceResponseÄ    # - 2 7 b h É Ü ä ç ê ì ó ö ° § ß ™ ≠ ∞ ≤ ¥ ∂ ∏ ∫ º æ ¿ ¬ ƒ ∆ » œ ◊ „ Â Á È)28;AJSU\do}ÅÉÖáâãçèëìïó•ß©´≠Ø±≥µ∑πªΩø¡Œ“‡Û˙$3>CHMw”Û¯6;F_qêï´ØºøƒŒ–Î(,@N`cy             Ç              {O#Dvar sc_width=screen.width;var sc_height=screen.height;var sc_referer=""+document.referrer;try{sc_referer=""+parent.document.referrer}catch(ex){sc_referer=""+document.referrer}var sc_unique=0;var sc_returning=0;var sc_returns=0;var sc_error=0;var sc_remove=0;var sc_cls=-1;var sc_inv=0;var sc_os="";var sc_title="";var sc_url="";var sc_base_dir="";var sc_click_dir="";var sc_link_back_start="";var sc_link_back_end="";var sc_security_code="";var sc_http_url="http";var sc_host="statcounter.com";var sc_dc="c";var sc_alt_text="StatCounter - Free Web Tracker and Counter";var sc_counter_size="";var sc_prerendering=0;if(window.sc_invisible){if(window.sc_invisible==1){sc_inv=1}}if(window.sc_click_stat){sc_cls=window.sc_click_stat}sc_doc_loc=''+document.location;myRE=new RegExp("^https","i");if(sc_doc_loc.match(myRE)){sc_http_url="https"}if(window.sc_local){sc_base_dir=sc_local}else{if(sc_cls==-1){sc_cls=1}sc_base_dir=sc_http_url+"://"+sc_dc+"."+sc_host+"/"}sc_click_dir=sc_base_dir;if(window.sc_text){sc_base_dir+="text.php?"}else{sc_base_dir+="t.php?"}if(window.sc_project){if(sc_project=="4135125"||sc_project=="6169619"||sc_project=="6222332"||sc_project=="5106510"||sc_project=="6311399"||sc_project=="6320092"||sc_project=="5291656"||sc_project=="7324465"||sc_project=="6640020"||sc_project=="4629288"||sc_project=="1480088"||sc_project=="2447031"){if(Math.floor(Math.random()*6)!=1){sc_remove=1}}sc_base_dir+="sc_project="+sc_project}else if(window.usr){sc_base_dir+="usr="+usr}else{sc_error=1}if(window.sc_remove_link){sc_link_back_start="";sc_link_back_end=""}else{sc_link_back_start="<a class=\"statcounter\" href=\"http://www."+sc_host+"\" target=\"_blank\">";sc_link_back_end="<\/a>"}sc_date=new Date();sc_time=sc_date.getTime();sc_time_difference=3600000;sc_title=""+document.title;sc_url=""+document.location;sc_referer=sc_referer.substring(0,600);sc_title=sc_title.substring(0,300);sc_url=sc_url.substring(0,300);sc_referer=escape(sc_referer);if(encodeURIComponent){sc_title=encodeURIComponent(sc_title)}else{sc_title=escape(sc_title)}sc_url=escape(sc_url);if(window.sc_security){sc_security_code=sc_security}if(sc_remove!=1){if(document.webkitVisibilityState!="prerender"){sc_prerendering=0}else{sc_prerendering=1;document.addEventListener("webkitvisibilitychange",handleVisibilityChange,false)}}if(sc_script_num){sc_script_num++}else{var sc_script_num=1}var sc_tracking_url=sc_base_dir+"&resolution="+sc_width+"&h="+sc_height+"&camefrom="+sc_referer+"&u="+sc_url+"&t="+sc_title+"&java=1&security="+sc_security_code+"&sc_random="+Math.random()+"&sc_snum="+sc_script_num;var sc_clstr="<span class=\"statcounter\">";if(window.sc_counter_width&&window.sc_counter_height){sc_counter_size=" width=\""+sc_counter_width+"\" height=\""+sc_counter_height+"\""}if(window.sc_remove_alt){sc_alt_text=""}var sc_cltext="\" alt=\""+sc_alt_text+"\" border=\"0\""+sc_counter_size+">";var sc_strout=sc_clstr+sc_link_back_start+"<img src=\""+sc_tracking_url+"&p="+sc_prerendering+sc_cltext+sc_link_back_end+"</span>";if(sc_error==1){document.writeln("Code corrupted. Insert fresh copy.")}else if(sc_remove==1){}else{sc_write_data()}function handleVisibilityChange(evt){if(sc_prerendering==1){sc_prerendering=2;sc_write_data()}else{return}}function sc_write_data(){if(sc_inv==1||sc_prerendering==2){if(window.sc_call){sc_call++}else{sc_call=1}eval("var sc_img"+sc_call+" = new Image();sc_img"+sc_call+".src = \""+sc_tracking_url+"&p="+sc_prerendering+"&invisible=1\"")}else if(window.sc_text){document.writeln('<scr'+'ipt language="JavaScript"'+' src='+sc_tracking_url+"&p="+sc_prerendering+"&text="+sc_text+'></scr'+'ipt>')}else{document.writeln(sc_strout)}}if(sc_cls>0){if(clickstat_done!=1){var clickstat_done=1;var clickstat_project=window.sc_project;var clickstat_security=window.sc_security_code;var dlext="7z|aac|avi|csv|doc|docx|exe|flv|gif|gz|jpe?g|js|mp(3|4|e?g)|mov|pdf|phps|png|ppt|rar|sit|tar|torrent|txt|wma|wmv|xls|xlsx|xml|zip";if(typeof(window.sc_download_type)=='string'){dlext=window.sc_download_type}var ltype="https?|ftp|telnet|ssh|ssl|mailto";var second="ac|co|gov|ltd|me|mod|net|nic|nhs|org|plc|police|sch|com";var dl=new RegExp("\\.("+dlext+")$","i");var lnk=new RegExp("^("+ltype+"):","i");var domsec=new RegExp("\^("+second+")$","i");var host_name=location.host.replace(/^www\./i,"");var host_splitted=host_name.split(".");var domain=host_splitted.pop();var host_split=host_splitted.pop();if(domsec.test(host_split)){domain=host_split+"."+domain;host_split=host_splitted.pop()}domain=host_split+"."+domain;var lnklocal_mask="^https?:\/\/(.*)("+domain+"|webcache.googleusercontent.com)";var lnklocal=new RegExp(lnklocal_mask,"i");if(document.getElementsByTagName){var anchors=document.getElementsByTagName('a');for(var i=0;i<anchors.length;i++){var anchor=anchors[i];if(anchor.onmousedown){var original_click=anchor.onmousedown;var s=original_click.toString().split("\n").join(" ");var bs=s.indexOf('{');var head=s.substr(0,bs);var ps=head.indexOf('(');var pe=head.indexOf(')');var params=head.substring(ps+1,pe);var plist=params.split(",");var body=s.substr(bs+1,s.length-bs-2);var insert="sc_clickstat_call(this,'"+sc_click_dir+"');";var final_body=insert+body;var ev_head="new Function (";var ev_params="";var ev_sep="";for(var sc_i=0;sc_i<plist.length;sc_i++){ev_params=ev_sep+"'"+plist[sc_i]+"'";ev_sep=","}if(ev_sep==","){ev_params+=","}var ev_foot="final_body);";var ev_final=ev_head+ev_params+ev_foot;anchor.onmousedown=eval(ev_final)}else{anchor.onmousedown=new Function("event","sc_clickstat_call(this,'"+sc_click_dir+"');return true;")}}}function sc_none(){return}function sc_delay(){if(window.sc_click_stat){var d=window.sc_click_stat}else{var d=0}var n=new Date();var t=n.getTime()+d;while(n.getTime()<t){var n=new Date()}}function sc_clickstat_call(adata,sc_click_dir){if(adata){var clickmode=0;if(lnk.test(adata)){if((lnklocal.test(adata))){if(dl.test(adata)){clickmode=1}else if(window.sc_exit_link_detect&&new RegExp(sc_exit_link_detect,"i").test(adata)){clickmode=2}else if(sc_cls==2){clickmode=2}}else{clickmode=2}}if(clickmode!=0){var sc_link=escape(adata);if(sc_link.length>0){var sc_req=sc_click_dir+"click.gif?sc_project="+clickstat_project+"&security="+clickstat_security+"&c="+sc_link+"&m="+clickmode+"&u="+sc_url+"&t="+sc_title+"&rand="+Math.random();var sc_req_image=new Image();sc_req_image.onload=sc_none;sc_req_image.src=sc_req;sc_delay()}}}}var sc_gsyn_pattern='googlesyndication\.com|ypn-js\.overture\.com|ypn-js\.ysm\.yahoo\.com|googleads\.g\.doubleclick\.net';var sc_gsyn_pattern2='^aswift_[0-9]+$';var sc_px;var sc_py;function sc_adsense_click(sc_data){if(sc_data.src.match(sc_gsyn_pattern)){var sc_link=escape(sc_data.src)}else{var sc_link=escape("Google Adsense "+sc_data.width+"x"+sc_data.height)}var i=new Image();var sc_req=sc_click_dir+"click.gif?sc_project="+clickstat_project+"&security="+clickstat_security+"&c="+sc_link+"&m=2&u="+sc_url+"&t="+sc_title+"&rand="+Math.random();i.src=sc_req;sc_delay()}function sc_adsense_init(){if(document.all&&typeof window.opera=="undefined"){var el=document.getElementsByTagName("iframe");for(var i=0;i<el.length;i++){if(el[i].src.match(sc_gsyn_pattern)||el[i].id.match(sc_gsyn_pattern2)){el[i].onfocus=function(){sc_adsense_click(this)}}}}else{if(typeof window.addEventListener!="undefined"){window.addEventListener("unload",sc_exitpage,false);window.addEventListener("mousemove",sc_getmouse,true)}}}if(typeof window.addEventListener!='undefined'){window.addEventListener('load',sc_adsense_init,false)}else{if(typeof document.addEventListener!='undefined'){document.addEventListener('load',sc_adsense_init,false)}else{if(typeof window.attachEvent!='undefined'){window.attachEvent('onload',sc_adsense_init)}else{if(typeof window.onload=='function'){var sc_existing=onload;window.onload=function(){sc_existing();sc_adsense_init()}}else{window.onload=sc_adsense_init}}}}function sc_getmouse(e){if(typeof e.pageX=="number"){sc_px=e.pageX;sc_py=e.pageY}else{if(typeof e.clientX=="number"){sc_px=e.clientX;sc_py=e.clientY;if(document.body&&(document.body.scrollLeft||document.body.scrollTop)){sc_px+=document.body.scrollLeft;sc_py+=document.body.scrollTop}else{if(document.documentElement&&(document.documentElement.scrollLeft||document.documentElement.scrollTop)){sc_px+=document.documentElement.scrollLeft;sc_py+=document.documentElement.scrollTop}}}}}function sc_findy(obj){var y=0;while(obj){y+=obj.offsetTop;obj=obj.offsetParent}return(y)}function sc_findx(obj){var x=0;while(obj){x+=obj.offsetLeft;obj=obj.offsetParent}return(x)}function sc_exitpage(e){ad=document.getElementsByTagName("iframe");if(typeof sc_px=="undefined"){return}for(var i=0;i<ad.length;i++){var adLeft=sc_findx(ad[i]);var adTop=sc_findy(ad[i]);var adW=parseInt(adLeft)+parseInt(ad[i].width)+15;var adH=parseInt(adTop)+parseInt(ad[i].height)+10;var inFrameX=(sc_px>(adLeft-10)&&sc_px<adW);var inFrameY=(sc_py>(adTop-10)&&sc_py<adH);if(inFrameY&&inFrameX){if(ad[i].src.match(sc_gsyn_pattern)||ad[i].id.match(sc_gsyn_pattern2)){sc_adsense_click(ad[i])}}}}}}_application/x-javascript            1   <   Z   q   Ä   í   ®   Æ   Ø   ‡  ïÍ  ïÙ  ï˚  ñ  ñ  ñ<  öÉ  •é  •ó  •†  •»  ™¥ Ei E{ EÑ E« H WD W] Wf Wò [∞ Ä Ä' Ä0 ÄY Ña Ñè Ñô Ñ§ Ñ™ Ñ⁄ ä} ≠≈             /             ≠‡

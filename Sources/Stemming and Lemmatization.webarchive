@@ -1,0 +1,516 @@
+bplist00Ò_WebMainResource_WebSubresourcesÕ	
+_WebResourceTextEncodingName_WebResourceFrameName^WebResourceURL_WebResourceData_WebResourceMIMETypeUUTF-8P_Rhttp://nlp.stanford.edu/IR-book/html/htmledition/stemming-and-lemmatization-1.htmlO6<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN"><!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others --><html><head>
+<title>Stemming and lemmatization</title>
+<meta name="description" content="Stemming and lemmatization">
+<meta name="keywords" content="irbook">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+
+<meta name="Generator" content="LaTeX2HTML v2002-2-1">
+<meta http-equiv="Content-Style-Type" content="text/css">
+
+<link rel="STYLESHEET" href="irbook.css">
+
+<link rel="previous" href="normalization-equivalence-classing-of-terms-1.html">
+<link rel="up" href="determining-the-vocabulary-of-terms-1.html">
+<link rel="next" href="faster-postings-list-intersection-via-skip-pointers-1.html">
+<script src="safari-extension://com.avast.wrc-6H4HRTU5E3/53ba471/locale/en.js"></script><style type="text/css"></style></head>
+
+<body>
+<!--Navigation Panel-->
+<a name="tex2html1201" href="faster-postings-list-intersection-via-skip-pointers-1.html">
+<img width="37" height="24" align="BOTTOM" border="0" alt="next" src="http://nlp.stanford.edu/IR-book/html/icons/next.png"></a> 
+<a name="tex2html1195" href="determining-the-vocabulary-of-terms-1.html">
+<img width="26" height="24" align="BOTTOM" border="0" alt="up" src="http://nlp.stanford.edu/IR-book/html/icons/up.png"></a> 
+<a name="tex2html1191" href="other-languages-1.html">
+<img width="63" height="24" align="BOTTOM" border="0" alt="previous" src="http://nlp.stanford.edu/IR-book/html/icons/prev.png"></a> 
+<a name="tex2html1197" href="contents-1.html">
+<img width="65" height="24" align="BOTTOM" border="0" alt="contents" src="http://nlp.stanford.edu/IR-book/html/icons/contents.png"></a> 
+<a name="tex2html1199" href="index-1.html">
+<img width="43" height="24" align="BOTTOM" border="0" alt="index" src="http://nlp.stanford.edu/IR-book/html/icons/index.png"></a> 
+<br>
+<b> Next:</b> <a name="tex2html1202" href="faster-postings-list-intersection-via-skip-pointers-1.html">Faster postings list intersection</a>
+<b> Up:</b> <a name="tex2html1196" href="determining-the-vocabulary-of-terms-1.html">Determining the vocabulary of</a>
+<b> Previous:</b> <a name="tex2html1192" href="other-languages-1.html">Other languages.</a>
+ &nbsp; <b>  <a name="tex2html1198" href="contents-1.html">Contents</a></b> 
+ &nbsp; <b>  <a name="tex2html1200" href="index-1.html">Index</a></b> 
+<br>
+<br>
+<!--End of Navigation Panel-->
+
+<h2><a name="SECTION00724000000000000000">
+Stemming and lemmatization</a>
+</h2>
+
+<p>
+For grammatical reasons, documents are going to use different forms of a
+word, such as <i>organize</i>, <i>organizes</i>, and <i>organizing</i>.  
+Additionally, there are families of derivationally related words with
+similar meanings, such as <i>democracy</i>, <i>democratic</i>, and
+<i>democratization</i>. In many situations, it seems as if it would be
+useful for a search for one of these words to return documents that
+contain another word in the set.
+
+</p><p>
+The goal of both stemming and lemmatization is to reduce inflectional
+forms and sometimes derivationally related forms
+of a word to a common base form.  For instance:
+</p><blockquote>
+am, are, is <img width="21" height="14" align="BOTTOM" border="0" src="img99.png" alt="$\Rightarrow$"> be 
+<br>
+car, cars, car's, cars' <img width="21" height="14" align="BOTTOM" border="0" src="img99.png" alt="$\Rightarrow$"> car
+
+</blockquote>
+The result of this mapping of text will be something like:
+<blockquote>
+the boy's cars are different colors <img width="21" height="14" align="BOTTOM" border="0" src="img99.png" alt="$\Rightarrow$"> 
+<br>
+the boy car be differ color
+
+</blockquote>
+However, the two words differ in their flavor.
+<a name="2374"></a> <i>Stemming</i>  usually refers to a 
+crude heuristic process that chops off the ends of words in the hope of
+achieving this goal correctly most of the time, and often includes the removal 
+of derivational affixes.
+<a name="2376"></a> <i>Lemmatization</i>  usually refers to doing things properly
+with the use of a
+vocabulary and morphological analysis of words, normally aiming to
+remove inflectional endings only and to return the base or dictionary form
+of a word, which is known as the <a name="2378"></a> <i>lemma</i> .
+If confronted with the
+token <i>saw</i>, stemming might return just <i>s</i>, whereas
+lemmatization would attempt to return either <i>see</i> or <i>saw</i>
+depending on whether the use of the token was as a verb or a noun.
+The two may also differ in that stemming most commonly collapses
+derivationally related words, whereas lemmatization commonly only
+collapses the different inflectional forms of a lemma.
+Linguistic processing for stemming or lemmatization is
+often done by an additional plug-in component to the indexing process,
+and a number of such components exist, both commercial and open-source.
+
+<p>
+<a name="p:porter"></a> 
+The most common algorithm for stemming English, and one that has
+repeatedly been shown to be empirically very effective, is
+<a name="2385"></a> <i>Porter's
+algorithm</i>  (<a href="bibliography-1.html#porter80stripping">Porter, 1980</a>).  The entire algorithm is too long
+and intricate to present here, but we will indicate its general nature.
+Porter's algorithm consists of 5
+phases of word reductions, applied sequentially.  Within each phase
+there are various conventions to select rules, such as selecting the
+rule from each rule group
+that applies to the longest suffix.  In the first phase, this convention
+is used with the following rule group:
+<br>
+<a name="porter-rule-group"></a><img width="428" height="89" align="BOTTOM" border="0" src="img100.png" alt="\begin{example}
+\begin{tabular}[t]{lll@{\hspace{1in}}lll}
+\multicolumn{3}{l}{\te...
+... &amp; $\rightarrow$\ &amp; &amp; cats &amp; $\rightarrow$\ &amp; cat \\
+\end{tabular}\end{example}">
+<br>
+
+</p><p>
+Many of the later rules use a concept of the <i>measure</i> of a
+word, which loosely checks the number of syllables to see whether a word
+is long enough that it is
+reasonable to regard the matching portion of a rule as a suffix rather than as 
+part of the stem of a word.  For example, the rule:
+</p><blockquote>
+(<img width="47" height="32" align="MIDDLE" border="0" src="img101.png" alt="$m&gt;1$">)&nbsp;&nbsp;&nbsp;&nbsp;EMENT&nbsp;&nbsp;&nbsp;&nbsp;<img width="21" height="16" align="BOTTOM" border="0" src="img97.png" alt="$\rightarrow$">
+</blockquote>
+would map <i>replacement</i> to <i>replac</i>, but not <i>cement</i> to
+<i>c</i>. The official site for the Porter Stemmer is:
+<blockquote>
+<tt><a name="tex2html23" href="http://www.tartarus.org/&lt;TT&gt;~&lt;/TT&gt;martin/PorterStemmer/">http://www.tartarus.org/<tt>~</tt>martin/PorterStemmer/</a></tt>
+</blockquote>
+
+<p>
+
+</p><div align="CENTER"><a name="fig:stemmers"></a><a name="p:stemmers"></a><a name="2417"></a>
+<table>
+<caption align="BOTTOM"><strong>Figure 2.8:</strong>
+A comparison of three stemming algorithms on a sample text.</caption>
+<tbody><tr><td><img width="552" height="284" border="0" src="img102.png" alt="\begin{figure}\raggedright
+\begin{description}
+\item[\emph{Sample text:}]
+Such a...
+...at is mor biolog transp and access to
+interpret
+\end{description}
+\end{figure}"></td></tr>
+</tbody></table>
+</div>
+
+<p>
+Other stemmers exist, including the older, one-pass Lovins stemmer 
+(<a href="bibliography-1.html#lovins68stemming">Lovins, 1968</a>), and newer
+entrants like the Paice/Husk stemmer (<a href="bibliography-1.html#paice90stemmer">Paice, 1990</a>); see:
+</p><blockquote>
+<tt><a name="tex2html25" href="http://www.cs.waikato.ac.nz/&lt;TT&gt;~&lt;/TT&gt;eibe/stemmers/">http://www.cs.waikato.ac.nz/<tt>~</tt>eibe/stemmers/</a></tt> 
+<br><tt><a name="tex2html26" href="http://www.comp.lancs.ac.uk/computing/research/stemming/">http://www.comp.lancs.ac.uk/computing/research/stemming/</a></tt>
+</blockquote>
+Figure <a href="#fig:stemmers">2.8</a>  presents an informal comparison of the different
+behaviors of these stemmers.
+Stemmers use language-specific rules, but they require less
+knowledge than a lemmatizer, which needs a complete vocabulary
+and morphological analysis to
+correctly lemmatize words.  Particular domains may also require
+special stemming rules.
+However, the exact stemmed form does not matter, only the
+equivalence classes it forms. 
+
+<p>
+Rather than using a stemmer, you can use a <a name="2428"></a> <i>lemmatizer</i> , a tool from
+<a name="2430"></a>Natural Language Processing which does full morphological analysis to
+accurately identify the lemma for each word.  Doing full morphological analysis
+produces at most very modest benefits for retrieval.  It is hard to say
+more, because either form of normalization
+tends not to improve English
+information retrieval performance in aggregate - at least not by very much.  While
+it helps a lot for some queries, it equally hurts performance a lot for others.
+Stemming increases recall while harming precision.  As an example of
+what can go wrong, note that the Porter stemmer stems all of the
+following words: 
+</p><blockquote>
+<i>operate operating operates operation operative operatives operational</i>
+
+</blockquote>
+to oper.  However, since <i>operate</i> in its various forms is a
+common verb, we would expect to lose considerable precision on queries
+such as the following with Porter stemming:
+<blockquote>
+operational and research 
+<br>
+operating and system 
+<br>
+operative and dentistry
+
+</blockquote>
+For a case like this, moving to using a lemmatizer would not completely 
+fix the problem because
+particular inflectional forms are used in particular collocations:
+a sentence with the words <i>operate</i> and <i>system</i> is not a good
+match for the query operating and system.  Getting better
+value from term normalization depends more on pragmatic issues
+of word use than on formal issues of linguistic morphology.
+
+<p>
+The situation is different for languages with much more
+morphology (such as Spanish, German, and Finnish).  Results in
+the European CLEF evaluations have repeatedly shown quite large gains
+from the use of stemmers (and compound splitting for languages like
+German); see the references in Section <a href="references-and-further-reading-2.html#sec:ch2-references">2.5</a> .
+
+</p><p>
+<b>Exercises.</b>
+</p><ul>
+<li>Are the following statements true or false?
+
+<ol>
+<li>In a Boolean retrieval system, stemming never lowers precision.
+</li>
+<li>In a Boolean retrieval system, stemming never lowers recall.
+</li>
+<li>Stemming increases the size of the vocabulary.
+</li>
+<li>Stemming should be invoked at indexing time but not while processing a
+  query.
+</li>
+</ol>
+
+<p>
+</p></li>
+<li>Suggest what normalized form should be used for these words (including
+the word itself as a possibility):
+
+<ol>
+<li>'Cos
+</li>
+<li>Shi'ite
+</li>
+<li>cont'd
+</li>
+<li>Hawai'i
+</li>
+<li>O'Rourke
+</li>
+</ol>
+
+<p>
+</p></li>
+<li>The following pairs of words are stemmed to the same form by the Porter
+stemmer.  Which pairs would you argue shouldn't be conflated.  Give your
+reasoning.
+
+<ol>
+<li>abandon/abandonment
+</li>
+<li>absorbency/absorbent
+</li>
+<li>marketing/markets
+</li>
+<li>university/universe
+</li>
+<li>volume/volumes
+</li>
+</ol>
+
+<p>
+</p></li>
+<li>For the Porter stemmer rule group shown in porter-rule-group:
+
+<ol>
+<li>What is the purpose of including an identity rule such as SS&nbsp;<img width="21" height="16" align="BOTTOM" border="0" src="img97.png" alt="$\rightarrow$">&nbsp;SS?
+</li>
+<li>Applying just this rule group, what will the following words be
+  stemmed to? 
+<blockquote>
+<i>circus</i> <i>canaries</i> <i>boss</i>
+
+</blockquote>
+</li>
+<li>What
+  rule should be added to correctly stem <i>pony</i>?
+</li>
+<li>The stemming for <i>ponies</i> and <i>pony</i> might seem
+  strange. Does it have a deleterious effect on retrieval?  Why or why not?
+</li>
+</ol>
+
+<p>
+</p></li>
+</ul>
+
+<p>
+</p><hr>
+<!--Navigation Panel-->
+<a name="tex2html1201" href="faster-postings-list-intersection-via-skip-pointers-1.html">
+<img width="37" height="24" align="BOTTOM" border="0" alt="next" src="http://nlp.stanford.edu/IR-book/html/icons/next.png"></a> 
+<a name="tex2html1195" href="determining-the-vocabulary-of-terms-1.html">
+<img width="26" height="24" align="BOTTOM" border="0" alt="up" src="http://nlp.stanford.edu/IR-book/html/icons/up.png"></a> 
+<a name="tex2html1191" href="other-languages-1.html">
+<img width="63" height="24" align="BOTTOM" border="0" alt="previous" src="http://nlp.stanford.edu/IR-book/html/icons/prev.png"></a> 
+<a name="tex2html1197" href="contents-1.html">
+<img width="65" height="24" align="BOTTOM" border="0" alt="contents" src="http://nlp.stanford.edu/IR-book/html/icons/contents.png"></a> 
+<a name="tex2html1199" href="index-1.html">
+<img width="43" height="24" align="BOTTOM" border="0" alt="index" src="http://nlp.stanford.edu/IR-book/html/icons/index.png"></a> 
+<br>
+<b> Next:</b> <a name="tex2html1202" href="faster-postings-list-intersection-via-skip-pointers-1.html">Faster postings list intersection</a>
+<b> Up:</b> <a name="tex2html1196" href="determining-the-vocabulary-of-terms-1.html">Determining the vocabulary of</a>
+<b> Previous:</b> <a name="tex2html1192" href="other-languages-1.html">Other languages.</a>
+ &nbsp; <b>  <a name="tex2html1198" href="contents-1.html">Contents</a></b> 
+ &nbsp; <b>  <a name="tex2html1200" href="index-1.html">Index</a></b> 
+<!--End of Navigation Panel-->
+<address>
+Â© 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href="http://informationretrieval.org">PDF edition</a> of the book.<br>
+2009-04-07
+</address>
+
+
+</body></html>Ytext/html«$).38=BÔ_WebResourceResponse_@safari-extension://com.avast.wrc-6H4HRTU5E3/53ba471/locale/en.jsOEbplist00Ô67X$versionX$objectsY$archiverT$top † «%&-./012U$nullÛ	
+R$3V$classR$6R$1R$9R$4R$7R$2R$5R$0R$8€€
+€ €	€€ €€Ó 
+!#$WNS.base[NS.relative€ €€_@safari-extension://com.avast.wrc-6H4HRTU5E3/53ba471/locale/en.jsÒ'()*Z$classnameX$classesUNSURL¢+,UNSURLXNSObject#A·SÉÆî·_application/javascript0#ïÿÿÿÿÿÿÒ'(34]NSURLResponse¢5,]NSURLResponse_NSKeyedArchiverÑ89_WebResourceResponse€    # - 2 7 C I ` c j m p s v y |  ‚ … ‡ ‰ ‹   ‘ “ • — ™ › ¢ ª ¶ ¸ º ¼ ÿ!'09;TW`esv„–™¯             :              ±O0var localizedStrings = new Object;
+
+localizedStrings["title"] = "avast! WebRep";
+localizedStrings["webrepDisabled"] = "WebRep is disabled";
+localizedStrings["currentVote"] = "Overall rating";
+localizedStrings["internaltabs"] = "You cannot rate local files or internal tabs";
+localizedStrings["votethank"] = "Thank you! Your vote was successfully saved.";
+localizedStrings["castYourVote"] = "Cast your vote";
+localizedStrings["howLike"] = "How do you like this site?";
+localizedStrings["whatTypeContent"] = "What type of content does this site provide?";
+localizedStrings["checkAll"] = "(Check all that apply)";
+localizedStrings["shopping"] = "Shopping";
+localizedStrings["social"] = "Social / Gaming";
+localizedStrings["news"] = "News / Blog";
+localizedStrings["it"] = "IT / Download";
+localizedStrings["corporate"] = "Corporate";
+localizedStrings["pornography"] = "Pornography";
+localizedStrings["violence"] = "Weapons / Violence";
+localizedStrings["gambling"] = "Gambling";
+localizedStrings["drugs"] = "Alcohol / Drugs";
+localizedStrings["illegal"] = "Warez / Illegal";
+localizedStrings["vote"] = "Vote";
+localizedStrings["noRating"] = "This site has no rating";
+localizedStrings["ratingPending"] = "Retrieving rating";
+localizedStrings["ratingGood"] = "This site has a good rating";
+localizedStrings["ratingAverage"] = "This site has an average rating";
+localizedStrings["ratingBad"] = "This site has a bad rating";
+localizedStrings["noWeight"] = "(not enough votes)";
+localizedStrings["weight1"] = "(based on a small number of votes)";
+localizedStrings["weight2"] = "(based on a limited number of votes)";
+localizedStrings["weight3"] = "(based on many votes)";
+localizedStrings["phishingWarning"] = "Warning";
+localizedStrings["phishingCreditNumber"] = "It seems that you are trying to type a password or credit card number on a site with a poor reputation. Please double-check that the site is genuine. Entering your personal information on an untrusted site may pose a security risk.";
+localizedStrings["phishingPhishingSite"] = "This site has been marked as a phishing site.";
+localizedStrings["phishingTrust"] = "Trust this domain";
+localizedStrings["phishingClose"] = "Ignore the warning";
+localizedStrings["phishingBack"] = "Get me out of here";
+localizedStrings["loginDesc"] = "Fill in your login data for your my.avast.com account:";
+localizedStrings["loginName"] = "Name:";
+localizedStrings["loginPswd"] = "Password:";
+localizedStrings["loginLogin"] = "Log in";
+localizedStrings["loginAnonymous"] = "As anonymous user";
+localizedStrings["anonymousUser"] = "Anonymous user";
+localizedStrings["loginError"] = "Login has failed";
+localizedStrings["loginLogout"] = "Log out";
+localizedStrings["sfzoneHeadline"] = "avast! SafeZone";
+localizedStrings["sfzoneDesc"] = "You have entered an online banking site. Do you want to open it in avast! SafeZone?";
+localizedStrings["sfzoneYes"] = "Yes";
+localizedStrings["sfzoneAlways"] = "Yes, always";
+localizedStrings["sfzoneNo"] = "No";
+localizedStrings["sfzoneNever"] = "Never";
+localizedStrings["sfzoneSwitch"] = "Switch to avast! SafeZone";
+localizedStrings["sitecorrectHeadline"] = "SiteCorrect";
+localizedStrings["sitecorrectText"] = "This is probably not the site you were trying to enter.";
+localizedStrings["sitecorrectMean"] = "Did you mean %s ?";
+localizedStrings["sitecorrectYes"] = "Yes";
+localizedStrings["sitecorrectNo"] = "No, I really did mean %s";
+localizedStrings["sitecorrectAuto"] = "Automatically take me to known correct sites from now on";
+localizedStrings["sitecorrectHelp"] = "To configure the avast! SiteCorrect feature, please open the avast! user interface, go to Additional Protection, Browser Protection and use the Settings button.";
+localizedStrings["sitecorrectBarMsg"] = "SiteCorrect: automatically redirecting from %s";
+localizedStrings["sitecorrectBarButton"] = "This was not a mistake, take me back";
+_application/javascriptÔ_3http://nlp.stanford.edu/IR-book/html/icons/next.pngObplist00ÔcdX$versionX$objectsY$archiverT$top † ¯"()012HIJKLMNOPQRSTUVWX\]^U$nullİ	
+ !R$6S$10R$2R$7R$3S$11R$8V$classR$4R$9R$0R$5R$1€€€ €€€€€Ó#$%&'WNS.base[NS.relative€ €€_3http://nlp.stanford.edu/IR-book/html/icons/next.pngÒ*+,-Z$classnameX$classesUNSURL¢./UNSURLXNSObject#A·SŞn}3ÈÓ345>GWNS.keysZNS.objects¨6789:;<=€	€
+€€€€€€¨?@ABCDEF€€€€€€€€€VServerZConnection\Content-Type]Last-Modified]Accept-RangesTDate^Content-LengthTEtag_Apache/2.2.3 (CentOS)UcloseYimage/png_Tue, 27 Jun 2006 07:44:42 GMTUbytes_Mon, 27 May 2013 18:33:18 GMTS245_"10f84d-f5-4172fdf2cce80"Ò*+YZ_NSMutableDictionary£Y[/\NSDictionaryõYimage/pngÒ*+_`_NSHTTPURLResponse£ab/_NSHTTPURLResponse]NSURLResponse_NSKeyedArchiverÑef_WebResourceResponse€    # - 2 7 W ] x {  ‚ … ˆ Œ  – ™ œ Ÿ ¢ ¥ § © « ­ ¯ ± ³ µ · ¹ » ½ Ä Ì Ø Ú Ü Ş$-36<ENPW_jsuwy{}ƒŒ’”–˜šœ¥°½ËÙŞíò
+:@`d€…›Ÿ¬®¸½ÑÕé÷	"             g              $Oõ‰PNG
+
+   IHDR   %     wìu   PLTE¿¿¿oooççç[  Íã¹   tRNS @æØf   —IDATxœm1
+Ã0EQF>ŠÁk >B‡ú>†¬…NÙ3û¯=Œ¡k¡•äĞ¨¾Ÿ?²d”ŒM53–—³³ˆkARMê9®êNÈlúà :CÕü5¥t•·¥læ¸]o¦÷ÁDª­×/ûÜ¡_ç\lEÄ6¶ãtÄUˆê›é¬è{Ccs=Ëßû@ªuwÿû¡®·ˆz<lsèî    IEND®B`‚Yimage/pngÔ_1http://nlp.stanford.edu/IR-book/html/icons/up.pngObplist00ÔcdX$versionX$objectsY$archiverT$top † ¯"()012HIJKLMNOPQRSTUVWX\]^U$nullİ	
+ !R$6S$10R$2R$7R$3S$11R$8V$classR$4R$9R$0R$5R$1€€€ €€€€€Ó#$%&'WNS.base[NS.relative€ €€_1http://nlp.stanford.edu/IR-book/html/icons/up.pngÒ*+,-Z$classnameX$classesUNSURL¢./UNSURLXNSObject#A·SŞn‰èÕÈÓ345>GWNS.keysZNS.objects¨6789:;<=€	€
+€€€€€€¨?@ABCDEF€€€€€€€€€VServerZConnection\Content-Type]Last-Modified]Accept-RangesTDate^Content-LengthTEtag_Apache/2.2.3 (CentOS)UcloseYimage/png_Tue, 27 Jun 2006 07:44:42 GMTUbytes_Mon, 27 May 2013 18:33:18 GMTS211_"10f824-d3-4172fdf2cce80"Ò*+YZ_NSMutableDictionary£Y[/\NSDictionaryÓYimage/pngÒ*+_`_NSHTTPURLResponse£ab/_NSHTTPURLResponse]NSURLResponse_NSKeyedArchiverÑef_WebResourceResponse€    # - 2 7 W ] x {  ‚ … ˆ Œ  – ™ œ Ÿ ¢ ¥ § © « ­ ¯ ± ³ µ · ¹ » ½ Ä Ì Ø Ú Ü Ş"+14:CLNU]hqsuwy{}ŠŒ’”–˜šœ£®»É×Üëğ8>^b~ƒ™ª¬¶»ÏÓçõ
+              g              "OÓ‰PNG
+
+   IHDR        îë5À   PLTE¿¿¿oooççç[  Íã¹   tRNS @æØf   uIDATxœ]1ƒ0EŸdÆ&Cwr„,Ü'kö•7n)âIT
+xO²¾m”'<æ‡Qßüâ²1A ¹ÙàB›­ÓPÕÔ+†×	ñ:æ²×ŠpÛ­Yh/ãiOî.c7ùÏN¤´¾põ±_×Ä/11Ab$·}    IEND®B`‚Yimage/pngÔ !"#_3http://nlp.stanford.edu/IR-book/html/icons/prev.pngObplist00ÔcdX$versionX$objectsY$archiverT$top † ¯"()012HIJKLMNOPQRSTUVWX\]^U$nullİ	
+ !R$6S$10R$2R$7R$3S$11R$8V$classR$4R$9R$0R$5R$1€€€ €€€€€Ó#$%&'WNS.base[NS.relative€ €€_3http://nlp.stanford.edu/IR-book/html/icons/prev.pngÒ*+,-Z$classnameX$classesUNSURL¢./UNSURLXNSObject#A·SŞnŠ'kÈÓ345>GWNS.keysZNS.objects¨6789:;<=€	€
+€€€€€€¨?@ABCDEF€€€€€€€€€VServerZConnection\Content-Type]Last-Modified]Accept-RangesTDate^Content-LengthTEtag_Apache/2.2.3 (CentOS)UcloseYimage/png_Tue, 27 Jun 2006 07:44:42 GMTUbytes_Mon, 27 May 2013 18:33:18 GMTS279_"10f844-117-4172fdf2cce80"Ò*+YZ_NSMutableDictionary£Y[/\NSDictionaryYimage/pngÒ*+_`_NSHTTPURLResponse£ab/_NSHTTPURLResponse]NSURLResponse_NSKeyedArchiverÑef_WebResourceResponse€    # - 2 7 W ] x {  ‚ … ˆ Œ  – ™ œ Ÿ ¢ ¥ § © « ­ ¯ ± ³ µ · ¹ » ½ Ä Ì Ø Ú Ü Ş$-36<ENPW_jsuwy{}ƒŒ’”–˜šœ¥°½ËÙŞíò
+:@`d†œ ­°º¿Ó×ëù$             g              &O‰PNG
+
+   IHDR   ?     GŸıT   PLTE¿¿¿oooççç[  Íã¹   tRNS @æØf   ¹IDATxœ…=
+Ã0…_pF—Dà5àK¤÷	ttêŞ¡Cñ)éèÃ¤t-´ªÓ}ñüYÒ#%À¡Æ4”ÒÍ¥d/Çùªåvµë`3v3tâE$ Sãà™ù£ç°5•ªs}jßf/‹¹šÀŒˆˆ”hQ!ÜäÛ•=KV_³ªN8âK›Àş8’!û™)Š‚x'‡Éë‘ÒÈ¸Ù D˜ˆ¹^Kùê-êŸşsNH¼!%³    IEND®B`‚Yimage/pngÔ%&'(_7http://nlp.stanford.edu/IR-book/html/icons/contents.pngObplist00ÔcdX$versionX$objectsY$archiverT$top † ¯"()012HIJKLMNOPQRSTUVWX\]^U$nullİ	
+ !R$6S$10R$2R$7R$3S$11R$8V$classR$4R$9R$0R$5R$1€€€ €€€€€Ó#$%&'WNS.base[NS.relative€ €€_7http://nlp.stanford.edu/IR-book/html/icons/contents.pngÒ*+,-Z$classnameX$classesUNSURL¢./UNSURLXNSObject#A·SŞnŠ9¤ÈÓ345>GWNS.keysZNS.objects¨6789:;<=€	€
+€€€€€€¨?@ABCDEF€€€€€€€€€VServerZConnection\Content-Type]Last-Modified]Accept-RangesTDate^Content-LengthTEtag_Apache/2.2.3 (CentOS)UcloseYimage/png_Tue, 27 Jun 2006 07:44:42 GMTUbytes_Mon, 27 May 2013 18:33:18 GMTS278_"10f81c-116-4172fdf2cce80"Ò*+YZ_NSMutableDictionary£Y[/\NSDictionaryYimage/pngÒ*+_`_NSHTTPURLResponse£ab/_NSHTTPURLResponse]NSURLResponse_NSKeyedArchiverÑef_WebResourceResponse€    # - 2 7 W ] x {  ‚ … ˆ Œ  – ™ œ Ÿ ¢ ¥ § © « ­ ¯ ± ³ µ · ¹ » ½ Ä Ì Ø Ú Ü Ş(17:@IRT[cnwy{}ƒ…‡’”–˜šœ ¢©´ÁÏİâñö>Ddh…Š ¤±´¾Ã×Ûïı(             g              *O‰PNG
+
+   IHDR   A     ¯H   PLTE¿¿¿oooççç[  Íã¹   tRNS @æØf   ¸IDATxœ=
+Ã0…_ĞjÈUT¼âKô>†¬Y³wö:¨xô*…®…VşKÈĞ7HÏŸd	!xx8Ü!€2
+ ÈÛóâª*dqM#lÊÁ—”î<WY°Du£1Ú'p?}ó¥¨LÎÓk±ÛÌ(!]Ùa‚%f>a"¢­–Ôd2Ê‹z¶÷ƒ9mÙº«ÉáŠºCÒSr-$¢Ÿğ¡¡—â»BDÌÁ`GRêœÜ ©‡wıAÚsšÜ¥˜VtöÎG    IEND®B`‚Yimage/pngÔ*+,-_4http://nlp.stanford.edu/IR-book/html/icons/index.pngObplist00ÔcdX$versionX$objectsY$archiverT$top † ¯"()012HIJKLMNOPQRSTUVWX\]^U$nullİ	
+ !R$6S$10R$2R$7R$3S$11R$8V$classR$4R$9R$0R$5R$1€€€ €€€€€Ó#$%&'WNS.base[NS.relative€ €€_4http://nlp.stanford.edu/IR-book/html/icons/index.pngÒ*+,-Z$classnameX$classesUNSURL¢./UNSURLXNSObject#A·SŞnãlßÈÓ345>GWNS.keysZNS.objects¨6789:;<=€	€
+€€€€€€¨?@ABCDEF€€€€€€€€€VServerZConnection\Content-Type]Last-Modified]Accept-RangesTDate^Content-LengthTEtag_Apache/2.2.3 (CentOS)UcloseYimage/png_Tue, 27 Jun 2006 07:44:42 GMTUbytes_Mon, 27 May 2013 18:33:18 GMTS246_"10f847-f6-4172fdf2cce80"Ò*+YZ_NSMutableDictionary£Y[/\NSDictionaryöYimage/pngÒ*+_`_NSHTTPURLResponse£ab/_NSHTTPURLResponse]NSURLResponse_NSKeyedArchiverÑef_WebResourceResponse€    # - 2 7 W ] x {  ‚ … ˆ Œ  – ™ œ Ÿ ¢ ¥ § © « ­ ¯ ± ³ µ · ¹ » ½ Ä Ì Ø Ú Ü Ş%.47=FOQX`ktvxz|~€‚„‘“•—™›Ÿ¦±¾ÌÚßîó;Aae†œ ­¯¹¾ÒÖêø
+#             g              %Oö‰PNG
+
+   IHDR   +     iÚÜÆ   PLTE¿¿¿oooççç[  Íã¹   tRNS @æØf   ˜IDATxœu=
+1…$å@,<È@Ú÷zŸ€g°ßbÉ)¦°ô09€…“™]Ñ…}|o~x$¨
+PU$ô%8k}èÁ‘OOä­¶İn†œ)B€b™İ¯ª³&¨Š7Ç‰tÈ›^ñ@ÛMË=Ó4cÂªã¿'­>·ôJM¸{ö#_¯ŸvOy/óÇÛSL—ÛA%bÍGr    IEND®B`‚Yimage/pngÔ/012_:http://nlp.stanford.edu/IR-book/html/htmledition/img99.pngObplist00ÔcdX$versionX$objectsY$archiverT$top † ¯"()012HIJKLMNOPQRSTUVWX\]^U$nullİ	
+ !R$6S$10R$2R$7R$3S$11R$8V$classR$4R$9R$0R$5R$1€€€ €€€€€Ó#$%&'WNS.base[NS.relative€ €€_:http://nlp.stanford.edu/IR-book/html/htmledition/img99.pngÒ*+,-Z$classnameX$classesUNSURL¢./UNSURLXNSObject#A·SŞo ÈÓ345>GWNS.keysZNS.objects¨6789:;<=€	€
+€€€€€€¨?@ABCDEF€€€€€€€€€VServerZConnection\Content-Type]Last-Modified]Accept-RangesTDate^Content-LengthTEtag_Apache/2.2.3 (CentOS)UcloseYimage/png_Tue, 07 Apr 2009 17:03:02 GMTUbytes_Mon, 27 May 2013 18:33:18 GMTS182_"11011c-b6-466f9fcdbdd80"Ò*+YZ_NSMutableDictionary£Y[/\NSDictionary¶Yimage/pngÒ*+_`_NSHTTPURLResponse£ab/_NSHTTPURLResponse]NSURLResponse_NSKeyedArchiverÑef_WebResourceResponse€    # - 2 7 W ] x {  ‚ … ˆ Œ  – ™ œ Ÿ ¢ ¥ § © « ­ ¯ ± ³ µ · ¹ » ½ Ä Ì Ø Ú Ü Ş +4:=CLUW^fqz|~€‚„†ˆŠ“•—™›Ÿ¡£¥¬·ÄÒàåôù!AGgk‡Œ¢¦³µ¿ÄØÜğş)             g              +O¶‰PNG
+
+   IHDR        E/zk   !PLTE³³³œœœ„„„xxxlllTTT000$$$¨¨¨î­‹–   tRNS @æØf   CIDAT™c```` å€$Æ…,²
+J;`*ƒ¦òòJ0›L&àP	ÉHlÖ.$s¹ Ø8 èBS ¤¦	=;NR    IEND®B`‚Yimage/pngÔ4567_;http://nlp.stanford.edu/IR-book/html/htmledition/img100.pngObplist00ÔcdX$versionX$objectsY$archiverT$top † ¯"()012HIJKLMNOPQRSTUVWX\]^U$nullİ	
+ !R$6S$10R$2R$7R$3S$11R$8V$classR$4R$9R$0R$5R$1€€€ €€€€€Ó#$%&'WNS.base[NS.relative€ €€_;http://nlp.stanford.edu/IR-book/html/htmledition/img100.pngÒ*+,-Z$classnameX$classesUNSURL¢./UNSURLXNSObject#A·SŞoµ‰ÈÓ345>GWNS.keysZNS.objects¨6789:;<=€	€
+€€€€€€¨?@ABCDEF€€€€€€€€€VServerZConnection\Content-Type]Last-Modified]Accept-RangesTDate^Content-LengthTEtag_Apache/2.2.3 (CentOS)UcloseYimage/png_Tue, 07 Apr 2009 16:58:16 GMTUbytes_Mon, 27 May 2013 18:33:18 GMTT3205_"1100be-c85-466f9ebcfda00"Ò*+YZ_NSMutableDictionary£Y[/\NSDictionary…Yimage/pngÒ*+_`_NSHTTPURLResponse£ab/_NSHTTPURLResponse]NSURLResponse_NSKeyedArchiverÑef_WebResourceResponse€    # - 2 7 W ] x {  ‚ … ˆ Œ  – ™ œ Ÿ ¢ ¥ § © « ­ ¯ ± ³ µ · ¹ » ½ Ä Ì Ø Ú Ü Ş!,5;>DMVX_gr{}ƒ…‡‰‹”–˜šœ ¢¤¦­¸ÅÓáæõú"BHhmŠ¥©¶¹ÃÈÜàô-             g              /O…‰PNG
+
+   IHDR  ¬   Y  "9Ğ   3PLTE³³³¨¨¨œœœˆˆˆ„„„xxxlll```TTTHHH<<<000$$$   Eü‰   tRNS @æØf   IDATxœí]‰‚³(æX 
+ïÿ´› VëxkùÇïß¶
+„ †$dìşË,Í¦içoƒèŠŒã²Ã<ªêBÂSŒ˜…_sÙ$ÖL<~ÆNW2¥GÉŞîi–øğwËÙg`îiƒ_"·Î£‰ô.2%[d)Ì$HÔL‰ÍİŞlO/»òùãÛû1¹‰'‰¥}Ñåjæoa·ôCü‘âŸÑ7A}Á †dOöXO²3øa•¨İ%úfQ” M?éÈÅ*¢m±Á[¹İYôÕm ü‚õ4ã+€†€>ïUş­	¦<ôıg{?Ds(=…äÅ°ÉËX_í„¤1¯Ä„phš&ß»¬†÷v±úa1U9qäòèhiôDÆ§ªdŠÀ__/…rB˜—È#¸±DÀÌĞß{àÚ‘¿0Í˜á£WÇÓî‘Pj+¸D‘¸$MŸh…<£ìH
+¹¡¬‰”ÑYµ€mî‘ßè l,=^¹ ¨ƒIÆÆ%s³F‹»è#g‚ëFÍ#|ØƒÆeÔ‡ûy ÊWFÀÁ—ÊP*ÉåJÃ4İÃ!zµó¥H$*¯Ÿîgh‹Æ|†WO}ÂéŞ-{¶\"‡D:2÷u6é³ÊÆ[ñ’É~>¹©'.q² |^iŞJÃqU†Ğ=ê®4“ŠÅœ2¬Mé}>ÔÙ
+]ÍİS‚Ÿ5ö~VšjKÖì´$zš¥CØ(®HTÏ2@v™#cCµ–~¯à—3²-Ä~t00åIª³#ø;ælšÉv<D‡> ¦ôÑ¤è‰HÅ†K/ŸVSƒ\%I}o9IL7´Çˆ«òxOô+6_²(urñÑ½zV@rƒVU‚µ9›ƒÄy_:“ıÅë’q¹i€®tgŸøû!|~mD¶ÈØµƒ)5d4S‰"|T>ò‚†âÑ²PãDIâs,”’€(Š’„zk(ßSÁJÖ€e.€Ë_¶$>Úù¤<0‰Jwky É|Ğ°RjD„$0ŸnA¢Poì1Ÿë/D*v›½Hë~À‘¶.g˜íö[zTv¦ÎC]ç<[©,CÒ4LZ?ª>š‡™bGNo9ÈwºãhÃ|#O0İ\?ÜMŠfÁ­Ñ®ÄÓàh‚e+L1œÉ¦‚M6™
+œç|’`šò­Ì[";fo?›G+‰Wk‡ÿ{U´X69ÑÎê,ƒG£ÈùZòá&¾ïÆoÀ¿¸ÁãÏëq8G4˜Z“=O2]	åùBÔÈru9ñÒ‰PèNSàL®”<¼M#JÿôvwØ}5Dæsbªæ‰5uõ.…Y¿Ù!â¾æ›ò2%¿ Rã¹:pjÔŸªì!â¤ûR¸ÑÄ–|Ã:'!NŞ¯ãªëZf,9	y)“‰wÖÇDWc‰¢cÚğj•²Ä¹qæíĞãzx¬£3$Ğ††Jæeæ•@"Ü;7ôlY´%O_†¢ªtÓ{gŞ­¸ºÖifÁ4}Ù’øMU;Ø²¥§æÃvåñ{$şzDP,øìçåË0•ø0$Æ3	'ea(0	yÃqzæ‹Å:RvZÅ8¿)	lİ ĞÔO±Ê#5˜èMqğÛ‰Ä‡ATt£ràKYOhM·ÈĞ£®iŒb‘lÎ‡VCË
+íâ˜Ñ,ÇÕè<ab…¦ŸaKRx**<kƒdŸ¤Ç³”]V)(_y°Q3Z´k<9J¼åŠD}YªT—x?;xt¨:y
+ññA{°´øQ×N–òé­— ;—¤¹=‡7n|9¨àMß?¦G‹Û/³%6zÖ/bkà>Ïø¢•oMÈ2[6ä§c±F>«Óli‡ó¥¸@ÇK@km:íà{¢¡i®Ë·ŠÚ[uÑ`ö)ñI¨ê–QªZÆe}aºfƒ¾I9¬¨Ï·ŠGÀøL•aöÇ(
+P£şªÕ#=ŒoUN½M[Ùz/ªÉ_ÇÈ3şQ¶jrğl¼GQƒX¶mÚÜ•ø£Ø´7ñ4¬§ÿhçwÒÛ6yÏ2æ“6GèE½H¥¼Mó ÷$^EK3Ş¬¢D9¬`^j¤˜ä||è‹n²*|AĞ<·ÊJâ-´|6Ş»h'Hsj:Çqe_€¤à…ù|,Ó`&,íà‚=‰WáÈT=á˜Ì(&¶è¯Æ<åÓ†rDØ–ïÆƒVş=¤ÏÄl¼:4®Ïs­W¦.-Ø`×>×ni¡Ù\=×rSKgÑ/-,í:˜_ZØÚ[z2Xc€k{«_ZXˆSK[ÙòïuÑ×¥Ö¸°-˜µ¢.-°ñ®cp`&TÄ\”rÚÓ3‚ )¥æ‰¼»ü ®Ï Gà+l’Í9ŞÇ¹!íêY@Œo;Š+ï4Ö#·èœ—ô×¡ì£Şá2zçåğŠ,\I@À¦ƒØáB`±¢rmó×r›~ùb`î¬@§ˆà<¢Ñä±ÅgPJÑ¶‰84)!ó)ê÷q^–œsgå“äÔ¦A‚ìP]Ë×á êşöG¬ë,”3¨—)é›=Ó¢ûùÎE6ú‡8âÌ¶%±#bÏNX€xT~n}ãW¡ˆAƒİä<uA›ÆcrØYæœ;ò«5©;Š'lğÉ&¥™@%Ã0Ù¦ I. „ Á¤G‰ñ»M4”Œ6lè¤V¥äIÚş@¦3«”&”Iämœ?T/?ŠàÂG¤=ïÀïAşNXzÎ>]‰7n|ùÜ
+4ËÊ©d¤?Ã®\UòsPİ±méáõÌ%†W®*ùà6Ğùßå/±E‘^Âfç„|Â….ç^.XT.@>óAOR™ùd–JHÃásZ”'µ•üähÌ§–¶ mƒ+Ë3)~–ü~´"ï¥Õ´G“Âä°:Z%¼±œ *ó°ÑÅğµ>“`_éY®€„Jğ•Pş8!$:°Iı“Õ_YÁÒRÄSÉoGçÃñ´´®êo O7>SøĞ%´~´)òÑÅ5Àô*I=ZßD#zz¡¥¢e%Ô}b'O(`ÊœŞnÎê¯¬T|sÉï‡£G‹É¤ò™©¥ñD¤ÎŒÜ¡Æ+NWxw‘:Á¬úTçÜ†ºä‰e¡YİÑ+E%åã"şnÜ¸qãÆï¹¡A”X€ª¢ëçE%_PĞ«p	—o¦—•¿²&k³¦}ÍNß¾Êü…è;Kçu-gÕ>År¶K>ßYÆµ2$ÚÎƒbs­nÉBGi¢(­!ƒïq»Ï1vh¦Ñvñ ˜’«ôT¦w}gÕ·Ê	İ¬½: Ì«Qr3Fñç;«ZÅhGj)²Ğó•òZ2UÙN¼‰Î®±,ŸX	L•Œ,’jLï4bNy¤}ïM˜’_ÓYÖ1ZÏ|=5­»hj….5ÇYîÙb7é)z'QÔ SŒ Ì5 ö’u¸¯P0TŠÏZ°´WÅÓ²½Jğ$o˜ô1€Î7Ï-ñ@ŠmÈG-èAüP9†àÔ* Û¼®Ã_z×ÏåĞ‹»¼.?ö’Ô7n|`ÁQŒœ²¨a\zäÛëJş£(o¨’òR×Å‹Kş³à1‚¡ÖÉƒ:´@8cs\PòyHÇ9 AÂ¹‹Yo7)>¹-8™‰»_7>k@:ÅD“O–"z^ óA93
+!ú8a€>\ÊÆæğ&Æ¡’/…ì4wíšÁ²>º-ÚÌ•q‹#VÍ]Ø½üê?h:B[éMU!ëš<v/<0µÌx0.(ù4Š#ûŒ³>&¢s[”Ğö ³×<šó`4%z#æ×xvô|y/B%$Ğ«>@Á²¿ÈŠyÉ;À!G¯õ<yEî:¡½¸-|v[È °k×é"tÓ&&´û!»Kè¢Y	™[åÓ7nÜ¸qãÕè¶ü	H÷Ş©}óÛ"·A­.
+ÿn<oL(+&úBõoŒç	áâ“nûÀqÌmLøüØ˜ÀX·Aà¶nLxÉò–8Uêµg$]‰É	'v<°qcÂÅõØ>pß<ßıØ˜À™º`gÀÖ	ó[Óş{Opëµ«C    IEND®B`‚Yimage/pngÔ9:;<_;http://nlp.stanford.edu/IR-book/html/htmledition/img101.pngObplist00ÔcdX$versionX$objectsY$archiverT$top † ¯"()012HIJKLMNOPQRSTUVWX\]^U$nullİ	
+ !R$6S$10R$2R$7R$3S$11R$8V$classR$4R$9R$0R$5R$1€€€ €€€€€Ó#$%&'WNS.base[NS.relative€ €€_;http://nlp.stanford.edu/IR-book/html/htmledition/img101.pngÒ*+,-Z$classnameX$classesUNSURL¢./UNSURLXNSObject#A·SŞo0­ÈÓ345>GWNS.keysZNS.objects¨6789:;<=€	€
+€€€€€€¨?@ABCDEF€€€€€€€€€VServerZConnection\Content-Type]Last-Modified]Accept-RangesTDate^Content-LengthTEtag_Apache/2.2.3 (CentOS)UcloseYimage/png_Tue, 07 Apr 2009 16:58:17 GMTUbytes_Mon, 27 May 2013 18:33:18 GMTS305_"10f8a8-131-466f9ebdf1c40"Ò*+YZ_NSMutableDictionary£Y[/\NSDictionary1Yimage/pngÒ*+_`_NSHTTPURLResponse£ab/_NSHTTPURLResponse]NSURLResponse_NSKeyedArchiverÑef_WebResourceResponse€    # - 2 7 W ] x {  ‚ … ˆ Œ  – ™ œ Ÿ ¢ ¥ § © « ­ ¯ ± ³ µ · ¹ » ½ Ä Ì Ø Ú Ü Ş!,5;>DMVX_gr{}ƒ…‡‰‹”–˜šœ ¢¤¦­¸ÅÓáæõú"BHhl‰¤¨µ¸ÂÇÛßó,             g              .O1‰PNG
+
+   IHDR   /      XÜ   -PLTE³³³¨¨¨œœœ„„„xxxlll```TTTHHH<<<$$$   ¶»>‰   tRNS @æØf   ²IDAT(‘c` 6dĞÆ€xŞ1p08 ‹£&†ƒ€:,€¤¤-q"ÈOˆX€|¦Dô	¥á ”^"000^yò ÂRL€È8Š‚\
+`{ Ïñ‚h·‘¼ó€:&võ¡	x5B~`’ÅÛ°Ë0*Õ„$Á0aBe&"$˜°l`Ûd€l–ª\C¼Ã  {¿M9S9™V    IEND®B`‚Yimage/pngÔ>?@A_:http://nlp.stanford.edu/IR-book/html/htmledition/img97.pngObplist00ÔcdX$versionX$objectsY$archiverT$top † ¯"()012HIJKLMNOPQRSTUVWX\]^U$nullİ	
+ !R$6S$10R$2R$7R$3S$11R$8V$classR$4R$9R$0R$5R$1€€€ €€€€€Ó#$%&'WNS.base[NS.relative€ €€_:http://nlp.stanford.edu/IR-book/html/htmledition/img97.pngÒ*+,-Z$classnameX$classesUNSURL¢./UNSURLXNSObject#A·SŞoüÈÓ345>GWNS.keysZNS.objects¨6789:;<=€	€
+€€€€€€¨?@ABCDEF€€€€€€€€€VServerZConnection\Content-Type]Last-Modified]Accept-RangesTDate^Content-LengthTEtag_Apache/2.2.3 (CentOS)UcloseYimage/png_Tue, 07 Apr 2009 17:02:58 GMTUbytes_Mon, 27 May 2013 18:33:18 GMTS147_"10f868-93-466f9fc9ed480"Ò*+YZ_NSMutableDictionary£Y[/\NSDictionary“Yimage/pngÒ*+_`_NSHTTPURLResponse£ab/_NSHTTPURLResponse]NSURLResponse_NSKeyedArchiverÑef_WebResourceResponse€    # - 2 7 W ] x {  ‚ … ˆ Œ  – ™ œ Ÿ ¢ ¥ § © « ­ ¯ ± ³ µ · ¹ » ½ Ä Ì Ø Ú Ü Ş +4:=CLUW^fqz|~€‚„†ˆŠ“•—™›Ÿ¡£¥¬·ÄÒàåôù!AGgk‡Œ¢¦³µ¿ÄØÜğş)             g              +O“‰PNG
+
+   IHDR        |ó€   PLTE³³³„„„xxxTTT000$$$¨¨¨.t£¡   tRNS @æØf   )IDAT™c` R;1ŠØ!”ˆ`!Ù
+˜ÆP0H)€‹39àÖ íØÜøİ.0    IEND®B`‚Yimage/pngÔCDEF_;http://nlp.stanford.edu/IR-book/html/htmledition/img102.pngObplist00ÔcdX$versionX$objectsY$archiverT$top † ¯"()012HIJKLMNOPQRSTUVWX\]^U$nullİ	
+ !R$6S$10R$2R$7R$3S$11R$8V$classR$4R$9R$0R$5R$1€€€ €€€€€Ó#$%&'WNS.base[NS.relative€ €€_;http://nlp.stanford.edu/IR-book/html/htmledition/img102.pngÒ*+,-Z$classnameX$classesUNSURL¢./UNSURLXNSObject#A·SŞoLŸQÈÓ345>GWNS.keysZNS.objects¨6789:;<=€	€
+€€€€€€¨?@ABCDEF€€€€€€€€€VServerZConnection\Content-Type]Last-Modified]Accept-RangesTDate^Content-LengthTEtag_Apache/2.2.3 (CentOS)UcloseYimage/png_Tue, 07 Apr 2009 16:58:21 GMTUbytes_Mon, 27 May 2013 18:33:19 GMTU18782_"10ff46-495e-466f9ec1c2540"Ò*+YZ_NSMutableDictionary£Y[/\NSDictionaryI^Yimage/pngÒ*+_`_NSHTTPURLResponse£ab/_NSHTTPURLResponse]NSURLResponse_NSKeyedArchiverÑef_WebResourceResponse€    # - 2 7 W ] x {  ‚ … ˆ Œ  – ™ œ Ÿ ¢ ¥ § © « ­ ¯ ± ³ µ · ¹ » ½ Ä Ì Ø Ú Ü Ş!,5;>DMVX_gr{}ƒ…‡‰‹”–˜šœ ¢¤¦­¸ÅÓáæõú"BHhnŒ‘§«¸»ÅÊŞâö/             g              1OI^‰PNG
+
+   IHDR  (    ­×   BPLTE³³³}}}sss¨¨¨œœœ’’’ˆˆˆ„„„|||xxxllljjj```TTTHHH<<<000$$$   £Aó   tRNS @æØf    IDATxœí}‰¢ë*-UĞnÚ<ã‘ÿÿÕÇ’Äà!‰“=«nØÌ&XH‹%¥^ƒtş:­W³ø›³*Ğ‡–ø¡Á…}Êª!øxKù m‡Ê¿ŞñÚXn]«¬]–®ªs±»85£Uªé•­²Ã¢toÔ ¦xwŒéL8]ÍrpÍo¥»}ËÆ†¯¥‰mvZÇÆYË£5á	è½¨@é©évŒ‰éÉXs§Š¡¥†|P¶üÕ"óFÇ>kÕñµW»“j2càDqüfeË<³œ»ÿ„æ4T¸áZr†[ŠO-iØ=W¿y.ùcA¥„î™ßÛÏ’a{áğ·Ê¿Õ’4Åÿ÷yt½° 97Ó_HZzy}2<D“1åÑTdcéÏùõî±¿4˜ŞÔ0å—Šïæ ¦¹~[Ä¯qI¦O:^?Ñˆ÷¾"NŠÃÂ:Ñê½Í™Eù¾£øßAË0ïå•[ã|ãº=üæãÌŠOÃNåÔ¡·~0ŞLÍc•ï•;…f‰+bÌâ§ø}hşÇËEıûX§õzzÙÓÉ:ÛR[=ŞQ1ihy­Vw*ÄbFêK°È“Ş¦ä^û|ù:ÅÔ-Úc®7zh=)ş¾¼ºÈİÏ—t}'Ñ´™¤Î9Ö¡¢şÖ!Äq¶Ë°;G]ªåçõŞ·@0c‚/-oÆqÂ˜nJÛW9ßãu6Ò£Õ~¢~M=ô&c½¹ÛÉJ/s3Õ3ÏK£É4Uƒu!­Şq {”BšœmùvüİPîPóü¸</İÙÏ)ı—ŠoT×“.î!ÜÂ¶ÇZBï.<ÙãÕ@ƒäÒĞ¥_—ÍÿÜ—4tKEjjÊ€š¬‹û™Wğ#ğ~w&nhâR‘müÖw¼Î\ŸîÊGTÎ‹9Ú•N)¤?RnE=ÎGš¾å42W‚é÷¡è¡Ü˜ªY%mó0+mÜ$ÚûyAâKÀ´q%6îT6^áqİ£W«FíÔ¿ÛC¦ÿ¬ewı›
+åÏ©~›Áû8ãüĞÅ-YgıUçcßüÒucgİô-ÚæËRi ,G£`÷šÈ:™[†Á.3ŞîñÆ¼hÒ«ì0ÀÖğß!ŒqµYâ -!„1*w°ß`±Æx3Åe‰1ù–4Ê&òìK†Õ4íyYpT,ï0x›`SJ?( –·;z·î<Ô”æÁ:×÷¦¢®ûÚÆ]N¿¼}û’Pò´§NĞXh¬ŸƒÒYüo4ôL^'`‰èTÏÆhkÈùÑÑw*9Ş4VC—ËŠ5iøvºûÉ•æ½æû²}Ğ~õ×ævÚ\XKîÙ£Õ`o	ĞlHE©eÛø³2Mú‚Ò,ıØâ½äCk¨sÔşPZÿG…Ç$‹MØJÒáëşû¿ä …	Óq˜qÆ ïĞl½-†{3^0fâF²é­¨x%‰«¥´”ÈNA,^Í£æZlqû¤ÅêQÓ?ÑÔ´~hßfÓ2ñ8ª>®ğzˆô†¨~tÎü®—á•ÍÛûuÅŠ&[»½ğ@*sµrcTœbëĞ¸nö†´ÕN6îŠb
+‹×sˆ[ø†°JFıv3Å÷“÷Ø¨÷J%Ìß>,qö!i\Å4L»ÈÒá-ÊQ7k;oãªG«àŒÂWv·ôBÖ«?	ì-¶w÷/z.ú–ó"­ù–Vï‰q«¦föqs¢®Ã>Ç4.cCôQ¯Ê‚®Åä³çÇã[2ZNx‰à×¥—ˆ~b>œÛ[ıèÏ-»uŞÏ˜9Š.>kì–ı€Åxrw.^öqèÓà»å×º~¥ÄÄ¢ã\ÛEÍÆ7qbÏ°"ÇïŞúñÇHïú.®-Ë´DRk±4bJÁgwSü¡¹¨k˜ÑâúbÒÕ[$Ó£§nÀ>aŠ½Wqa¡_Yèàº~Õkú9ŞV‘j&ú¬LWÎêÀµŸXËCµ ø;zy{«,HE]FÔ*«šÒ¦ÛN*jsß¼Ñ6Œ¸°ğªí=oN‚ÿÇM\h°Ø–U½¡wE|Zq]h~º»Ö·´.›dDè…Å¼_‹ª/>´]|ò`Ò"n•¼~‚üŒøÏ‰É_;COĞç›†|²MlvfÌLœ.şh†™-½Ø¦y¾ÙQ€ŸIŞ aëdâŒ‚1Ğ[Ì.T–’ÑC¹Ÿóbñ¬¼äÊz0Ö-I]¢[.GC•®“¡“—¬VÑÂ@&ni™§bÁˆï†¸Gl¸Ô!— UÉJñ
+¬çª½ä±|ª]ú¦MìÇlê	m2zq_([ï§\ÔC›o_¼º»_W2o¾ß6èé:Q5Ö~ü–+#bh˜Xï†›F“S†Jê¢ëÙ2ÔÈ”6<uc!˜‘¾C03=Otü&â0S9¶úñ~˜Ş¤#¿,ƒ,)ü^Á;w°A÷f	]/Ö2B|ã¶øÎ>H‚vĞ*eh{Óõ6JøŞ×óİÚ†©V­ê—2íÒùõ§I.Ü[Â.ÅzH¶‹[ÜrÛiŠ;N3vo#ÛL>jÛ„Ì4#µ¯s´™Åôo›!ªËM?ãá†\h†>ŞŒ»x?L‹¦™dàcc¯¡Úõ9÷šæG×ñ‹Û¾{È›”^Qøk°)°v%ÎÎbIw€~
+üÇ²‰ÿ7XZÂÖ‰Xì½µÀ¡X«ì ğ+6g|Æ¢ú§‡"OïÖæÀ­÷ÌâÕÜJVcVO<>.sqéÑô8á/ÆÆ"ø¼D7ÓÜÁ'Coo«ÍÅu†1p±”Š8ÙN`‚îäw75ƒ´ñ¶×"*Yº¸‘±FlÍ«}JÜ&u\¸¶£O)°à3VcÇø;ÂÈ‘W‹öFøéÀ	 ¯^İÜ·»#óÜl.eÕ¿Æ£f|‚|kßä½iwxÉÏZû×6 ÆYP'âÊŒÙëgõ-MIrí4/ù²y½ï‡íİ¯{ÙıöN@V<£Ã8‹ èøSÖÚ`a‡im¡rIÍ[BÜƒØ¥§]ÛJëÛ^’›“¦¦ö„˜ÿÂSd@ÖÎ5EÅnV®Ÿ'ø‚¦ÖÓÒp#â³¡Š¥€™œ3~ëfÖ1“ÿ¯ÈHæâ¢huÜx÷RSÜı d¤^¹	/h¿àhE¬#ş;À0 şÿ8ÛçWöÓòé[³ş»ÛlÀ[ÛÖ}à`İ|¸Õ‘É40¢cı@/÷ØWøV²±¬Ñ#Ø—rLRıÜA›d‰õ×’®“dT¬ïY2‡zC{Ş €ĞÊñ#é æyˆûŞ&Ğ¤ìhRIÄˆ¡ş™WÍçBÍx˜sõƒuâèÚ^Nâ$v6Ã/Ùò€ÌæÙó‚ªÂ¶´aãƒ¶;Åq\”wÆŞµñO·¤ŸÓ2l°øAQçÉg“÷c&‡$EN¦gùt½ó/«ì—ü!öf®lÏšàŸÃlõŠuë•'‹À”Š*y`Z5Áù6ÏyjFìÑm7Äïä³SÓ…Yñr£Ísghâ
+¤úI|ÏÚè–!
+ÁÍŠ…kÙSÒ¨¬xœ7ú±¡öÅ7‘‹åtğêX:­2slÓŠLÁêĞæ×½çÄz»¤uÜj¶w‘ŞÊ49LCˆ ÍIC	Ì	£[èF8ú×&°íoÈşu‚w¡.o¤‚ä9GùpÂ»~ÚİK·ú‰Èc·ÖZƒ3ìñ#ŒŸÃø€Vˆ·Z²n‰‰«ó€K:êZ2“6#,yAš„óQ‘ï\ßÄkÚî# švgò«@÷V5„r
+l¬…Q!Ø‘Ûpú»@6l{bâ
+2£ò8QÊq ª5“‰Çe\pN‰Rw³şX‹³Y^­¿ôu[7û5õ;Îj¸Xİ	üâ„¬	8¬Ópdã‡à™ï`áˆèırÔe<c&¾ÛGÁ ã®§ÃÎÖ¯;h¢ï`LQ¬s£S‹‹3Pûà#œ°FSâ&ÚÇ]«oıÎvnd¨Š<ÙÑ¿ïs¸ä§Èjí|uâå7a:GvFv?²_E½¬¡Fü=÷ÃäÁƒ€÷DVöÈ8†E†AO†1q–G‡(ø$§%ĞÍÀf	I¡‡\V"r±×Èl&Ã?n!`—ôªgÏ®º¸Œ,Xhçql/ê‡ N ä‘”@gq$>V=:hK°h g]ïz!$´AùQ¯5ñ…Ú7|ÁIÔ™Ìd¯°yÉ;ş`iÚ¶äQ' Ùg¬1í‰ÊlJ0²9“ÏYÒ%h&°ˆub	ƒ¯£òÄÇ§è›#HzÓğ/zÿËHG$ãµ˜¢ÉÍ/
+b2€ÍdAÅÛĞp„O?³‡(ñ!Ş»Q¾9×ÒKÎ¦/ë/õ2Ø›ó^ü)³Ğv"œ|gu•!îqS^¬Ÿ4™j¾<ÌrbûnIè
+6y‘mËŒvRS[cQìù+š²BWdÛV»šMá·êÈ/I¯÷ï¯ÔS&Kâëñ«EànÉåîic&²ğ´>XËó{¥nº´tHNÇÎ£ü8DÖ4mëCÿ§Æ¶….ï@^†P›®ÇÔ†&S|ÛzBé`¼ñ¥4±zı ûSÊ2Õ™!x`I·Åäğ‚a	Ùµcs­Åå†wQŒÖ`%•a#ïRº:İWÜˆmFOgrr"ªåR‡æöh ßFømVÏ¶‰‹£á5]ÜÍ¢·#‚¢„¸ç˜µiÍ`;ß²% 8mø'ä¼Ï¢˜Ü$~ìŞ@“ÅŠ7Uš¬:iZ`fe‹Mím	ëÑO²ÈeJ]íqÕôØ9•G)ˆGErá¾(±úqÊÆáˆ&Áum2eŒVI{,³èÉıWó{Ï>s"êÓå·ÒYü@9X6Ã}%âŞB;gµ·¾z¹7qıùfƒkxT-­ÖŒÖˆôV–ha`¡ÅjY>à!¤t³ã&dRn§«oñŸnJy¨ÌÖ²1€zIåšDYXªKJªvÊ~²¬¯5œå·Ì’Z”*m¥¿&ş`ÔÔ|ÈÊé'|pÍBKN$.­Â ^U>û6fPƒ#Â€ÛPp´²Æt/×ì@8lÇßÀ1ÄÏ™©ânÏé˜‰U?Få¯…X2j¡½«y(—Ğ’˜0.¼ùvhÚÙĞT% \™ü¤æ¥Cû45JOİ)å7Ëò~Çqûekıi›Ge)9\ü›ÕÆã¹·=Ã½¯ˆ'2™¢´¦£C -=½¶T/ ënÈË”¯GIT7ÇŠ$Ú“eh¡äµÉ.ŒC$X˜Fv;Œz]$€CÒ•
+ÌçÀ]O¸İ†òÆÊÑ^V¹±œÕnZyVFü‚y¹‚¾ÒN¬‚É8-J	…«ª(Ÿ¼œ/Tœ‹p€Hiª´€Iì•d‚¶ª¹Í„²‹s”m±i]¤k¼ˆç‚„sd?h3/|;;²ªjù}Q>uíñªÛın¸r~Òhıg?9*ösÛqVNÙO~úIß7‹™Tß†Æ†Q[¯ájCÕÅéÙÀÊİCmñàlÜ<oÏ­ıQ	JÖ2ÚNÒØ¤å‰.²usÎh†RşÕ~_rÉ%—¼W†•[ì
+“¿».ß¿»wËrøš³7é_İAöƒÈ'ĞÄFBv£
+KO'6À/L§Û£râBÜ˜Œ¶õí`aJ&¹[T¯‡†Ï„N¬º#Ú‰^/¤ï f …¦!ôtS4D_«ãFhĞ‹FB—c›X+j fß˜
+G7ÃïhbCb¹6™QQ© 5Šu«É{}Ìî` ­ìÄ¤¹}oGé`¤gõ“Ô†˜¦7T¡Å½>!è'=ìèø`d‡éÕ¨ë^÷¬„dÄJSŠ|°ô‹õŒ•›FË—…•†ğ3² ù(ØªO»ŞÑ%}9¬j“ã7}b³	ÊWö;Ká²Yô*¦=¡W²“­÷¶l@i;{É%ÏKŞëõi•=}Í˜_É>ÉêJPÇ{Ë¼¶÷×ğ'õÖ•¦æ‰?×^KŒ…äMHüøÄã(ß4;b-¾ÿiÇ-èˆÆ>¹TÙ?ÙR•ı£ÄÅÊ_á¼ (ø‰Ã™¼rƒ3/én{RÅI;Ëxœt}‚#ÒRÔ¸ÇB)Ó™lhÙ_» FÙ0øFÔÆ£J9VşSÊ v·±ÿ$ü#áTÑ†ÖX/_u#ıêTãlI1–È¹/§»éIUâ¤§J§ùô¹{ãUª“IÃ>ÇÒè7®Õg§ôûrË?gz“<ñn%İ®ïG?µ°q¼Xµ™½æ+â(UäÜ¬Œèp]
+À§bÅiÚğ9Ë¼ùì 5œ[ùùÓâ |‚D-98 =NŠŒqYS—¥äèÈªC—*ü¦íDÉv¥DLƒÈä^ï©_Ô0¶È¾À)ƒÃß½ºŸ`‘~YŞ·¦`È.¹ä’Kşq¾ZOÇõËÒ>¡ğİ_”Ÿ\²“åå(·-_K=P²olOÃqjÜI!™štçñŸ" Sü:xĞ Íñ]Ûw®³]¾YºláIfÖjHéÅŒÄšÎ0ˆîÃ»EÑzÒ&E÷¼G¡³rÒd\ÎÅÔ&¥\ª‚ŞSİÈ§ÀdÙDMjvÑ¥|ÌŒZ`›J`]c3¬Ay²!âÄèLÓ686j.ğjà¹oG£¶¹ÏÏh»­eŒW–>j1˜W¢Õ a‹ÿØ—h>Èu‡ÁzMÖz|E 0lĞ£ãïÀÁóàr,Æ`Æê¿©T5õ#stƒª²Kã|+L“Á`Î 3QµØúĞĞ%Õ+ÃµÄ©ŠÚÕ Ò‹™|_”_ë{>Ãß”£!uSÈ¢µ²æ?ûè/_Ï(’!íqhÿ“{ß­7y,¨©{Äh+:l”¿±@±o¥wğÚ@´@C]¢wX.xès™(W)v(­"+0Õ6Ü…&­Öğ8 [ÖP:MÙ{¸¯d¬¡]Œi}¬ÃJ÷§dÀIvpY2vJ¢@ÒM9_Y­˜Æ<Ùç×·­¶ºDFºXpß&|Yf—g2Ôë{Š	’Ş§ı-­Ö¨Òİ…ìt`t÷„Ñi_.^é·ız{Ô'ˆy3Rë,WÂG8n‹‹/äÅpÉù†£y§ÄLãb)rçOdC1’Â´‡ş8 »T¯öG–Lø>="%!@RÔÀ8ĞFò˜jKƒİ¦!š¼±!—¦%.7‚’ùŞ‚jfg··ø&xöa.6|§ı.$O†.ºt ³a¦%ö,vù„ÕÅ÷iXÉŒÙcš½×¥ß9|Ât}Vâ‡MË¼³ŸäÔ_H@±w
+xoÓ/‡î%—\ò‡d“ì9^×°îŸ¯:}úÊnVğÛJ²Ã×Â´ÙÈªvuG
+ù<ÛÅëf´Moìê•oâÊùhé˜šUãLpÔ?4ÂÀPP#\Õ…h0¤óbaÍTù½^ßƒNÓçzĞ{©ÉãP[ı„w÷HÅ¢Ğ‘B¨ Öµ4#0UkD—ÓsBt¤ZË¯mÜ…õ¥))bÀ­È`L U‰ZŞörRŸõšH™œ@BvõqwÚ5²ÿÚ"»6f· ò©š¤Á,¢òx&e½£Bv;ÏQBÔVHğÆMTŸ†w´+DWªôĞPä“èIHj“*”52Q£“+½	Aüù2Ÿà—ÎşUÙÃ»VWmíë¡Êùt×#½V›¢H·êö4	¥ìu™mp[xW¢• «rÈ<Z¼Tè.±hûºK5·Ğ]d©*¨.D¢ãûH®%`Iæà°*-,¸8p›cY0«Åİí¬2aFCø.Ç°¨¹š(ç—Í ¬á]¡¾ºH_¸Û¡º‹AC²¦CwÅ›7Ğ]L–WÑ‘™5~\¨.Š?c¬æ±âNŞ•6‰ñRò
+RµÊÆ›üh»Fl°Ü“)ºë½Nwüó½6¢ÏÊ½Ç²½w˜öçÛ@NÊ†}ĞâW(‹I*„9#ÿr)“gÃ¸ø­ş3ƒ²aŸ V‰¥g²˜¤ÂOŠ Z&8b¯Ü†£.ñúŸjtıjùã®“kğıÂÛÊÒ<p½4ô‡™èâ!¯F_«‰ä¡º“üã]Uşı±+wOïGì:ß‘S¥-køíÑÙó%®Ö8W_<ZıüÁM¤‘¦œ¤kNW™<ÆVîšõÉî`¢!¯23°»vèÈ=§¼˜(¼"£¨Éq½ŠJª©½×–œÃ‡à±I÷S¡¾rsÃíùí`ÙõÊ!s¸=iPö¸Ş4”z=×6ƒı¬ˆ ? :á0 ™ÜDğzF{Ë»‚ŠÏ.)ú-¿š<Ş—§»ÑûÛ’î¸so$‹"¿ÈÈ…
+³ÅyVì1([Å^î³Ê/‡4ø˜£û>Ù0C`Jf†ĞX„Xìf‹[×Ä7Šî­O†“FÒvñÙš¬İ§ôDKÅôStNoVô³|àğ„ı
+û°É‹n‹ŞOt'»ïõ`Ë ÄË¹P.(^9t§Š¼XNl¶™$}æRáißSø#¦g	‰(f»®àLäÈ#ò)Ó¡ıH¶œÁ5Awmâ¥N'Ï4}K”BòWv?¼hĞvòå3(«ÍõÌ´ú’%İ•B{“±ît^E¨Åˆ]‘\¼6ãœ\!ä‡IËÑG%a5	æ••Õ*ÜwäE‡ño×¼WıQ‡8v/ÙÓò‹ÎW\òmròØ;$kG»-N¹Pgªk>—P§8µ˜xkúû·o´²ÈÖ×´»téŞ"sW£=În};·³x`úM–º³™W{‡ °„È¼L˜âœjÈGõÂâ4]K@Ï‰Á`òUÖ¹ x¼W yĞ‹(³ı¨Gİ{"H`ppt(¦ØƒZò%Ò"…oà€ˆ†î1egø÷fdŠ™âÇìP#b…éĞ>A“J%UIç9ê=…Ş³›“9E2Ìâğ?×*kâ<Hú˜Oß¨ Í)‹
+P“"e»V•í6\ƒİ…2´Ï·³¹Çb	N¬}…Â>5‰åúñ $Ç=2oÃ¢l”EeÇÛvP$kk²â¿›ó djÙò/d—!Ôq¢è«KÅå—o‹7°b`U¾ö2šVñÜ“¸™âF§;ğ£Ò	ğ¶#{É(ûàa‚Òá‚#S€ìÉòä%j‚ĞSVº?$$@>¡úÃ,à÷0R™b\Å~ô¨Àş¸¿EŸ|u` „ıo'qT|2XÊBãÚçˆ¬xæÍøá²|‚5ı×ÛEÕop¿~P~µœ>ìQ§;4ûuD	ÜÓ¼èŞ'‚üæKúå7f{s-¶Ê\Íã:nÅ	ãb-›T·— —¦Û*Ÿ”Ö‰Óš¶B²í±Á²`¿B1JÚ¦¶ç=1Ÿ&Ée9£ÇÏNN²°Ö “úaÉ~ÈEò_>ÊÒäê­ª·ŒT
+BĞ¨X&‘-7L³œ%±Ÿ'}­  İ÷ìx[¡V›ó Xc²r!.02fÍÑ5lO‰y]P@ùÈ¶FÂ2qÈë[Ø ĞP;¨±[j¡âÏ?ÒS!¦
+¯
+s)CÆ£
+5·`'üK–ÈÔÉŠ7³	ÍylóMêPeq¤.fCaQéTÍğ…ÄŒ5Ïêš¢æ "÷a?´R$eÎg´%ë¬ÉRiÙ¿ïŸ«hÙ‰ö’	TTËY,•á¥÷=–•à1Ù
+uÜ—ĞÃ^*_
+µÌ”1J"¶™áoHØŠˆ2š¼ Ó%×xßÃåOü'VLí@Ä“\¯å…3EA¡³U\PË¿O˜ 5hÌ`µF%l=‡æf¦÷ëOµ´eí{TáBE|jcÂqãÆø£å“‚Ğ§ÒO{=?·—|@N=™bqüSæ«?Êeñ%â-™Ç±ÕdÃòœ
+ô|?9Ø˜PéŒ!#ğÿÉ8xÏ>jÑ¹„KØ)ècÒãş©%9Õg%G
+l2D²ıÏŠg*3p^F;^EˆyXCC”8«ñ«üƒòoÌ…'å”K.¹ä’K.¹ä’Ÿ&6¬€U¯óIİ§:GB$boçt¯©“b':{¼ÿ1ÍÍx[AU;ë\•Íû†ùö¾¹ç 7İ”vXÌ²4³r^ô¢ AQ@ù±SGKaFÚÕ:Œ<§|êÃmå 0 eòóšú @« r¢Ùdî@‹™—ˆr ±şˆó ø«ø_Æ^ÁæFĞ@÷ãÊ•fŠy€Õ"ò&oB¡¦&îñoqÄHc¨Â˜ÂÍrŒ%0ÊŸ|pCò•ÀÄìA0"Ë7ÎÁ,†Hh“ŒtOØ¥aOlêJ	]hŠ7­;­øÀ´j’Ñ‘6É¨²*Å…V5µ]úÔ		© Í¸â&‘†˜ÿ1	×4ÓÁótÌOİˆ‘­8¬µğ–Á‰‡©€¦8ü¢á‡4É€‚jà.ˆ1;„ÉÉ‹îÚ)ŠpU1ĞÊøJê…’¡W)ª¡
+~‰‡{üU)h=(‚+ËH3®˜°ZA1®I˜K“SùM£T!9êæ1óª
+-FvR}×=†ØÊØpjÍÏY-úRš)ƒï(6v,iVU¦˜gRT2¼&nbÅ§ĞæUhŠ53¯Ò…,{Ï°"é    IDATêcsûç4aÄW¦3ÒŒTÂjyê44H2ğÑŒ@v"|¾8\ÉAQ´Ü¸¯5]~œ½\æ™¿([TT{çÛ¡$©5²gı#hO¹b«DO§‘(¬$yé®“oäXSÊb7­\7a·øÜÇPl >M¢rJvşK€îtP“¿±à”h!/ÎÇN%‰ë“¨uvôbòq·×'PA’œ4S‚}ÑéQúĞA7J]¾s uãÅ÷fİ'Ü´L„¼|¾ ­ô(AŠáCO(+5{A"¡9~ ¤ª];íù®W«“¨r¬³¦¤!–
+5Fğ°‰‹ce!^Ã±ßÕéQ¼¢)İ£¨ô˜Y¦{È,sW6TÍ*¢‚|çƒš!Cê¡¬ô©’¯	w2ä©:‰ªøXçaYIµã¨¬ùeª: ÊéQ0õHºÛPÓÙÖ¢øÙ„	Ìñ-cÇôãSFyPÌzPºÎ0@œjv±Ÿ33#H•J:vÊˆé»œDe›‰2,KuL}Ã'PÙYk• µ‚J¨¿úô¨Æ„ät· –³­–+íT,Óí¼Y2½ì;äìâ÷>„S÷fêm–#°ÖËòõƒr‹ƒèƒr¬õ¸¨“í{#êëİ|ä—ìäñ¢ıgP`ç¬7Sn—İû|EúÉnÌ±mh³ÏV?œ	eËß@ó ¡ğ©–l‹ŒMØ~P¼CMt|èÔOŞéÙÃ_XenÙ¥¤°îÓËû£¹bõKÑ‡ÒIn&]Á²	°:kÒ¶­•—hN¤dÌ¿‰	4cüñ'jĞPûºbõË$ùNØYèÀ(ÖŞ¯å±¨xğ+•ô’™³ùE¿ªĞ|n6DÄK²ËP¬~%²Nv
+ã¢UN&À‘M >SğĞü—Û,i	P1Š¸P¿JıÆúwÌníûˆCşÎ \rÉ%—\rÉ%—|§¸0¾å<Ó}K¹{JÅg×-b­Wv2™Pªå“© Ãğ¡V7ÃîŞY¹ßĞg7a§Î>–¯7l¡ûVßòWÚã{ävê•FjAsaôâ>Ğc—ÃØ,B€ï'p—™0Şƒí6„MpõÄÍå;5iÛñ“²ÆÛx6DsKgØ§Á‘mPLÅ»¥”@²PjáFQµ@oQˆ> Å£¼<¶ç¨–"æ 0…Cˆ%H>¡à}KÑlÜ<O^¬ûÈ$€GZœf41¦’= 'p×÷µ®Ñ“ZtH÷éa%p—@¶'•Ù½
+€«"P#6²-äØĞ|ØÂ9qèg)t9Sá–J©*'W3sÉZAÑ¨9lufe@ıé’Jx+%LbÙ‡hãŠcj‡üSbèç€NF’€`ı¡` Œ€»ŒËƒ’Ù½
+€Kjë*‚l4d¸+	•œÈÙã q|È«ªkØzPROsrº‘Ğ[bÓ±¹õŒÁ3ªº$±>¨¼™™iÓ ,dZ„á¶Fsá·êQoÌ2„¨#¼ßçàì€M§¥ Ë4ó*‡ÎM|JÓ£2šlÉ'òÈ#ñ°QTL/Sù…w‹@c©T~dopµ î1É%D7ˆí“Ù+6ˆyïí™tÍ$>1î‰ÿIÄr¹Xö2ÿ#ç˜ÿyÆ	j~æÎ·›r0…jÈ³?»#Îûµ<i¾‚I­Ä•¢ŞA«Ê´•ìH_¦f5Û>´ Väc>ÿs¯uìß!Ş-¼Íb©¡ß´]Ş¦ë€„ÚŠohvaŒÅ½CE&Š/G¸¥—us>PÁĞ°1¡ì\fêÊs¤VÑ¼d‹"âªJ`–ªŒ¦Ü¼&áSš}0Õ o,¡Á5tOÂfiş6©?ÃŠª`¸¥…0ca» [HÙÛ0p¡ıù’ª
+nR½³Lààá¥g°µ=#}³a8¢.,Ó©¡E•!Œ	…|LÔ}¬)²>‡dÈØ,!Õª€]¢B%j,\µ‰×lúfé	F5Ø.¢÷òx0®O:$$XR-F«†¢Éf‰›I]h|JGUšyI¨/•ÈÇdPºpg7Ë0)Ó3íZ_a³ˆTËJ|R1áì¢Ys«yStLØ1pÔ•/É4®)b[àÀjLùÅÎWÖC-Ú^~ø£D°¤.4ƒNéP%‘z¹ªåºš)ßÁÓ˜7)øzĞÓûey7Œê/ŠêŞ¾ø$Ø%„–ïz4ş¦gZwh5(ï1Tnon3¾ua°ÌeÂ}‹cË= ×kÔĞt?+&Ïœş²İ"%8ıİR4•  01
+Ø/$ÅéO§¡®‚)ï\o©œqÄmÅ ğg›qüÎ6ÃĞ“eNïÊ»—å(P¾—8ıŠ{kl¶æƒ¦bËj† >Q.Ì˜‹ğèZf»$˜²™ª•ş8ö½¯n–Xæ˜p¿
+®Ñb ‚(^6i“ÈÙÃ_>hÊÿ°Æ¬£Ü|ú“6š+âÚ%– [IeûæŸ„˜;•	÷í<_?3òC{n)ÅSï‡BóÒ„«L–ÇrĞ”¢’Í~/=ˆ?Å	 Sm*<[.£–oÃ>	<&:Zú³%ÜZdßû@ò©7íáº÷æ¿kP.¹ä’K.¹ä’K¾J*x×ëÇQÏb»îK·Õÿ>fØM'öbNÚÊáM½ıË±]”™-o7å„ş úû1'•À»ô·wa<zlà€íš	Û5’_Š¢Ã5ÀS@%flW¯½`»:38&î*	Û5`óM§äz¸±2q×à§gH$\pñÏ	ªBÅÆB;|w\$B1n	»zã„°Ëğ‰}q¹™c;Ş‰9éá–«cNcØxÚªG"‰ ->yYwwÅ3%Mc‡Ú¶‹‘Vé,=‰»H0šä_nkâ.§s&{¼¬ÎÇóÄøá[>ddö‰BØÅ(0&ì©*"ãb3”#ÆUxÅ‘buÌI6˜0¼Ë›Î‰k‹æ£a" ÆIázëTß0“Yú…flW›¥)ğ²li‘ĞH8F§äz¡åZ×^\”Š”‹%Ã·B1Şğ dÂ.F	aû…C”)åÅœ·ts?j…õ‚4‘!ƒ†NM°]3qßõÍ€HŠ ãcë¶«ø'ÅÀ¬t–,-wQÅ§äÀÓ–,&ÍŠwšÅ'ûx /ˆ©è‰"í‘)fêÙD³!ã–°(°DØÅƒæ·E6›Ã˜“ÿ±`C
+¶–Î~©ıüëÎ—~Eö•ƒòe¶3ó1¯ğ'pdüu9šîîaŠ"o"ïz@Ú¥Af;©ñ\Ïş÷ì]«R2ƒ‘ço÷äàî²õ˜¼ë!¦µ™İ…jÙ\öºeO,!éEÙÔ×õôz5“¿mÈ»2>ë4yC¶É» ÕJ¤][¨ğX5TK×P­ºÍN¦’-7(fÒ“÷»4øÂ-{½ÚÓÕ™¡Z„ú
+ÎÉä]ˆË¨
+>ë4y×|“¼K	»–(¨…Œ”NAµÚ^É§P	 ‘”=rã{£>Fï é#…¡ä@ÕCR+ö.¢ËJWÃ
+Å$û¥DŞ%:ÕÓä]	²%_+ò®¢¨Qù¨VúTKjÉP­¬¾=PÊNşGİk­Ò¾/iu†ró
+Ú°w.+_-¨´4è[!ï’ö'|Öiò®ÙÚ“w1T+¤òwP­q¬¡ZR1Ï”!ÊöñĞBF	|šiÛ„ô†²ù úğ¥ä]ou¶™[€³÷'|%y×[å&àìùÉ»ŞÕº8s¿	<ôäïA²Ş!÷ÅŞız¢€ß$Å„(°f†diŠ[Lœ[lŞ›l{›`.³æøİİy“$¢@²C² rçVeŞcë^0Ç¿!Ù„È,(Ï°×N/qnñXğ ”¤VÁÿ†d¢Å)è’5‰s‹Ì{*4°ím‚9’%sÌñ›{óSäBÈŸ7‡å±‡2¾W^Ò_}çûiŸS,2/‰?ÊëßMlZjiºyp_±ÄÆ¸WS=>“/)óH¬ø@§·2…õóâ¨XÍÁªûÈÅ}¿-¯ç}¡–£Ñ?ÛÊ»+`|eæœ™nç§dNy¶'q¥èù9j?,#Eå‰ŠHTÓÀÖm|{8Y‘kü¸PÆOs®_Õ.K£||5¡÷­ólÑËâaW‹É¡ÎàŸf0ªcûÚ9¤£şWfâë}êÆ°$]xPº_5]ì5.Pß´Q=h¦Vƒ~Œ»[0»8¥e×¦£Nn—ã‚ı\œöDÚ4c2İMjF£‡~UIûd%u.pãøŸÜ)7Ä—8ÚD·4Ãôa
+›øx•erauç£#¦Ÿ´Eíç¦¸š¢ªÀã*7ÔÍ™­™Kì˜éÁN“Ç‡ŸEˆuìKĞMg®Ÿ×ŒŸaÖÄ´ˆ[—øp Ã_:mC‡>ÅÂFVëñØ»Rô]¼C]Ù1=’ŸfmÏ3í'Yúi‰Á™CÍ¦æ 6?@Óõ>—‹-_`:¥…ŠÏ³wÒßiéSlÅŞ)˜òIä¹gO	'i×µ(É–SK|3—Ê-â.éªU½uÊÕ#É¿ÊÈÁù³”)7¥ñÔ”j 8Í8ß|îÚ«õøä&¸dP'
+»¯:î¬ci>İâikäšc?«Y(_<q¼T«^r8·ÁßôH^GdUNÂ`1@Ã4&|påa¥g±´uGeD–¶îÍ1]=ÕX«èØz¼ˆk&6?ı[ó•!-{qú{*„5©M-’-¥N–‰¢sÚNqÕŒõDÉE§†¬ëêj{Ê3Óãk‡’IšBy±¶V if_X
+l`?X=>e¢ô|c9¡zL!Ìr:'.TqùèÁh?ß2¼˜FrcX7Ú%dIL{JÔƒMœãXuâúÓ†ø^ÑKÑSÌ0Fm³Ø-a4a€Ëcû..| wLá–¥kƒÛPXqèÊácÿõ”ÿôaĞñf|ÁQÇ¨-5ŠÊó³ï:¢v\°§ºU;Í5Íp,¹øaŞÔb¸~I-â—1èÜ)ÔNoÕXB«êfÄ·ÌvÀ°ñS—ëüx,¥ÁíÔw?â‰×)iJ,Äùàª¡Šs·vœÓ"_whg>•EİôóÔß£Àx(ów œóWìzo÷åÔW.üØ0óÅyu,&Œ_…»ä’³ÒÌ'‚ºı†¿³µŞKwã^ó¶5ô\#oÕ÷Uë?äZÎ¹Ó¶ä¬Ô®|İ“‚öHÏØ{ÿo×z€ t«JJ¢ã–¿Ñ˜wjhnÖ—sŸDtÔ½?ùhP½Ğ¡Ë(Ó`·~«ÚÕÑt‚)4–ĞlØy›~„Q;f+¿¹Tvd¨¤õİÍßÓx£ÖØa°yClmƒv™ƒ{Ò?>¿´+–l¤yë½êÓÊñmìR¥úR·a›?Ôá° º¦ÍÕZÇR÷#ynÑ‡ŸªÈ†N[_>öqË5aG6=Ìuªx…Œ,–™ó…aà© sli?èøÓ% A›>?£.Š°›²
+ i¹q·VJÛ†^k˜ıú.%¦J(F‰Ê½6·¢­-"ŠqçûB¬¿M.9]âAHêSnh© Bcè÷©H`	ÉUpÖ¹éC~uuÜçØ);®HMµ…OF¿Í•@h#0ö_?e¢äæÚPU¾ö¤|ğ>Ozìg6Å¤KÙb%ÅÁ)ŸÊƒ­xÑi7K×íZs±ÔÜv¸Ÿx×¸¾—[f­z‡³DİBècNç’ÓİA8×İDOJå*U·O•«ˆëÈ>we¡“¶å‚ò%œ—Õ5ä
+s%%SxçDiÁNOœ&Š«ÚdÈ—vBñÆõDI—h-`£'™¤]õôcoÌí‰Òİªu5QpÍŒUÎqÎm(÷šØÓÃRŞã|b=QıÓŸ….%]@+›™ÖİŒÿt¨`Jn„–Ñ»T¹ÑRb¬ö»Ü4Ìå1Ô)q<4£¼Ë¥&~2°¶S®0õBC>ØO”K¢N`ÈXûİíx ×“şnaWóçà¼&Ê·KÜôÜŞzıÙöoä%—¼"÷±ˆgQzçÅßT½ n`,ê Ğ~LñX^‚ƒÆä|ßÚúÏeN¤ıàëõÆëùü[»Ú¸WòLñ†<x¯*%ß¶‚/8‚Œk±£B˜9?7c€Qg"dd®¡xÈØÎ¾ ã<`4!îoPŒ}ô–HEÆ_O·„&áíaÉĞí‹7T‡Md‚ö!“jPÙŒ£D1÷Ó“ˆe™(Í<5Jw¼ù$˜b‚&2Ø°ô†{\Æ#µ—œ¼B/îP „Ú)=p)Fğ›©i˜i|éËàL=ŸxtÉÇÉòH'ğäL”ŒŒ#»_šÁ	7—±x‚¬« x´÷7ÉŠvl™ÛC7(ÆµÅ&)Wè^«V­
+	a™ªÎ™(å¬ª¢TXæ–dİ×µKÛlXL(ÜÊRóª¨4.¥óù¾Eu6ÙäUß–ÊŸTœŒo5Ì”/IFF¦Æğä§KFÆ97M¹C]2ù&X ™ŞCÅ#¬œ^Ô½‰²‡nPŒë‰’‹Tl +ny\=[ŞèFªºdòC—‘SGªÕDÁ çe¢$°aé÷¸ŒÇº¨4.û‰²Cu2 4=Ìt[ğ›ÒN)NÆ×TÃÌEÀÔC­}¡üü|adœ›	ìW¶°L…«A„!ëj,"¡ [Şe ã< Ø|»A1R¡€¶*Òr	¯¨pe¦V1´‡óJÕ’	$í†v¾Û=z#KƒÎä0¾§JßÃ’ ‰6,½á—ñ¨‹ÊãRu>¡÷¨N=„Ğ$(#øMi§—Æ7v%¹ØatLfH§¸dO~¹üZ«{îNœæ|Î®ökÇã³¥ıù¡nHŸé£8&îğ(Ûù½ãqÉ%—\òsedĞâ¹|íöËEdôïˆ¨n-£^VWÄŸŠ i÷—@…•‰ó´ñ’ß+ŒL B6&a'Ì`uŒæ3°±ài›‰lO“2IfæªÈKşˆdR6ï
+úf’Işmøf$ârfËUÎ²6Ã]òûe3Qh½ Sºù©{!"f#a$ÂŞ˜A…„YÄı°F¿&Ê?'Ì½}ÉgÉ5Q.9!&j$×L¹ä’K.¹ä’K.¹ä’K.¹ä’K.ùvù+Õ§1ZuÏò¾ãëyùf5n»s‡å>æ¯ûœĞ<±û~’Íøhà›[@º±ói=ëQO†XÛ0œ½™YM0EşYÄh;ÏöCÏeGûeû1…)Í’øªÖ	‡;U¢«Â°‚iqUìYBZ•À2kI$d©yÅGÑy"»cĞÚN.EíœŸ;2²Â²,‰4« yó¤LyÌJ7%YîëKÌjªæ/Kc»eNuœ³kÂĞZL¡¤.chµŸ—ÆúĞÒi4	oÚ,ñiô‰·§:BçûĞvMğ­æX@ğ}ÛND‰ÕŠÊÏc'åRh•…İ*ócef©š»ªİâc ¨wÅÄUHÀ¬p…ÇßoÅ•Š–Ò¶ôX !CÑãPxÅ2Gú–AK˜†ò?TJN.¡uÓòDÙ–©š­+“f¥'˜š•2U}"¢-'­©®¿Â¬Æueş²ÜCt©•Ójr€ˆx$,/(ª¥P¸ÅpE¨nÓÇwç¬ŸApÕÅbqº&N!] ÀÃL´y&lÏ$	»UæÇÚ3KE¾ªõÏ´ŸZ½:šµæ½Š£Ä]ÅUÑc­Nb•;ÎĞd^±ÁQ	n±fĞªZ´YBÖ×ÖddjGXV÷¸f¥{©Y)SÕ§8Êšé»1õ«ëå[aºZªÛŒrnGâ/[õPşíéÍ£Š³ÒP¼eÖÂ:.ô¡ëÌhÒW56’$Œ®S#~c.¯çóäú0!ğBh[f­ã€÷4éÇê&›
+?Vf–ªZŸøªV9ˆu*_Ü€t®²bÏJôX,³›(œ‚iŞhÀ3'¥Ø0h)
+„¦pÍõDÑM³é‡»iëªÇ™4+éÎ©Y)“Œ‹Ÿ}Ê^õõfµôDˆ¿l=æAd/üKNÈ…ı¿ä’K.ùu2-İ"¨=Ùß_åM‰Ş©óT)7ãn>M…õgØÇ‚™¾‘»¬*©z_,5ï`ïÊ½ûïiå©RnjéùÆô[³| ‡;Û×É*ŸkÉÛ'
+q]ù¾b×¢ œMa×RŠ8¢6±4±ï´È»Yİ›S¼RHÓk3Ms·e´â›Ûğ¢¹’{AHU"çBœÌrtE…Eô[++)HzßöÀ³æóbÆ.âÅŠWã¯3îÎ»Ô*†ƒ™Rñştˆ[S3êª¼c™n¸Ë,”skî2)fD\;lëÒOb"Çuèñ¸|0:ÖÎÀU­(+ãCº²ØÕıUlÌro½.Áfç#F+½MxÑªu"ia#Ò«R®¬RA¹’ËWºx@ºu'Š¨Y˜pcUŞ+±L7Üek{Şšmİ2p+3ÄÔó‘¸ß¹¦§&
+‘J™r¿YîÙd«'Ñ{5öŒVê ¼hUƒ:„TØÅØš
+kÏ`•Êİlä0í´³v¶«‰r3Š(¹Y³-ï…X¦jÃ]¶(k:´R\¢îZ5ÌğÅÌO¹…¸®8ze
+— œÿ·õYÅÒôXç!s]U±1•/JCŒ€¨Qü£•:Š[šjà6>Bšãnf°š
+‹£„ÖV)ø(ó2óUÍç%Ec¼ãp IM”b$˜)_AìD?øÊ«Ë³/Ä2İp—Y“GKÕthiªöóŠº«j î'•IÏüå7Ø%OÓf}¹¼[éûŠİÆ³23±æO	ArŠ6ëD‡¯ÉŸZŞ[ÄÅÅJÿø—\rG¾xÉçÈÇâyÚ[½‡®}ŸÒÊKV¿·C"¶~tì;Àº±Ï›Ód“Ñ‰é@şJñ<³ö1L“°åRXÁ¶°Bù.hÆ‹ìsDŒ„ƒÛ"±YI4ù¹öíñ†s1M˜şäOŠW)CŠaÊ‡6È¦™Ä
+†ÚeOhÆ*ìé%ï”b]Úãş$„¨€Ÿ–`ßoHfÀ<QRÙÈŸùÛD(•LRöÚ¸ì†,ÿ›]‚f¬
+½äBvLz*;$¢•¢9<æØ·Çq3–=-)ƒ WL*^)Aæ¦Jí&JW³‚ñI”a‚e4cöô’/–Ÿ	¤ü‰¶­\®‰rÉqş'šõpœâ»ÛpÉ%—\rÉ%—\rÉ%—\rÉ%—\òEòÔÊ'#^ªâı“ÎOc{¶
+“ìLUò“¬c6ŒH;îïÜ'Ş2Ãsç×NÊG,¾Gyßx^=¯ ¦7Ñ1ÇX7y½ä«uUì{[]q^m¡ú³¸YOó)ì“ß'Ş2>ø¯Ô3RÓf±¸qh7;CWjÙÃ]
+W–¶ –j@¯µÅÍ0í×Mn.+Ğ–n.áËMkø°F
+ÜL…Ro\Üñz%–±m¾4H«Ä›&Õ@›ªÕ(H¦5Æ§N.¬c	¾s·3­ÍŒ éÂÍ•8´jâ­®.pÃ Ú¥&`D\ÀùÁÆÏsc]°|T~¦sDÔ5lòw¡D¶g*)}Á<Q¶fàJĞ}DÖU.®¸²p¢Çôn†3=àæªŞí¸¹Xd›hq „YEÆãó[‚ÎYñG¶âv9rÛ2±V9»i’ mòQ£6'Ä#ªT>õ¡!R_O¥¾SÇô3šb¶5›_:™›K8´VÄ[}:1Ÿ|`2³îRd{ş.œOË1õ³¥÷ùE•Ô³²9¶ÆºH×öôZ+ÌŒNô ÆÍ¨Ü\Ú²åæZñ€¥ä)õA7h·Ú
+I¥äà+Àvä³i›&Õ\•Šs_ù^•*Ãˆ¶¥G¨cú•FRÈÌÍÅZ{â-î—‹JÔÎ7¸‹#ÈÈÇ‹q•Á‰´XÎ2uz•ßV,n‰J*Nn¢åìÈæ¼à
+ë"ŞÁ]6LR´U¸.ê17W†¶¨57×š,¾¤.:*^sÚú±wê°­rê9•~0Q2±–-t|«&ùº“ë‰¢>V½‚ÉBhz}8Qbúıiwü‡OÔ^ò/ˆ/(Û%—\rÉï”ç˜œÉ£Î0|İLk‰Hk]pJdŸ%Ùº+§(»n&z¾-‡ÃrS:Û~ø|öy¿Ö²Ú<+wl«ç¾—ófÄî©Ò~µÏ7êq–÷ôøa¾ÌûUÉ–*J¸¤ÍÌÇ¾ÚÄe%UàéRq3M<YLã%$\+Â­-ÃsX©”¶°e"-°Ri#Q3uÿC¬^å^"Êb‰Õ÷aZH¹ªÂFCzÈ Àze
+•×Š²Kh¸ö©¨ñ¡´XººÎİ¡w…ûªTG’	º,÷¢×Ú{ÊRËüœ˜µR1n
+æ§÷Ö¨Ã«òB·„&õÒ[lp_æızRV6¢Ä%ÅC‰b)ØCMŠ%g€<]Z[‰ï7e«mÚŠH‹şqqóo…{{¯Û@¯2)W>ˆÄÕ±½ÍtëUØRvÂ¯uªÜöÜbîê†ğ2÷Õª ÜëÄ—ÕÔRF%UŠI—ÊS˜&·+¯ôraã÷ë9Y•¸¤XÆhõ×¤XütõêpŸz8QV^Å:mE¤Åz—  ²IDAT9ü’ƒlïåÅÛNì–[ê©Ô®â­[’.5aMÙ5õÇ©ryÒâÔÕáÙá2÷U]Pîu3§zÛU#·vıRLº”Ÿ‚î]h·åå^j}÷ë9YSE	—”¿„„ËÊ0G±aù¸¶aa:E\PkÂ­ÃsX©”¶°é¸ªú63PÅ…¬O‰Ê½L”EE›%qM1)W]Xl>Ï·ÄÔaøßÒ·5eÓpíS©Š§-Î]-mAï¦¸¢%î«ª:.;t1_–öËØ·œ%3–ù!5$Ãİ€ğS0n½Ä÷T]X3¹—.f‘Ø«¼__–ŸÎ5õncøŸ6®¢üt®©‚ğë’K>$æ÷Å\_ 3¼äcRö7+ŞmÑSø¿ÓòâÛú _¸:¹|¾±ÏÅıÃ’ rÖK±:w3"‘hñåœÉ•áç;\Ìå¸ÃFV¡2Óu›4^lÙé¥ÛªL¤½R|‰Ú)­¿‰ş“ÆJoK#XªÀ¦o¶ÿ"Y‡´Ì 9ëåXªÆÕÁš‘I´0n9‚Ô™ÚÒ ˜¿Ê1c#»Vz%ğ4µ‰MJµä%İP%ÿIí•âWA>Uİ9µÅHâ~î-7"ó‘©U`Óv¢† ääŠÄêT5®®ÀõH—3÷¤ W·Êq…»Ö4¸MÊšš(r[ŒÈù·WŠ¯‚yVöÂÚ(¶ê{î­­Œ°6Ï':±k¢Ğd€_–XHVpud¶L$Z«LÍ\½+øáQ1;”cÂF&v­ÀQÅ&Å	3ÊcÎ·T)¤½R|ä“Z_:—ú]õ]—Ş¦‰b™,Y…9‚¨—òaiñº'ÎKıdCÒ¿»t|º°n`ŸÀ<\å•²Í8#&¾ôìL±±q×Kæ’K.¹ä’K.¹ä’K.¹ä’K.ù~ùQ¤\¹·~Rà»f>‰ 5îf #j®ánÌ;~
+_ÀGÌo6™ŞçŞÚ’ ±¼„µy)Úİ–k8e¡<f{BnRsİ’fíCêÙO4!OÖC¿‡¨¦®Ä‹…³…R«‚˜0×>Ş•Vø¸6\V+î­Tid:dWZ»%îÚpmøNİnî”óz›ÊÈ]³„áñ†™İ †@æÖÜÛlÒU•¬‚şmê«©¹BbhpkµK¬õ ãŸ|âCH¹4¹é™”Ëùàú¶µbèR’SN¿!£—v¤\3º	ö¶Š”k=¡Îí˜ºj¢+:ÚâœªÃçã*\VJ%„ß)¡ğÒ (Ò°q×Šk«†ïlBç+~¬ue2F¹KÔü–ñ «u{ I\^kDQ5Qé— i¨Y‰Šlô1•M¡æ‚Ó¼¥I Ê"y8 VJsJH¹èõH¹\Ì–.bêZ1t¥œó¼Yö¤\åéä/;è	5`‹aÉ¼Xâõ7#UÃ%¤z‚¶ìNt>®Ìe•nÕÜ[öh¢È?;â®×VßÙô¸Àvö•¥1J]’‚•3’±ÂÕTí)Ç6W@‘Uå|HS4$‰ŠlÛÓ©W…!«¢æCÓ¹øüq©SËbÀ©f­çK¤\ËÒzH¹æXO‹¶]3tIN>Öæ+*Ó)W?›íDÙCO ;KæÅâ¬Ã	W†¶ì'JáãJ\VéVæŞÊ•¦5‘úR"æ–rmUğR=AwèœË¶²›é–J!ç<Ò ®'Jæò:š(®jABÒ¤îöûáÅ…íoü¯ˆş¹Çz^•oíÒ_u•7Ãã4¿L¾µKıÅ{\rÉ%R~&§Ö)²0«†S\«’îâ7›î4¥7†ôDõûä¹¤:ã½
+>Eªsg?ï¡œªÿfùÆ¬Tû,~ 7†ôeÊ¬ºİÎO¡O–R/rje"/³æÔ"izm¦iî¤,»æÁbN«rQÇ½¤R×ğÍ.‰Ìî)´„+ñP­«fVªšBK
+’şåqV	YW&²ÊÙúĞ¶—Ûÿˆ2KÈ¯è>Rañ: ÌâäLqæ\¦£ĞnNŒê!.™!–Hi¼úIHsr_::2û5Qv‰94ñuåç‚¯ägMlŞ×ª¤ÓœZ™È+lY°ÈfçŠíjeãØ’c-«sZ…B«¢«Í#‰Kx¨¶UÛ=…”+1bK5¥ÂK¶t¥ŒÅ]Ê,!¿ª8°ÖCºîqº¿M¾çÔÈ›í–væF“©Çöu†t®–+Ï•0Á—ÜÍ”R{y0QÎsj	‘³Q­x¬ôÀöÊ\Vı´wäXsŸF2
+-{8QäGx¨6UÓsÙRh­-˜œŒjã§ª³¥+¹ı)³| £»xDÖCºîqº¿M^Æ™BU,j7Q¤İ3€´³4ÚÌ•'¨L”Ì×•ÊçXiv·”±OÂ«œZDäµãÔ¢ÇñJÊ²¥p•9­ş[.z,‰ó «`;Oñ£Ğƒ­³r[˜+óP­	¸ˆ•jM¡EÉø	åUæâAu%DV)÷ˆÛBíD™%äWCáÀZifñZQf•ävÈƒJãì'r¡àJš±ıºİ}×™Ä&}Õs¢/ãa˜!“qÊÏ±ÙÀoÃ2ß‹§àƒaêÉˆk_!Õñ¾x›ñŒÌÏÒ—ı„o}üõ´ãÏ›'¥¼úÉ”YOÓ—µá:{.ù	rQ`]rN^}ûî1W+
+¬'ˆ­^B^òy²º¢ÀÊ·…Ë#Tc	 É@ÄªGùn‚ôÒVsP`ÙüÁŠâ?);Èáš+İ
+,Á¦ šDÜBõ2HBèÅrdò"ÉÍX…ŸkW¼&ÊÏ’äpM%·¤KÔü@“ˆ[¨^é¥+Ù‚Ä5InIÁÉC³Á+^ågÉrˆ ìfJöìt[¸¯o(4ˆ¸‚ê¹¤§Ôn¢˜œ;OáçÚàC­Û\rÉµt\rN®‰rÉ	ùÑü\ÿ¦üÀ¡â“d ’    IEND®B`‚Yimage/png    1 < Z q € ’ ¨ ® ¯777&7/7E7ˆ9ÑIII'I]MsNkNuN~N²RÆSœS¦S¯SåWıYY"Y+Ye]^›^¥^®^åbücõcÿddEhbii%i.ilmzz z)zg~‡¼ÆÏ€„)„¿„É„Ò…‰3Ò•             G              ÒŸ

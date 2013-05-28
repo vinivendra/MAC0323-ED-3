@@ -4,16 +4,28 @@
 #include <string.h>
 #include <stdio.h>
 
-typedef int Item;
-typedef int Key;
+typedef struct sentence {
+    int number;
+    struct sentence *prox;
+} sentence;
 
-#define key(A) (A)
-#define eq(A, B) ((A) == (B))
+struct palavra {
+    char *literal;
+    struct palavra *lema;
+    struct palavra *prox;
+    sentence *list;
+};
+
+typedef struct palavra Item;
+typedef char* Key;
+
 #define less(A, B) ((A)<(B))
-#define NULLitem (-1)
+#warning implementar o less também
+#define NULLitem NULL
 
-int ITEMscan(Item *);
-void ITEMshow(Item);
-int ITEMrand();
+Item *ITEMscan(Item *item);
+void ITEMshow(Item item);
+Key key(Item item);
+int eq(Key key1, Key key2);
 
 #endif

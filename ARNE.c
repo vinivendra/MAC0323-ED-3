@@ -21,28 +21,26 @@ const char level_sep[] = "5mm";
  * Back to Sedgewick stuff
  */
 
-typedef struct STnode* link;
-struct STnode {
-    Item item;
-    link l, r;
-    int N;
-    int red;
-};
 
-static link head;
+
 static link z;
 
-link NEW(Item item, link l, link r, int N, int red) {
+link NEW(Item *item, link l, link r, int N, int red) {
     link x = malloc(sizeof *x);
-    x->item = item; x->l = l; x->r = r; x->N = N; x->red = red;
+    x->item = *item;
+    x->l = l;
+    x->r = r;
+    x->N = N;
+    x->red = red;
     return x;
 }
 
-void STinit() {
-    head = (z = NEW(NULLitem, 0, 0, 0, 0));
+link STinit() {
+    link head = (z = NEW(NULLitem, 0, 0, 0, 0));
+    return head;
 }
 
-int STcount() {
+int STcount(link head) {
     return head->N;
 }
 
@@ -51,15 +49,15 @@ int STcount() {
 #define hrl  (h->r->l)
 #define hll  (h->l->l)
 
-Item searchR(link h, Key v) {
+Item *searchR(link h, Key v) {
     Key t = key(h->item);
     if (h == z) return NULLitem;
-    if eq(v, t) return h->item;
-    if less(v, t) return searchR(hl, v);
+    if (eq(v, t)) return &(h->item);
+    if (less(v, t)) return searchR(hl, v);
     else return searchR(hr, v);
 }
 
-Item STsearch(Key v) {
+Item *STsearch(Key v, link head) {
     return searchR(head, v);
 }
 
@@ -112,7 +110,7 @@ link balance(link h) {
 link LLRBinsert(link h, Item item) {
     Key v = key(item);
     /* Insert a new node at the bottom*/
-    if (h == z) return NEW(item, z, z, 1, 1);
+    if (h == z) return NEW(&item, z, z, 1, 1);
     
     if (less(v, key(h->item)))
         hl = LLRBinsert(hl, item);
@@ -127,7 +125,7 @@ link LLRBinsert(link h, Item item) {
     return fixNr(h);
 }
 
-void STinsert(Item item) {
+void STinsert(link head, Item item) {
     head = LLRBinsert(head, item); head->red = 0;
 }
 
@@ -142,7 +140,7 @@ Item selectR(link h, int r) {
     return h->item;
 }
 
-Item STselect(int r) {
+Item STselect(link head, int r) {
     return selectR(head, r);
 }
 
@@ -154,7 +152,7 @@ void sortR(link h, void(*visit)(Item)) {
     }
 }
 
-void STsort(void(*visit)(Item)) {
+void STsort(link head, void(*visit)(Item)) {
     sortR(head, visit);
 }
 
@@ -173,7 +171,7 @@ void print_rangeR(link h, Key lo, Key hi) {
         print_rangeR(hr, lo, hi);
 }
 
-void STprint_range(Key lo, Key hi) {
+void STprint_range(link head, Key lo, Key hi) {
     print_rangeR(head, lo, hi);
 }
 
@@ -197,14 +195,14 @@ link deleteMin(link h) {
     return balance(h);
 }
 
-void STdeleteMin() {
-    if (STcount() == 0)
+void STdeleteMin(link head) {
+    if (STcount(head) == 0)
     { printf("Underflow"); exit(1); }
     
     if (!head->l->red && !head->r->red) head->red = 1;
     
     head = deleteMin(head);
-    if (STcount() > 0) head->red = 0;
+    if (STcount(head) > 0) head->red = 0;
 }
 
 link deleteMax(link h) {
@@ -215,14 +213,14 @@ link deleteMax(link h) {
     return balance(h);
 }
 
-void STdeleteMax() {
-    if (STcount() == 0)
+void STdeleteMax(link head) {
+    if (STcount(head) == 0)
         printf("Underflow"); exit(1);
     
     if (!head->l->red && !head->r->red) head->red = 1;
     
     head = deleteMax(head);
-    if (STcount() > 0) head->red = 0;
+    if (STcount(head) > 0) head->red = 0;
 }
 
 link deleteR(link h, Key v) {
@@ -246,10 +244,10 @@ link deleteR(link h, Key v) {
     return balance(h);
 }
 
-void STdelete(Key v) {
+void STdelete(link head, Key v) {
     if (!head->l->red && !head->r->red) head->red = 1;
     head = deleteR(head, v);
-    if (STcount() > 0) head->red = 0;
+    if (STcount(head) > 0) head->red = 0;
 }
 
 /*
@@ -306,7 +304,7 @@ int faz_desenho(link h, int nivel) {
     return d1 + d2 + 1;
 }
 
-void STdraw() {
+void STdraw(link head) {
     printf("\\rput{90}{");
     faz_desenho(head, 0);
     printf("}\n");
@@ -316,14 +314,14 @@ void printR(link h, int ind) {
     int i;
     if (h != z) {
         for (i=0; i<ind; i++) putchar(' ');
-        printf("%d%c\n", key(h->item), h->red?'*':' ');
+        printf("%s%c\n", key(h->item), h->red?'*':' ');
         printR(hl, ind+2);
         printR(hr, ind+2);
     }
 }
 
-void STprint() {
-    printf("\n**** %d keys ****\n", STcount());
+void STprint(link head) {
+    printf("\n**** %d keys ****\n", STcount(head));
     printR(head, 0);
     printf("**** ****** ****\n");
 }

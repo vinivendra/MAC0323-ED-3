@@ -19,13 +19,12 @@ struct palavra {
 typedef struct palavra Item;
 typedef char* Key;
 
-#define less(A, B) ((A)<(B))
-#warning implementar o less também
 #define NULLitem NULL
 
 Item *ITEMscan(Item *item);
 void ITEMshow(Item item);
 Key key(Item item);
 int eq(Key key1, Key key2);
+int less(Key key1, Key key2);
 
 #endif

@@ -30,6 +30,11 @@ Key key(Item item) {
 }
 
 int eq(Key key1, Key key2) {
-    if (*key1 == *key2) return 1;
+    if (strcmp(key1, key2) == 0) return 1;
+    return 0;
+}
+
+int less(Key key1, Key key2) {
+    if (strcmp(key1, key2) < 0) return 1;
     return 0;
 }

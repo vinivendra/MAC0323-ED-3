@@ -8,17 +8,18 @@
 
 typedef struct STnode* link;
 struct STnode {
-    Item item;
+    Item *item;
     link l, r;
     int N;
     int red;
 };
 
 
-link STinit();
+link initTree();
+void STinit();
 int STcount(link head);
 Item *STsearch(Key v, link head);
-void STinsert(link head, Item item, Item *conflito);
+link STinsert(link head, Item item, Item *conflict);
 Item STselect(link head, int r);
 void STsort(link head, void(*visit)(Item));
 void STprint_range(link head, Key lo, Key hi);

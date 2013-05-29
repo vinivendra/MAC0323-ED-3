@@ -7,9 +7,19 @@
 #include "Item.h"
 #include <string.h>
 
+#define YES 1
+#define NO 0
 #define STRING_MAX 50 /* A maior palavra no dicionário inglês é um termo técnico da biologia, que tem 45 caracteres. */
 
 static Item *NULLitem;
+
+Item *newItem() {
+    Item *item = malloc(sizeof(Item));
+    item->literal = malloc(STRING_MAX*sizeof(char));
+    item->prox = item->lema = NULL;
+    item->list = NULL;
+    return item;
+}
 
 Item *ITEMscan(Item *x) {
     char *t = malloc(STRING_MAX*sizeof(char));
@@ -25,8 +35,8 @@ void ITEMshow(Item x) {
     printf("%s\n", x.literal);
 }
 
-Key key(Item item) {
-    return item.literal;
+Key key(Item *item) {
+    return item->literal;
 }
 
 int eq(Key key1, Key key2) {
@@ -48,4 +58,9 @@ void initItem () {
 
 Item *getNULLitem () {
     return NULLitem;
+}
+
+int isNULLitem (Item item) {
+    if (item.literal == NULL) return YES;
+    else return NO;
 }

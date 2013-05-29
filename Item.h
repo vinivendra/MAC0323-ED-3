@@ -23,8 +23,10 @@ void initItem ();
 Item *getNULLitem ();
 Item *ITEMscan(Item *item);
 void ITEMshow(Item item);
-Key key(Item item);
+Key key(Item *item);
 int eq(Key key1, Key key2);
 int less(Key key1, Key key2);
+Item *newItem();
+int isNULLitem (Item item);
 
 #endif

@@ -25,9 +25,13 @@ const char level_sep[] = "5mm";
 
 static link z;
 
+
+
+
+
 link NEW(Item *item, link l, link r, int N, int red) {
     link x = malloc(sizeof *x);
-    x->item = *getNULLitem();
+    x->item = item;
     x->l = l;
     x->r = r;
     x->N = N;
@@ -35,9 +39,13 @@ link NEW(Item *item, link l, link r, int N, int red) {
     return x;
 }
 
-link STinit() {
-    link head = (z = NEW(getNULLitem(), 0, 0, 0, 0));
+link initTree() {
+    link head = z;
     return head;
+}
+
+void STinit() {
+    z = NEW(getNULLitem(), 0, 0, 0, 0);
 }
 
 int STcount(link head) {
@@ -52,7 +60,7 @@ int STcount(link head) {
 Item *searchR(link h, Key v) {
     Key t = key(h->item);
     if (h == z) return getNULLitem();
-    if (eq(v, t)) return &(h->item);
+    if (eq(v, t)) return (h->item);
     if (less(v, t)) return searchR(hl, v);
     else return searchR(hr, v);
 }
@@ -107,23 +115,31 @@ link balance(link h) {
  * Insertions
  */
 
-link LLRBinsert(link h, Item item, Item *conflito) {
-    Key v = key(item);
+link LLRBinsert(link h, Item item, Item *conflict) {
+    Key v = key(&item);
     /* Insert a new node at the bottom*/
-    if (h == z){
-        conflito = NULL;
-        return NEW(&item, z, z, 1, 1);
-    }
     
-    if (less(v, key(h->item)))
-        hl = LLRBinsert(hl, item, conflito);
+    printf ("Ve se é null\n");
+        
+    if (h == z) {
+        printf ("É null\n");
+        link l = NEW(&item, z, z, 1, 1);
+        return l;
+    }
+        
+    if (less(v, key(h->item))) {
+        printf ("É menos\n");
+        hl = LLRBinsert(hl, item, conflict);
+    }
     else if (eq(v, key(h->item))) { /* If the object we are trying to insert is already there,
                                      we opt to return a pointer to the existing item, so that
                                      the user may choose what to do (i.e. create a list of items) */
-        conflito = &(h->item);
+        printf ("É igual\n");
+        conflict = h->item;
     }
     else
-        hr = LLRBinsert(hr, item, conflito);
+        hr = LLRBinsert(hr, item, conflict);
+    
     
     /* Enforce left-leaning condition */
     if (hr->red && !hl->red) h = rotL(h);
@@ -133,8 +149,10 @@ link LLRBinsert(link h, Item item, Item *conflito) {
     return fixNr(h);
 }
 
-void STinsert(link head, Item item, Item *conflito) {
-    head = LLRBinsert(head, item, conflito); head->red = 0;
+link STinsert(link head, Item item, Item *conflict) {
+    head = LLRBinsert(head, item, conflict);
+    head->red = 0;
+    return head;
 }
 
 /*
@@ -145,7 +163,7 @@ Item selectR(link h, int r) {
     int t = hl->N;
     if (t > r) return selectR(hl, r);
     if (t < r) return selectR(hr, r-t-1);
-    return h->item;
+    return *(h->item);
 }
 
 Item STselect(link head, int r) {
@@ -155,7 +173,7 @@ Item STselect(link head, int r) {
 void sortR(link h, void(*visit)(Item)) {
     if (h!=z) {
         sortR(hl, visit);
-        visit(h->item);
+        visit(*(h->item));
         sortR(hr, visit);
     }
 }
@@ -174,7 +192,7 @@ void print_rangeR(link h, Key lo, Key hi) {
         print_rangeR(hl, lo, hi);
     if ((less(lo, key(h->item)) || eq(lo, key(h->item)))
         && (less(key(h->item), hi) || eq(key(h->item), hi)))
-        ITEMshow(h->item);
+        ITEMshow(*(h->item));
     if (less(key(h->item), hi))
         print_rangeR(hr, lo, hi);
 }
@@ -187,7 +205,7 @@ void STprint_range(link head, Key lo, Key hi) {
  * Needed for deletion
  */
 
-Item getMin(link h) {
+Item *getMin(link h) {
     if (hl == z) return h->item;
     else return getMin(hl);
 }
@@ -322,14 +340,14 @@ void printR(link h, int ind) {
     int i;
     if (h != z) {
         for (i=0; i<ind; i++) putchar(' ');
-        printf("%s%c\n", key(h->item), h->red?'*':' ');
+        printf("BLA%c\n"/*, key(h->item)*/, h->red?'*':' ');
         printR(hl, ind+2);
         printR(hr, ind+2);
     }
 }
 
 void STprint(link head) {
-    printf("\n**** %d keys ****\n", STcount(head));
+    printf("\n**** %d keys ****\n", head->N);
     printR(head, 0);
     printf("**** ****** ****\n");
 }

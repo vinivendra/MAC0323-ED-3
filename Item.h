@@ -19,8 +19,8 @@ struct palavra {
 typedef struct palavra Item;
 typedef char* Key;
 
-#define NULLitem NULL
-
+void initItem ();
+Item *getNULLitem ();
 Item *ITEMscan(Item *item);
 void ITEMshow(Item item);
 Key key(Item item);

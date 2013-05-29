@@ -9,7 +9,7 @@
 
 #define STRING_MAX 50 /* A maior palavra no dicionário inglês é um termo técnico da biologia, que tem 45 caracteres. */
 
-
+static Item *NULLitem;
 
 Item *ITEMscan(Item *x) {
     char *t = malloc(STRING_MAX*sizeof(char));
@@ -37,4 +37,15 @@ int eq(Key key1, Key key2) {
 int less(Key key1, Key key2) {
     if (strcmp(key1, key2) < 0) return 1;
     return 0;
+}
+
+void initItem () {
+    NULLitem = malloc(sizeof(Item));
+    NULLitem->literal = NULL;
+    NULLitem->lema = NULLitem->prox = NULL;
+    NULLitem->list = NULL;
+}
+
+Item *getNULLitem () {
+    return NULLitem;
 }

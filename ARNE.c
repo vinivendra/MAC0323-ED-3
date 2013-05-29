@@ -27,7 +27,7 @@ static link z;
 
 link NEW(Item *item, link l, link r, int N, int red) {
     link x = malloc(sizeof *x);
-    x->item = *item;
+    x->item = *getNULLitem();
     x->l = l;
     x->r = r;
     x->N = N;
@@ -36,7 +36,7 @@ link NEW(Item *item, link l, link r, int N, int red) {
 }
 
 link STinit() {
-    link head = (z = NEW(NULLitem, 0, 0, 0, 0));
+    link head = (z = NEW(getNULLitem(), 0, 0, 0, 0));
     return head;
 }
 
@@ -51,7 +51,7 @@ int STcount(link head) {
 
 Item *searchR(link h, Key v) {
     Key t = key(h->item);
-    if (h == z) return NULLitem;
+    if (h == z) return getNULLitem();
     if (eq(v, t)) return &(h->item);
     if (less(v, t)) return searchR(hl, v);
     else return searchR(hr, v);
@@ -118,8 +118,8 @@ link LLRBinsert(link h, Item item, Item *conflito) {
     if (less(v, key(h->item)))
         hl = LLRBinsert(hl, item, conflito);
     else if (eq(v, key(h->item))) { /* If the object we are trying to insert is already there,
-                                        we opt to return a pointer to the existing item, so that
-                                        the user may choose what to do (i.e. create a list of items) */
+                                     we opt to return a pointer to the existing item, so that
+                                     the user may choose what to do (i.e. create a list of items) */
         conflito = &(h->item);
     }
     else

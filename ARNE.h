@@ -18,7 +18,7 @@ struct STnode {
 link STinit();
 int STcount(link head);
 Item *STsearch(Key v, link head);
-void STinsert(link head, Item item);
+void STinsert(link head, Item item, Item *conflito);
 Item STselect(link head, int r);
 void STsort(link head, void(*visit)(Item));
 void STprint_range(link head, Key lo, Key hi);

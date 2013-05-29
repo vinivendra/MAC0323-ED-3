@@ -107,15 +107,23 @@ link balance(link h) {
  * Insertions
  */
 
-link LLRBinsert(link h, Item item) {
+link LLRBinsert(link h, Item item, Item *conflito) {
     Key v = key(item);
     /* Insert a new node at the bottom*/
-    if (h == z) return NEW(&item, z, z, 1, 1);
+    if (h == z){
+        conflito = NULL;
+        return NEW(&item, z, z, 1, 1);
+    }
     
     if (less(v, key(h->item)))
-        hl = LLRBinsert(hl, item);
+        hl = LLRBinsert(hl, item, conflito);
+    else if (eq(v, key(h->item))) { /* If the object we are trying to insert is already there,
+                                        we opt to return a pointer to the existing item, so that
+                                        the user may choose what to do (i.e. create a list of items) */
+        conflito = &(h->item);
+    }
     else
-        hr = LLRBinsert(hr, item);
+        hr = LLRBinsert(hr, item, conflito);
     
     /* Enforce left-leaning condition */
     if (hr->red && !hl->red) h = rotL(h);
@@ -125,8 +133,8 @@ link LLRBinsert(link h, Item item) {
     return fixNr(h);
 }
 
-void STinsert(link head, Item item) {
-    head = LLRBinsert(head, item); head->red = 0;
+void STinsert(link head, Item item, Item *conflito) {
+    head = LLRBinsert(head, item, conflito); head->red = 0;
 }
 
 /*

@@ -1,11 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h> 
+#include <math.h>
 #include "ARNE.h"
 
 #define YES 1
 #define NO 0
 #define STRING_MAX 50
+
+void stringCopy(char *destiny, char *source);
+
+
+
 
 int main (int argc, char *argv[]) {
     
@@ -44,23 +49,56 @@ int main (int argc, char *argv[]) {
         exit(-1);
     }
     
-    
     /* Processamento do arquivo */
-    for (fscanf(file, "%s", c); !feof(file); fscanf(file, "%s", c)) {
-        if (strncmp(c, textPattern, 6)==0) {    /* Se entramos num bloco [Text=... Lemma=...] */
+    
+    fpos_t *sentenceLocation = malloc(sizeof(fpos_t));
+    fpos_t *aux = malloc(sizeof(fpos_t));
+    int tokenNumber = 0;
+    
+    
+    
+    
+    
+    while (!feof(file)) {
+        
+        /* Le as sentences */
+        fscanf(file, "Sentence #%*d (%d tokens):\n", &tokenNumber);
+        fgetpos(file, sentenceLocation);
+        
+        /* Pula a frase */
+        while (1) {
+            *c = fgetc(file);
+            if (*c == '[') {
+                fgetpos(file, aux);
+                fscanf(file, "%s", c);
+                if (strncmp(c, "Text=", 5)==0)
+                    break;
+                else
+                    fsetpos(file, aux);
+            }
+        }
+        
+        
+        for (i = 0; i < tokenNumber; i++) {
+            
+            fscanf(file, "%s", c);
             
             Item *newWord = malloc(sizeof(Item));
-            newWord->literal = malloc(STRING_MAX*sizeof(char));
-            newWord->lema = newWord->prox = NULL;
-            newWord->list = NULL;
             Item *newLemma = malloc(sizeof(Item));
+            
+            newWord->literal = malloc(STRING_MAX*sizeof(char));
+            newWord->lema = newLemma;
+            newWord->prox = NULL;
+            newWord->list = NULL;
+            
             newLemma->literal = malloc(STRING_MAX*sizeof(char));
-            newLemma->lema = newLemma->prox = NULL;
+            newLemma->lema = NULL;
+            newLemma->prox = newWord;
             newLemma->list = NULL;
             
             Item *conflict = NULL;
             
-            strncpy(newWord->literal, (c+6), 40);             /* Coloca a palavra encontrada no wordAux */
+            strcpy(newWord->literal, (c+6));             /* Coloca a palavra encontrada no wordAux */
             
             while(1) {                          /* Percorre até o lema */
                 fscanf(file, "%s", c);
@@ -77,26 +115,45 @@ int main (int argc, char *argv[]) {
             
             strcpy(newLemma->literal, (c+6));            /* Coloca o lema em lemmaAux */
             
-            words = STinsert(words, *newWord, conflict);    /* Tentativa de inserir word na árvore */
+            words = STinsert(words, newWord, conflict);    /* Tentativa de inserir word na árvore */
             
-            printf("BLA\n");
-            
-            printf("BLA2\n");
-            
-            if (conflict == NULL) {
-                
+            if (conflict == NULL) {             /* A palavra ainda não existia */
+                lemmas = STinsert(lemmas, newLemma, conflict);
+                if (!(conflict == NULL)) {      /* Se a palavra não existia mas o lema sim, basta adiciona-la ao lema */
+                    Item *aux = conflict->prox;
+                    conflict->prox = newWord;
+                    newWord->prox = aux;
+                    
+                    newWord->lema = conflict;
+                }                               /* Se ambos ainda não existiam, eles foram adicionados, sem problemas */
             }
-            
-            
-        }
+            else {                              /* A palavra já existia, logo, o lema também */
+                /* Adiciona a frase nova à word antiga */
+            }
+        }           /* for (i = 0; i < tokenNumber; i++) */
+        
+        fgetc(file);
+        fgetc(file);
+        
+        
     }
     
-    printf("HUE: %s\n", words->item->literal);
-
+    
+    
+    
+    
     STprint(words);
+    STprint(lemmas);
     
     /* Finalizando */
     fclose(file);
     
     return 0;
+}
+
+void stringCopy(char *destiny, char *source) {
+    int i = 0;
+    for (i = 0; source[i]!='\0'; i++) {
+        (destiny[i]) = (source[i]);
+    }
 }

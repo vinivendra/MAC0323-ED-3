@@ -115,28 +115,20 @@ link balance(link h) {
  * Insertions
  */
 
-link LLRBinsert(link h, Item item, Item *conflict) {
-    Key v = key(&item);
+link LLRBinsert(link h, Item *item, Item *conflict) {
+    Key v = key(item);
     /* Insert a new node at the bottom*/
-    
-    printf ("Ve se é null\n");
+            
+    if (h == z)
+        return NEW(item, z, z, 1, 1);
         
-    if (h == z) {
-        printf ("É null\n");
-        link l = NEW(&item, z, z, 1, 1);
-        return l;
-    }
-        
-    if (less(v, key(h->item))) {
-        printf ("É menos\n");
+    if (less(v, key(h->item)))
         hl = LLRBinsert(hl, item, conflict);
-    }
-    else if (eq(v, key(h->item))) { /* If the object we are trying to insert is already there,
-                                     we opt to return a pointer to the existing item, so that
-                                     the user may choose what to do (i.e. create a list of items) */
-        printf ("É igual\n");
+    
+    else if (eq(v, key(h->item)))   /* If the object we are trying to insert is already there,
+                                        we opt to return a pointer to the existing item, so that
+                                        the user may choose what to do (i.e. create a list of items) */
         conflict = h->item;
-    }
     else
         hr = LLRBinsert(hr, item, conflict);
     
@@ -149,7 +141,7 @@ link LLRBinsert(link h, Item item, Item *conflict) {
     return fixNr(h);
 }
 
-link STinsert(link head, Item item, Item *conflict) {
+link STinsert(link head, Item *item, Item *conflict) {
     head = LLRBinsert(head, item, conflict);
     head->red = 0;
     return head;
@@ -340,7 +332,7 @@ void printR(link h, int ind) {
     int i;
     if (h != z) {
         for (i=0; i<ind; i++) putchar(' ');
-        printf("BLA%c\n"/*, key(h->item)*/, h->red?'*':' ');
+        printf("%s%c\n", key(h->item), h->red?'*':' ');
         printR(hl, ind+2);
         printR(hr, ind+2);
     }

@@ -5,7 +5,7 @@
 #include <stdio.h>
 
 typedef struct sentence {
-    int number;
+    fpos_t position;
     struct sentence *prox;
 } sentence;
 
@@ -18,6 +18,7 @@ struct palavra {
 
 typedef struct palavra Item;
 typedef char* Key;
+
 
 void initItem ();
 Item *getNULLitem ();

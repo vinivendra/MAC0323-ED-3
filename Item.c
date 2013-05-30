@@ -13,14 +13,6 @@
 
 static Item *NULLitem;
 
-Item *newItem() {
-    Item *item = malloc(sizeof(Item));
-    item->literal = malloc(STRING_MAX*sizeof(char));
-    item->prox = item->lema = NULL;
-    item->list = NULL;
-    return item;
-}
-
 Item *ITEMscan(Item *x) {
     char *t = malloc(STRING_MAX*sizeof(char));
     scanf("%s", t);

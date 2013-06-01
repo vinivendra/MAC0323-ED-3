@@ -3,16 +3,24 @@
 #include <math.h>
 #include "ARNE.h"
 
+#define STRING_MAX 50
+
 #define YES 1
 #define NO 0
 typedef int BOOL;
 
-#define STRING_MAX 50
+static int numDifWords;
+static int numDifTokens;
+static int numDifLemmas;
 
 void stringCopy(char *destiny, char *source);
 void printItem(Item word);
 void printWord(Item word);
 void printWordsFromLemma(Item lemma);
+void statisticCountWords(Item word);
+void statisticCountLemmas(Item lemma);
+
+
 
 
 int main (int argc, char *argv[]) {
@@ -35,8 +43,17 @@ int main (int argc, char *argv[]) {
     
     int i = 0;
     int j = 0;
+    char *k = 0;
+    
+    int numSentences = 0;
+    int numTokens = 0;
+    int numWords = 0;
     
 #pragma mark Inicializações
+    numDifTokens = 0;
+    numDifWords = 0;
+    numDifLemmas = 0;
+    
     initItem();             /* Inicializa Item e as árvores, para podermos começar a */
     STinit();               /* criar instâncias deles. */
     
@@ -72,6 +89,8 @@ int main (int argc, char *argv[]) {
         
         /* Le as sentences. O 'S' já foi "consumido" anteriormente por um fgetc(file) proposital. */
         fscanf(file, "entence #%*d (%d tokens):\n", &tokenNumber);
+        numSentences ++;
+        numTokens += tokenNumber;
         
         /* Pula a frase. Lê caracteres até achar um '['. Se for o começo de um token,
          volta até o caracter imediatamente anterior e sai do loop para começar a
@@ -133,6 +152,9 @@ int main (int argc, char *argv[]) {
             
             strcpy(newLemma->literal, (c+6));           /* Coloca o lema no novo item */
             
+            k = newWord->literal;
+            if ((*k >= 'a' && *k <= 'z') || (*k >= 'A' && *k <= 'Z'))
+                numWords ++;
             
             words = STinsert(words, newWord);           /* Tentativa de inserir o item word na árvore T1 */
             
@@ -331,6 +353,7 @@ int main (int argc, char *argv[]) {
             }           /* for (word = lemma->prox; word != NULL; word = word->prox), percorre as palavras */
         }           /* if (a == YES) */
         
+#pragma mark t, d, l, L
         if (t == YES) {
             STsort(words, printItem);
             printf("\n");
@@ -348,7 +371,12 @@ int main (int argc, char *argv[]) {
             STsort(lemmas, printWordsFromLemma);
             printf("\n");
         }
-        
+#pragma mark s
+        if (s == YES) {
+            STsort(words, statisticCountWords);
+            STsort(lemmas, statisticCountLemmas);
+            printf("Número de sentenças no texto = %d;\nNúmero total de tokens no texto: %d;\nNúmero total de palavras no texto: %d;\nNúmero total de tokens distintos: %d;\nNúmero total de palavras distintas: %d;\nNúmero total de lemas distintos: %d.\n\n", numSentences, numTokens, numWords, numDifTokens, numDifWords, numDifLemmas);
+        }
         
         printf ("Por favor, digite um comando: ");
         e = a = v = V = t = d = l = L = s = NO;
@@ -396,3 +424,20 @@ void printWordsFromLemma(Item lemma) {
         printf("\n");
     }
 }
+
+void statisticCountWords(Item word) {
+    char *c = key(&word);
+    if ((*c >= 'a' && *c <= 'z') || (*c >= 'A' && *c <= 'Z'))
+        numDifWords ++;
+    numDifTokens ++;
+}
+
+void statisticCountLemmas(Item lemma) {
+    char *c = key(&lemma);
+    if ((*c >= 'a' && *c <= 'z') || (*c >= 'A' && *c <= 'Z'))
+        numDifLemmas ++;
+}
+
+
+
+

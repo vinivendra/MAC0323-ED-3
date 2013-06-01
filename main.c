@@ -3,15 +3,25 @@
 #include <math.h>
 #include "ARNE.h"
 
-#define STRING_MAX 50
 
-#define YES 1
+
+
+#pragma mark Defines e Variáveis globais
+
+#define STRING_MAX 50       /* Tamanho máximo de uma string. */
+/* A maior palavra no dicionário inglês é um termo técnico da biologia, que tem 45 caracteres. */
+#define YES 1               /* Versão simples de um bool */
 #define NO 0
 typedef int BOOL;
 
-static int numDifWords;
+static int numDifWords;     /* Variáveis globais por simplicidade, usadas para obter estatísticas do programa */
 static int numDifTokens;
 static int numDifLemmas;
+
+
+
+
+#pragma mark Protótipos
 
 void stringCopy(char *destiny, char *source);
 void printItem(Item word);
@@ -22,98 +32,123 @@ void statisticCountLemmas(Item lemma);
 
 
 
+#pragma mark Main
 
 int main (int argc, char *argv[]) {
     
+    #pragma mark Variáveis
     
-#pragma mark Variáveis
-    char *fileName = NULL;
+    char *fileName = NULL;  /* Manipulação d arquivo de entrada */
     FILE *file = NULL;
     
-    link words = NULL;
-    link lemmas = NULL;
-    
-    char *c = malloc(STRING_MAX*sizeof(char));
-    
-    fpos_t *sentenceLocation = malloc(sizeof(fpos_t));
+    link words = NULL;      /* Árvore para guardar as palavras (words = T1) */
+    link lemmas = NULL;     /* e os lemas (lemmas = T2) */
+        
+    fpos_t *sentenceLocation = malloc(sizeof(fpos_t));  /* Variáveis usadas no processamento do arquivo */
     fpos_t *aux = malloc(sizeof(fpos_t));
     int tokenNumber = 0;
     
-    BOOL e, a, v, V, t, d, l, L, s;
+    BOOL e, a, v, V, t, d, l, L, s;     /* Variáveis para manipular os comandos passados pelo usuário */
     
-    int i = 0;
+    char *c = malloc(STRING_MAX*sizeof(char));  /* Auxiliares */
+    int i = 0;          
     int j = 0;
     char *k = 0;
     
-    int numSentences = 0;
+    int numSentences = 0;   /* Variáveis usadas para obter os dados estatísticos */
     int numTokens = 0;
     int numWords = 0;
     
+
+
+
 #pragma mark Inicializações
-    numDifTokens = 0;
+    
+    numDifTokens = 0;       /* Inicialização das variáveis globais */
     numDifWords = 0;
     numDifLemmas = 0;
     
-    initItem();             /* Inicializa Item e as árvores, para podermos começar a */
-    STinit();               /* criar instâncias deles. */
+    initItem();             /* Inicializa as informações para Item e para as árvores, */
+    STinit();               /* para podermos começar a criar instâncias deles. */
     
-    words = initTree();
+    words = initTree();     /* Inicialização das árvores em si */
     lemmas = initTree();
     
     e = a = v = V = t = d = l = L = s = NO; /* Seta todas as flags com NO,
-                                                para evitar erros de inicialização */
+                                             para evitar erros de inicialização */
     
+
+
+
 #pragma mark Parâmetros
-    if (argc < 2) {
+    
+    if (argc < 2) {         /* Se não houver parâmetros, passamos o modo de utilização */
         fprintf(stderr, "Usage: %s -f<Nome do arquivo de entrada>\n", argv[0]);
         exit(-1);
     }
-    fileName = argv[1]+2;
+    fileName = argv[1]+2;   /* Leitura do nome do arquivo, único parâmetro passado */
     
     
-#pragma mark Abrir arquivo
-    file = fopen(fileName,"r");
-    if (file == NULL) {
+
+
+#pragma mark Abertura do arquivo
+    
+    file = fopen(fileName,"r");     /* Abrimos o arquivo, só precisamos da leitura */
+    if (file == NULL) {             /* Caso não se possa abri-lo (ex.: o arquivo não existe) */
         fprintf(stderr, "Erro na leitura do arquivo.\n");
         exit(-1);
     }
-    
     
     /* Preparação para processar o arquivo */
     fgetpos(file, sentenceLocation);
     fgetc(file);
     
     
+
+
 #pragma mark Processamento
-    while (!feof(file)) {
+    
+    while (!feof(file)) {       /* A parte mais demorada e mais importante do programa */
         
-        /* Le as sentences. O 'S' já foi "consumido" anteriormente por um fgetc(file) proposital. */
+        /* Le o cabeçalho de cada frase. O 'S' de sentence já foi */
+        /* "consumido" anteriormente por um fgetc proposital */
+        
         fscanf(file, "entence #%*d (%d tokens):\n", &tokenNumber);
-        numSentences ++;
-        numTokens += tokenNumber;
+        numSentences ++;            /* Conta mais uma frase lida */
+        numTokens += tokenNumber;   /* e mais alguns tokens lidos, para a estatística */
         
-        /* Pula a frase. Lê caracteres até achar um '['. Se for o começo de um token,
-         volta até o caracter imediatamente anterior e sai do loop para começar a
-         ler os tokens. Caso contrário, volta o suficiente para continuar a leitura
-         caracter por caracter logo após o '['. */
+        
+        
+        /* Vamos ler cada caracter, até acharmos um '[', que possivelmente será o começo
+            de uma anotação. Se for, queremos voltar o suficiente, para que o loop seguinte
+            funcione sem problemas. Se não, queremos voltar até logo depois do '[', para
+            podermos continuar a leitura normalmente. */
+        
         while (1) {
-            fgetpos(file, aux);
-            *c = fgetc(file);
-            if (*c == '[') {
+            fgetpos(file, aux);                 /* Guarda a posição no arquivo, para poder 
+                                                 voltar depois caso necessário */
+            *c = fgetc(file);                   /* Lê mais um caracter */
+            if (*c == '[') {                        /* Se for um '[', talvez seja o começ da anotação */
                 fscanf(file, "%s", c);
-                if (strncmp(c, "Text=", 5)==0) {
-                    fsetpos(file, aux);
-                    break;
+                if (strncmp(c, "Text=", 5)==0) {    /* Consideramos que a anotação começou se acharms um "[Text=" */
+                    fsetpos(file, aux);             /* Volta o suficiente */
+                    break;                          /* Sai desse loop para começar a leitura das anotações */
                 }
-                else {
-                    fsetpos(file, aux);
+                else {                          /* Se não for um '[', é só voltar */
+                    fsetpos(file, aux);         /* para podermos continuar normalmente */
                     fgetc(file);
                 }
             }
         }
         
         
-        /* Analisa as tokens e as insere nas árvores adequadas */
+        
+        /* Analisa cada anotação, e insere as palavras e os lemas na árvore adequada. */
+        /* Sabemos, a partir da leitura do cabeçalho, exatamente quantos tokens */
+        /* existem nessa anotação. */
+        
+#warning PAREI AQUI
+        
         for (i = 0; i < tokenNumber && !(feof(file)); i++) {
             Item *newWord = malloc(sizeof(Item));       /* Cria os novos itens a serem inseridos */
             Item *newLemma = malloc(sizeof(Item));
@@ -126,7 +161,7 @@ int main (int argc, char *argv[]) {
             newWord->list = malloc(sizeof(sentence));
             newWord->list->position = *sentenceLocation;
             newWord->list->prox = NULL;
-                        
+            
             newLemma->literal = malloc(STRING_MAX*sizeof(char));
             newLemma->lema = NULL;
             newLemma->prox = newWord;
@@ -196,8 +231,8 @@ int main (int argc, char *argv[]) {
     printf ("Por favor, digite um comando: ");
     
     while (scanf("%s", c) == 1) {   /* Aceitamos que o usuário saia do programa também ao
-                                        pressionar ctrl+D, que é o modo default de encerrar
-                                        input da stdin */
+                                     pressionar ctrl+D, que é o modo default de encerrar
+                                     input da stdin */
         char *p;                /* p vai "percorrer" a string c */
         
         if (c == '\0') {        /* Se o usuário só deu enter, mostramos o modo de utilização do programa. */
@@ -300,8 +335,8 @@ int main (int argc, char *argv[]) {
             
             Item *word = STsearch(c, words);    /* Procuramos pela palavra que o usuário passou */
             Item *lemma = word->lema;           /* Lemma será o lema desta palavra; ele possui uma */
-                                                /* lista de todas as palavras com o mesmo lema. */
-                                                
+            /* lista de todas as palavras com o mesmo lema. */
+            
             
             if (word == getNULLitem()) {
                 printf("A palavra procurada não está presente no texto.\n\n");

@@ -24,10 +24,13 @@ const char level_sep[] = "5mm";
 
 
 static link z;
+static Item *conflict;
 
 
 
-
+Item **getConflict() {
+    return &conflict;
+}
 
 link NEW(Item *item, link l, link r, int N, int red) {
     link x = malloc(sizeof *x);
@@ -46,6 +49,7 @@ link initTree() {
 
 void STinit() {
     z = NEW(getNULLitem(), 0, 0, 0, 0);
+    conflict = NULL;
 }
 
 int STcount(link head) {
@@ -115,22 +119,27 @@ link balance(link h) {
  * Insertions
  */
 
-link LLRBinsert(link h, Item *item, Item *conflict) {
+link LLRBinsert(link h, Item *item) {
     Key v = key(item);
     /* Insert a new node at the bottom*/
-            
-    if (h == z)
-        return NEW(item, z, z, 1, 1);
-        
-    if (less(v, key(h->item)))
-        hl = LLRBinsert(hl, item, conflict);
     
-    else if (eq(v, key(h->item)))   /* If the object we are trying to insert is already there,
+    conflict = NULL;
+    
+    if (h == z) {
+        return NEW(item, z, z, 1, 1);
+    }
+    
+    if (less(v, key(h->item)))
+        hl = LLRBinsert(hl, item);
+    
+    else if (eq(v, key(h->item))) {   /* If the object we are trying to insert is already there,
                                         we opt to return a pointer to the existing item, so that
                                         the user may choose what to do (i.e. create a list of items) */
         conflict = h->item;
+    }
+    
     else
-        hr = LLRBinsert(hr, item, conflict);
+        hr = LLRBinsert(hr, item);
     
     
     /* Enforce left-leaning condition */
@@ -141,8 +150,8 @@ link LLRBinsert(link h, Item *item, Item *conflict) {
     return fixNr(h);
 }
 
-link STinsert(link head, Item *item, Item *conflict) {
-    head = LLRBinsert(head, item, conflict);
+link STinsert(link head, Item *item) {
+    head = LLRBinsert(head, item);
     head->red = 0;
     return head;
 }

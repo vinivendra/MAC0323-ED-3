@@ -17,9 +17,10 @@ struct STnode {
 
 link initTree();
 void STinit();
+Item **getConflict();
 int STcount(link head);
 Item *STsearch(Key v, link head);
-link STinsert(link head, Item *item, Item *conflict);
+link STinsert(link head, Item *item);
 Item STselect(link head, int r);
 void STsort(link head, void(*visit)(Item));
 void STprint_range(link head, Key lo, Key hi);

@@ -29,5 +29,6 @@ int eq(Key key1, Key key2);
 int less(Key key1, Key key2);
 Item *newItem();
 int isNULLitem (Item item);
+void printAllSentences (Item *word, FILE *file, int v, int V);
 
 #endif

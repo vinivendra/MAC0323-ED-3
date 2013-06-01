@@ -30,5 +30,4 @@ void STdelete(link head, Key v);
 void STdraw(link head);
 void STprint(link head);
 
-
 #endif

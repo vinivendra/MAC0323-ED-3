@@ -17,6 +17,10 @@ const char no_interno[] = "\\Tc*{3pt}";
 const char tree_sep[] = "3mm";
 const char level_sep[] = "5mm";
 
+#define YES 1
+#define NO 0
+typedef int BOOL;
+
 /*
  * Back to Sedgewick stuff
  */
@@ -352,3 +356,4 @@ void STprint(link head) {
     printR(head, 0);
     printf("**** ****** ****\n");
 }
+

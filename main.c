@@ -10,8 +10,9 @@ typedef int BOOL;
 #define STRING_MAX 50
 
 void stringCopy(char *destiny, char *source);
-
-
+void printItem(Item word);
+void printWord(Item word);
+void printWordsFromLemma(Item lemma);
 
 
 int main (int argc, char *argv[]) {
@@ -330,6 +331,23 @@ int main (int argc, char *argv[]) {
             }           /* for (word = lemma->prox; word != NULL; word = word->prox), percorre as palavras */
         }           /* if (a == YES) */
         
+        if (t == YES) {
+            STsort(words, printItem);
+            printf("\n");
+        }
+        
+        if (d == YES) {
+            STsort(words, printWord);
+            printf("\n");
+        }
+        if (l == YES) {
+            STsort(lemmas, printWord);
+            printf("\n");
+        }
+        if (L == YES) {
+            STsort(lemmas, printWordsFromLemma);
+            printf("\n");
+        }
         
         
         printf ("Por favor, digite um comando: ");
@@ -349,5 +367,32 @@ void stringCopy(char *destiny, char *source) {
     int i = 0;
     for (i = 0; source[i]!='\0'; i++) {
         (destiny[i]) = (source[i]);
+    }
+}
+
+void printItem(Item word) {
+    printf("%s\n", key(&word));
+}
+
+void printWord(Item word) {
+    char *c = key(&word);
+    if ((*c >= 'a' && *c <= 'z') || (*c >= 'A' && *c <= 'Z'))
+        printf("%s\n", key(&word));
+}
+
+void printWordsFromLemma(Item lemma) {
+    Item *word;
+    
+    char *c = key(&lemma);
+    if ((*c >= 'a' && *c <= 'z') || (*c >= 'A' && *c <= 'Z')) {
+        printf("%s: ", key(&lemma));
+        
+        for (word = lemma.prox; word != NULL; word = word->prox) {
+            
+            printf("%s", key(word));
+            if (word->prox != NULL)
+                printf(", ");
+        }
+        printf("\n");
     }
 }

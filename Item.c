@@ -12,12 +12,11 @@
 #define STRING_MAX 50 /* A maior palavra no dicionário inglês é um termo técnico da biologia, que tem 45 caracteres. */
 
 static Item *NULLitem;
-void printSentence (sentence *s, FILE *file, int v, int V);
 
 Item *ITEMscan(Item *x) {
     char *t = malloc(STRING_MAX*sizeof(char));
-    scanf("%s", t);
     Item *palavra = malloc(sizeof(Item));
+    scanf("%s", t);
     palavra->literal = t;
     palavra->prox = palavra->lema = NULL;
     palavra->list = NULL;
@@ -56,53 +55,4 @@ Item *getNULLitem () {
 int isNULLitem (Item item) {
     if (item.literal == NULL) return YES;
     else return NO;
-}
-
-void printAllSentences (Item *word, FILE *file, int v, int V) {
-    sentence *s;
-    
-    for (s = word->list; s != NULL; s = s->prox) {
-        printSentence(s, file, v, V);
-    }
-}
-
-void printSentence (sentence *s, FILE *file, int v, int V) {
-    char * c;
-    fpos_t *aux = malloc(sizeof(fpos_t));
-    
-    fsetpos(file, &(s->position));
-    
-    if (v == NO && V == NO)
-        fscanf (file, "Sentence #%*d (%*d tokens):");
-    
-    printf ("\n");
-    
-    while (1) {
-        fgetpos(file, aux);
-        *c = fgetc(file);
-        if (*c == '[') {
-            fscanf(file, "%s", c);
-            if (strncmp(c, "Text=", 5)==0) {
-                fsetpos(file, aux);
-                break;
-            }
-            else {
-                fsetpos(file, aux);
-                fgetc(file);
-                printf("%c", *c);
-            }
-        }
-        else printf("%c", *c);
-    }       /* while (1), imprime a sentence */
-    
-    if (V == YES) {
-        while (1) {
-            *c = fgetc(file);
-            if (*c == '\n')
-                break;
-            printf("%c", *c);
-        }
-    }
-    
-    printf("\n");
 }

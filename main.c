@@ -4,7 +4,7 @@
 #include "ARNE.h"
 
 
-
+#warning checar se o manifesto quebra (no e e no a), imprimir as frases na ordem certa (e não de tras para frente)
 
 #pragma mark Defines e Variáveis globais
 
@@ -29,6 +29,7 @@ void printWord(Item word);
 void printWordsFromLemma(Item lemma);
 void statisticCountWords(Item word);
 void statisticCountLemmas(Item lemma);
+void printUsage ();
 
 
 
@@ -147,12 +148,11 @@ int main (int argc, char *argv[]) {
         /* Sabemos, a partir da leitura do cabeçalho, exatamente quantos tokens */
         /* existem nessa anotação. */
         
-#warning PAREI AQUI
-        
-        for (i = 0; i < tokenNumber && !(feof(file)); i++) {
+        for (i = 0; i < tokenNumber && !(feof(file)); i++) {    /* For só para rodar 'tokenNumber' vezes */
             Item *newWord = malloc(sizeof(Item));       /* Cria os novos itens a serem inseridos */
             Item *newLemma = malloc(sizeof(Item));
-            Item *conflict = NULL;
+            Item *conflict = NULL;                      /* Conflict é um ponteiro que será setado
+                                                            caso haja conflito na inserção */
             
             /* Inicializa os novos itens */
             newWord->literal = malloc(STRING_MAX*sizeof(char));
@@ -168,12 +168,12 @@ int main (int argc, char *argv[]) {
             newLemma->list = NULL;
             
             
-            fscanf(file, "%s", c);                      /* Lê "[Text=word" */
+            fscanf(file, "%s", c);                      /* Lê "[Text=<word>" */
             
             strcpy(newWord->literal, (c+6));            /* Coloca a palavra encontrada no novo item */
             
-            while(1) {                                  /* Percorre até o achar o lema */
-                fscanf(file, "%s", c);
+            while(1) {                                  /* Percorre o texto até o achar o lema, */
+                fscanf(file, "%s", c);                  /* palavra por palavra. */
                 if (strncmp(c, "Lemma=", 6)==0)
                     break;
             }
@@ -185,19 +185,21 @@ int main (int argc, char *argv[]) {
                 }
             }
             
-            strcpy(newLemma->literal, (c+6));           /* Coloca o lema no novo item */
+            strcpy(newLemma->literal, (c+6));           /* Coloca o lema encontrado no novo item */
             
-            k = newWord->literal;
+            k = newWord->literal;                       /* Se newWord for uma palavra (não uma pontuação), conta para a estatística */
             if ((*k >= 'a' && *k <= 'z') || (*k >= 'A' && *k <= 'Z'))
                 numWords ++;
             
             words = STinsert(words, newWord);           /* Tentativa de inserir o item word na árvore T1 */
             
-            conflict = *(getConflict());
+            conflict = *(getConflict());                /* Se a tentativa falhou é porque já existia um item igual;
+                                                            getConflict() vai retornar um ponteiro para esse item */
             
-            if (conflict == NULL) {                         /* A palavra ainda não existia */
-                lemmas = STinsert(lemmas, newLemma);
+            if (conflict == NULL) {                         /* A palavra ainda não existia, logo, */
+                lemmas = STinsert(lemmas, newLemma);        /* o lema também não existia. Tentamos inseri-lo. */
                 conflict = *(getConflict());
+                
                 if (!(conflict == NULL)) {                  /* Se a palavra não existia mas o lema sim, basta adicioná-la ao lema */
                     newWord->prox = conflict->prox;
                     conflict->prox = newWord;
@@ -206,26 +208,31 @@ int main (int argc, char *argv[]) {
                 }                                           /* Se ambos ainda não existiam, eles foram adicionados, sem problemas */
             }
             else {                                          /* A palavra já existia, logo, o lema também */
-                sentence *aux = conflict->list;
-                conflict->list = newWord->list;
-                newWord->list->prox = aux;
+                if (conflict->list->position != newWord->list->position) {      /* Se ainda não contamos essa frase para essa palavra */
+                    newWord->list->prox = conflict->list;         /* Só precisamos adicionar a frase em que essa palavra foi encontrada. */
+                    conflict->list = newWord->list;
+                }
             }
-        }           /* for (i = 0; i < tokenNumber; i++) */
+        }   /* for (i = 0; i < tokenNumber; i++) */
         
         
         
-        fgetc(file);                        /* "Consumimos" o espaço, o enter e o 'S' logo depois dos tokens. */
+        fgetc(file);                        /* "Consumimos" o espaço, o enter e o 'S' logo depois das anotações. */
         fgetc(file);                        /* Assim, se estivermos no final, o indicador de EOF será ligado */
         fgetpos(file, sentenceLocation);    /* e sabemos que podemos sair do loop com o "feof(file)". */
         fgetc(file);                        /* Ainda assim, é importante que a sentenceLocation esteja no lugar certo,
                                              ou seja, um caracter antes da "Sentence #%d: (%d tokens)"*/
-    }               /* while(!foef(file)) */
+    }       /* while(!foef(file)) */
+    
+    
+    
     
     /* Todo o arquivo já foi processado nesse ponto; os tokens já foram lidos, e os itens já foram inseridos
      nas árvores. Agora, lemos da entrada padrão os comandos que o usuário passar. */
-    
-#warning Adicionar informações sobre os comandos na usage, tanto lá em cima quando logo aqui em baixo
-    
+
+
+
+
 #pragma mark Comandos:
     
     printf ("Por favor, digite um comando: ");
@@ -235,71 +242,119 @@ int main (int argc, char *argv[]) {
                                      input da stdin */
         char *p;                /* p vai "percorrer" a string c */
         
-        if (c == '\0') {        /* Se o usuário só deu enter, mostramos o modo de utilização do programa. */
-            printf ("É assim que funciona: HUE.\n");
+        if (*c != '-' || *(c+1) == '\0') {        /* Se o comando não começa com '-', imprimimos o modo de utilização. */
+            printUsage();
+            printf ("Por favor, digite um comando: ");
+            continue;
         }
         
         p = c + 1;              /* Ignora o '-', como em "-aV" */
         
-        while (*p != '\0') {
+        while (*p != '\0') {    /* Lê cada letra do comando, para que possamos ter mais de uma letra
+                                    no mesmo comando (como em -ev) */
+            
             if (*p == 'F') {        /* -F quer dizer que o usuário deseja sair do programa */
                 printf("Saindo do programa.\n");
                 return 0;
             }
-            else if (*p == 'e')     /* Qualquer outra letra acionará uma flag, */
+            
+            else if (*p == 'e') {   /* Qualquer outra letra acionará uma flag, */
                 e = YES;            /* para sabermos o que fazer em cada caso. */
-            else if (*p == 'a')
+                p++;
+                if (*p == 'v') {    /* Se o comando for 'e' ou 'a', checamos a presença de 'v' ou 'V' */
+                    v = YES;
+                }
+                else if (*p == 'V') {
+                    V = YES;
+                }
+                else {              /* Qualquer outra coisa, imprimimos o modo de uso */
+                    printUsage();
+                    printf ("Por favor, digite um comando: ");
+                    e = a = v = V = t = d = l = L = s = NO;
+                    break;
+                }
+                break;
+            }
+            else if (*p == 'a') {   /* Lemos o 'a' do mesmo modo que o 'e' */
                 a = YES;
-            else if (*p == 'v')
-                v = YES;
-            else if (*p == 'V')
-                V = YES;
-            else if (*p == 't')
+                p++;
+                if (*p == 'v') {
+                    v = YES;
+                }
+                else if (*p == 'V') {
+                    V = YES;
+                }
+                else {
+                    printUsage();
+                    printf ("Por favor, digite um comando: ");
+                    e = a = v = V = t = d = l = L = s = NO;
+                    break;
+                }
+                break;
+            }
+            else if (*p == 't') {   /* As outras opções são mais simples */
                 t = YES;
-            else if (*p == 'd')
+                break;
+            }
+            else if (*p == 'd') {
                 d = YES;
-            else if (*p == 'l')
+                break;
+            }
+            else if (*p == 'l') {
                 l = YES;
-            else if (*p == 'L')
+                break;
+            }
+            else if (*p == 'L') {
                 L = YES;
-            else if (*p == 's')
+                break;
+            }
+            else if (*p == 's') {
                 s = YES;
+                break;
+            }
+            else {      /* Se o comando passado for desconhecido, imprimimos o modo de uso */
+                printUsage();
+                printf ("Por favor, digite um comando: ");
+                e = a = v = V = t = d = l = L = s = NO;
+                break;
+            }
             
-            p++;
+        }   /* while (*p != '\0') */
+        
+        if (e == YES || a == YES) {     /* Se o comando foi 'a' ou 'e', precisamos ler a palavra passada também. */
+            scanf("%s", c);             /* c será a palavra para procurar */
         }
         
-        if (e == YES || a == YES) {
-            scanf("%s", c);     /* c será a palavra para procurar */
-        }
         
-        
+
 #pragma mark e
-        if (e == YES) {
+        if (e == YES) {             /* -e[V, v] <word> imprime todas as frases que contêm <word> */
             
-            Item *word = STsearch(c, words);
-            sentence *s = NULL;
+            Item *word = STsearch(c, words);    /* Achamos o item correspondente à palavra a ser procurada */
+            sentence *s = NULL;                 /* s percorre a lista de frases */
             
-            if (word == getNULLitem()) {
+            if (word == getNULLitem()) {        /* Caso o item não seja encontrado */
                 printf("A palavra procurada não está presente no texto.\n\n");
                 printf ("Por favor, digite um comando: ");
                 continue;
             }
             
             
+            /* Vamos percorrer a lista de frases */
             
-            for (s = word->list; s != NULL; s = s->prox) {
+            for (s = word->list; s != NULL; s = s->prox) {  /* s percorre a lista */
                 fpos_t *aux = malloc(sizeof(fpos_t));
                 
-                fsetpos(file, &(s->position));
+                fsetpos(file, &(s->position));          /* Vamos para o começo da frase no arquivo de entrada */
                 
-                if (v == NO && V == NO)
+                if (v == NO && V == NO)                 /* Se não tem 'v' nem 'V', podemos pular o cabeçalho. */
                     fscanf (file, "Sentence #%*d (%*d tokens):");
                 
                 printf ("\n");
                 
                 while (1) {
-                    fgetpos(file, aux);
-                    *c = fgetc(file);
+                    fgetpos(file, aux);     /* Mesma ideia do processamento do arquivo. Cada caracter que */
+                    *c = fgetc(file);       /* sabemos não ser uma anotação será impresso, até acabar a frase. */
                     if (*c == '[') {
                         fscanf(file, "%s", c);
                         if (strncmp(c, "Text=", 5)==0) {
@@ -313,9 +368,9 @@ int main (int argc, char *argv[]) {
                         }
                     }
                     else printf("%c", *c);
-                }       /* while (1), imprime a sentence */
+                }   /* while (1) */
                 
-                if (V == YES) {
+                if (V == YES) {             /* Se o comando incluiu 'V', imprimimos as anotações também */
                     while (1) {
                         *c = fgetc(file);
                         if (*c == '\n')
@@ -325,26 +380,28 @@ int main (int argc, char *argv[]) {
                 }
                 
                 printf("\n");
-            }           /* for (s = word->list; s != NULL; s = s->prox), percorre as sentences */
-        }               /* if (e == YES) */
+            }   /* for (s = word->list; s != NULL; s = s->prox), percorre as sentences */
+        }   /* if (e == YES) */
+        
+        
         
 #pragma mark a
-        if (a == YES) {
+        if (a == YES) {     /* A ideia do 'a' é praticamente igual à do 'e',
+                                mas será repetida para várias palavras.*/
             
             sentence *s = NULL;
             
             Item *word = STsearch(c, words);    /* Procuramos pela palavra que o usuário passou */
-            Item *lemma = word->lema;           /* Lemma será o lema desta palavra; ele possui uma */
-            /* lista de todas as palavras com o mesmo lema. */
+            Item *lemma = word->lema;           /* Pegamos o seu lema */
             
             
-            if (word == getNULLitem()) {
+            if (word == getNULLitem()) {        /* Se a palavra não existir */
                 printf("A palavra procurada não está presente no texto.\n\n");
                 printf ("Por favor, digite um comando: ");
                 continue;
             }
             
-            for (word = lemma->prox; word != NULL; word = word->prox) { /* word então vai percorrer essa lista. */
+            for (word = lemma->prox; word != NULL; word = word->prox) { /* word então vai percorrer a lista de palavras em 'lemma'. */
                 for (s = word->list; s != NULL; s = s->prox) {          /* s vai percorrer as sentences de cada palavra, */
                     fpos_t *aux = malloc(sizeof(fpos_t));               /* exatamente do mesmo jeito que foi feito no -e */
                     
@@ -383,19 +440,20 @@ int main (int argc, char *argv[]) {
                     }
                     
                     printf("\n");
-                }           /* for (s = word->list; s != NULL; s = s->prox), percorre as sentences */
-                
-            }           /* for (word = lemma->prox; word != NULL; word = word->prox), percorre as palavras */
-        }           /* if (a == YES) */
+                }   /* for (s = word->list; s != NULL; s = s->prox), percorre as sentences */
+            }   /* for (word = lemma->prox; word != NULL; word = word->prox), percorre as palavras */
+        }   /* if (a == YES) */
+        
         
 #pragma mark t, d, l, L
-        if (t == YES) {
-            STsort(words, printItem);
+        if (t == YES) {         /* Essas quatro opções são apenas funções diferentes passadas para o STsort,
+                                    que visita cada Item e chama a nossa função para cada um. */
+            STsort(words, printItem);   /* Imprime o Item, seja lá qual for */
             printf("\n");
         }
         
         if (d == YES) {
-            STsort(words, printWord);
+            STsort(words, printWord);   /* Imprime o Item, mas apenas se for uma palavra */
             printf("\n");
         }
         if (l == YES) {
@@ -403,20 +461,30 @@ int main (int argc, char *argv[]) {
             printf("\n");
         }
         if (L == YES) {
-            STsort(lemmas, printWordsFromLemma);
+            STsort(lemmas, printWordsFromLemma);    /* Imprime cada Item de cada lema, mas apenas se forem palavras */
             printf("\n");
         }
+        
+        
+        
 #pragma mark s
-        if (s == YES) {
-            STsort(words, statisticCountWords);
-            STsort(lemmas, statisticCountLemmas);
+        if (s == YES) {         /* Parte da implementação do 's' está "espalhada" pelo código; o resto está aqui */
+            if (numDifTokens == 0 && numDifWords == 0)      /* Se nunca rodamos o comando 's' */
+                STsort(words, statisticCountWords);         /* Contamos as palavras e os tokens da árvore */
+            if (numDifLemmas == 0)                      /* Se já rodamos o 's' uma vez, não é necessário contar de novo. */
+                STsort(lemmas, statisticCountLemmas);   /* Contamos os lemas. */
+            
             printf("Número de sentenças no texto = %d;\nNúmero total de tokens no texto: %d;\nNúmero total de palavras no texto: %d;\nNúmero total de tokens distintos: %d;\nNúmero total de palavras distintas: %d;\nNúmero total de lemas distintos: %d.\n\n", numSentences, numTokens, numWords, numDifTokens, numDifWords, numDifLemmas);
+            /* Os outros dados foram contados ao longo da execução do programa. */
         }
         
+        /* Fim da implementação dos comandos */
+        
+        /* Ao fim de cada comando, é necessário imprimir novamente a mensagem e resetar as flags*/
         printf ("Por favor, digite um comando: ");
         e = a = v = V = t = d = l = L = s = NO;
         
-    }           /* while (scanf("%s", c) == 1) */
+    }   /* while (scanf("%s", c) == 1) */
     
     
     
@@ -426,27 +494,30 @@ int main (int argc, char *argv[]) {
     return 0;
 }
 
-void stringCopy(char *destiny, char *source) {
+
+
+void stringCopy(char *destiny, char *source) {      /* Análogo ao strcpy. Copia cada caracter de um string para o outro,
+                                                        até chegar ao fim ('\0'). Assume que uma string cabe na outra. */
     int i = 0;
     for (i = 0; source[i]!='\0'; i++) {
         (destiny[i]) = (source[i]);
     }
 }
 
-void printItem(Item word) {
+void printItem(Item word) {         /* Imprime a chave do Item, seja ela uma palavra ou um token qualquer */
     printf("%s\n", key(&word));
 }
 
-void printWord(Item word) {
+void printWord(Item word) {         /* Imprime a chave do Item, mas apenas se for uma palavra */
     char *c = key(&word);
-    if ((*c >= 'a' && *c <= 'z') || (*c >= 'A' && *c <= 'Z'))
-        printf("%s\n", key(&word));
+    if ((*c >= 'a' && *c <= 'z') || (*c >= 'A' && *c <= 'Z'))   /* Consideramos que palavras sempre começam com letras, */
+        printf("%s\n", key(&word));                             /* enquanto outros tokens (pontuações e números) não. */
 }
 
-void printWordsFromLemma(Item lemma) {
+void printWordsFromLemma(Item lemma) {      /* Imprime todas as palavras de um lema */
     Item *word;
     
-    char *c = key(&lemma);
+    char *c = key(&lemma);                  /* Se o lema for uma palavra, todos seus derivados também serão */
     if ((*c >= 'a' && *c <= 'z') || (*c >= 'A' && *c <= 'Z')) {
         printf("%s: ", key(&lemma));
         
@@ -460,19 +531,20 @@ void printWordsFromLemma(Item lemma) {
     }
 }
 
-void statisticCountWords(Item word) {
+void statisticCountWords(Item word) {       /* Percorre toda a árvore. Só conta em numDifWords se for uma palavra. */
     char *c = key(&word);
     if ((*c >= 'a' && *c <= 'z') || (*c >= 'A' && *c <= 'Z'))
         numDifWords ++;
     numDifTokens ++;
 }
 
-void statisticCountLemmas(Item lemma) {
+void statisticCountLemmas(Item lemma) {     /* Percorre a árvore de lemmas, e conta cada um */
     char *c = key(&lemma);
     if ((*c >= 'a' && *c <= 'z') || (*c >= 'A' && *c <= 'Z'))
         numDifLemmas ++;
 }
 
-
-
+void printUsage () {
+    printf ("Possíveis comandos:\n-e [v | V] word\t\tImprime todas as frases em que \"word\" aparece.\n-a [v | V] word\t\tImprime todas as frases em que apareça uma palavra com o mesmo lema que \"word\".\n-t\t\tImprime todos os tokens do texto.\n-d\t\tImprime todas as palavras do texto.\n-l\t\tImprime todos os lemas do texto.\n-L\t\tImprime cada lema do texto, seguido de todas as palavras que têm aquele lema.\n-s\t\tImprime as estatísticas sobre o texto.\n\n\n");
+}
 
